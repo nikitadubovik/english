@@ -1,0 +1,35 @@
+{
+  "1": { "1": 2, "2": 0, "3": 0, "4": 1, "5": 2, "6": 1, "7": 3, "8": 1 },
+  "2": {
+    "9": ["rather"],
+    "10": ["how"],
+    "11": ["for"],
+    "12": ["or"],
+    "13": ["going"],
+    "14": ["longer"],
+    "15": ["only"],
+    "16": ["on"]
+  },
+  "3": {
+    "17": ["unfavourable", "unfavorable"],
+    "18": ["problematic"],
+    "19": ["intensifies"],
+    "20": ["instability"],
+    "21": ["effectively"],
+    "22": ["performance"],
+    "23": ["resistant"],
+    "24": ["lessen"]
+  },
+  "4": {
+    "25": "PARENTS WERE | UNAWARE OF",
+    "26": "AS IS | COMMONLY BELIEVED",
+    "27": "IN THE | MOOD TO GO",
+    "28": "SOMEWHERE ELSE | TO",
+    "29": "FAILED TO REALISE | THE SIGNIFICANCE",
+    "30": "THERE ANY | IMPROVEMENT IN"
+  },
+  "5": { "31": 2, "32": 2, "33": 3, "34": 2, "35": 1, "36": 0 },
+  "6": { "37": "A", "38": "D", "39": "B", "40": "C" },
+  "7": { "41": "C", "42": "E", "43": "G", "44": "A", "45": "F", "46": "D" },
+  "8": { "47": "C", "48": "A", "49": "D", "50": "B", "51": "A", "52": "C", "53": "A", "54": "C", "55": "D", "56": "B" }
+}
