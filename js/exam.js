@@ -53,7 +53,7 @@
     try {
       const [contentRes, keyRes] = await Promise.all([
         fetch(`${base}/rue.json`),
-        fetch(`${base}/rue-key.json`),
+        fetch(`${base}/rue_key.json`),
       ]);
       if (!contentRes.ok || !keyRes.ok) throw new Error('Not found');
       CONTENT = await contentRes.json();
