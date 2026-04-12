@@ -39,19 +39,21 @@
     cae5: { title: 'Cambridge English Advanced 5', tests: 4 },
   };
 
-  const info = BOOKS[book] || { title: 'Unknown book', tests: 0 };
-  document.getElementById('bookTitle').textContent = info.title;
-  document.getElementById('pageTitle').textContent = info.title;
-
   const grid = document.getElementById('testGrid');
-  for (let i = 1; i <= info.tests; i++) {
+  // Determine the starting test number
+  const startNum = (book === 'cae2') ? 5 : 1; 
+  const endNum = (book === 'cae2') ? 8 : info.tests;
+  
+  for (let i = startNum; i <= endNum; i++) {
     const card = document.createElement('a');
     card.className = 'menu-card';
+    // This will now link to test.html?book=cae2&test=5 (6, 7, or 8)
     card.href = `test.html?book=${book}&test=${i}`;
+    
     card.innerHTML = `
-      <span class="card-label">Test</span>
-      <span class="card-title">Test ${i}</span>
-      <span class="card-meta">Reading · Writing · Listening · Speaking</span>`;
+      <span class="card-label">Test ${i}</span>
+      <span class="card-title">Practice Test ${i}</span>
+    `;
     grid.appendChild(card);
   }
 </script>
