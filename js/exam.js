@@ -52,8 +52,8 @@
     const base = `content/${book}/test${test}`;
     try {
       const [contentRes, keyRes] = await Promise.all([
-        fetch(`${base}/reading.json`),
-        fetch(`${base}/reading-key.json`),
+        fetch(`${base}/rue.json`),
+        fetch(`${base}/rue-key.json`),
       ]);
       if (!contentRes.ok || !keyRes.ok) throw new Error('Not found');
       CONTENT = await contentRes.json();
