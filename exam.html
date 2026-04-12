@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>C1 Advanced — Reading and Use of English</title>
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/exam.css">
+</head>
+<body>
+
+<div class="header">
+  <div class="brand">
+    <div class="brand-logo">CAMBRIDGE<small>English</small></div>
+    <div class="candidate-id">Candidate ID</div>
+  </div>
+  <div class="header-icons">
+    <span>📶</span><span>🔔</span><span>☰</span><span>✎</span>
+  </div>
+</div>
+
+<div class="instructions" id="instructions">
+  <h2 id="instr-title">Questions 1–8</h2>
+  <p id="instr-text">For each question, choose the correct answer for each gap.</p>
+</div>
+
+<div class="content-wrap">
+  <div class="content part-view active" data-view="1"></div>
+  <div class="content part-view" data-view="2"></div>
+  <div class="content part-view" data-view="3"></div>
+  <div class="content part-view" data-view="4">
+    <div class="part4-container" id="part4Container"></div>
+  </div>
+  <div class="content part-view" data-view="5">
+    <div class="p5-layout">
+      <div class="p5-left" id="p5Left"></div>
+      <div class="p5-divider" id="p5Divider"><div class="handle">⇔</div></div>
+      <div class="p5-right" id="p5Right"></div>
+    </div>
+  </div>
+  <div class="content part-view" data-view="6">
+    <div class="p5-layout">
+      <div class="p5-left" id="p6Left"></div>
+      <div class="p5-divider" id="p6Divider"><div class="handle">⇔</div></div>
+      <div class="p5-right" id="p6Right"></div>
+    </div>
+  </div>
+  <div class="content part-view" data-view="7">
+    <div class="p5-layout">
+      <div class="p5-left" id="p7Left"></div>
+      <div class="p5-divider" id="p7Divider"><div class="handle">⇔</div></div>
+      <div class="p5-right" id="p7Right"></div>
+    </div>
+  </div>
+  <div class="content part-view" data-view="8">
+    <div class="p5-layout">
+      <div class="p5-left" id="p8Left"></div>
+      <div class="p5-divider" id="p8Divider"><div class="handle">⇔</div></div>
+      <div class="p5-right" id="p8Right"></div>
+    </div>
+  </div>
+
+  <div class="flag-btn" id="flagBtn" title="Flag for review">
+    <svg viewBox="0 0 18 22" xmlns="http://www.w3.org/2000/svg">
+      <path d="M2 1 L16 1 L16 21 L9 16 L2 21 Z"/>
+    </svg>
+  </div>
+</div>
+
+<div class="results-screen" id="p4Review">
+  <h1>Part 4 — Self-assessment</h1>
+  <p class="lead">Part 4 answers can't be graded automatically. For each question, compare your answer to the accepted answer(s) below and award yourself <b>2</b>, <b>1</b>, or <b>0</b> points.</p>
+  <div id="p4ReviewList"></div>
+  <div class="results-actions">
+    <button class="btn-primary" id="p4SubmitBtn">See results</button>
+  </div>
+</div>
+
+<div class="results-screen" id="finalResults">
+  <h1>Your results</h1>
+  <p class="lead">Reading and Use of English — C1 Advanced</p>
+  <div id="finalScoreCards"></div>
+  <h2>Your answers</h2>
+  <div class="answer-review" id="answerReview"></div>
+  <div class="results-actions">
+    <button class="btn-secondary" id="backToTestBtn">Back to the test</button>
+  </div>
+</div>
+
+<div class="nav-arrows">
+  <button id="prevBtn" title="Previous">←</button>
+  <button class="primary" id="nextBtn" title="Next">→</button>
+</div>
+
+<div class="footer" id="footer"></div>
+
+<script src="js/exam.js"></script>
+</body>
+</html>

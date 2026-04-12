@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cambridge English — Select Test</title>
+<link rel="stylesheet" href="css/base.css">
+</head>
+<body>
+
+<div class="header">
+  <div class="brand">
+    <div class="brand-logo">CAMBRIDGE<small>English</small></div>
+  </div>
+</div>
+
+<div class="menu-container">
+  <div class="breadcrumb">
+    <a href="index.html">Library</a>
+    <span class="sep">›</span>
+    <span id="bookTitle">Book</span>
+  </div>
+
+  <h1 id="pageTitle">Select a test</h1>
+  <p class="subtitle">Pick any of the four tests in this book.</p>
+
+  <div class="menu-grid" id="testGrid"></div>
+</div>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const book = params.get('book') || 'cae1';
+
+  const BOOKS = {
+    cae1: { title: 'Cambridge English Advanced 1', tests: 4 },
+    cae2: { title: 'Cambridge English Advanced 2', tests: 4 },
+    cae3: { title: 'Cambridge English Advanced 3', tests: 4 },
+    cae4: { title: 'Cambridge English Advanced 4', tests: 4 },
+    cae5: { title: 'Cambridge English Advanced 5', tests: 4 },
+  };
+
+  const info = BOOKS[book] || { title: 'Unknown book', tests: 0 };
+  document.getElementById('bookTitle').textContent = info.title;
+  document.getElementById('pageTitle').textContent = info.title;
+
+  const grid = document.getElementById('testGrid');
+  for (let i = 1; i <= info.tests; i++) {
+    const card = document.createElement('a');
+    card.className = 'menu-card';
+    card.href = `test.html?book=${book}&test=${i}`;
+    card.innerHTML = `
+      <span class="card-label">Test</span>
+      <span class="card-title">Test ${i}</span>
+      <span class="card-meta">Reading · Writing · Listening · Speaking</span>`;
+    grid.appendChild(card);
+  }
+</script>
+
+</body>
+</html>

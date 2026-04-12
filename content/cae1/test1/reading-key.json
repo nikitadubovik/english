@@ -1,0 +1,35 @@
+{
+  "1": { "1": 1, "2": 3, "3": 2, "4": 0, "5": 3, "6": 1, "7": 2, "8": 3 },
+  "2": {
+    "9":  ["anybody", "anyone"],
+    "10": ["like"],
+    "11": ["make"],
+    "12": ["for"],
+    "13": ["by"],
+    "14": ["have", "stand"],
+    "15": ["up"],
+    "16": ["out", "on"]
+  },
+  "3": {
+    "17": ["favourable", "favorable"],
+    "18": ["unexpected"],
+    "19": ["beginners"],
+    "20": ["desperation"],
+    "21": ["endanger"],
+    "22": ["solution"],
+    "23": ["alternatively"],
+    "24": ["mountaineer", "mountaineers"]
+  },
+  "4": {
+    "25": "not to LET | her / the children / kids watch",
+    "26": "make it ILLEGAL | to drive",
+    "27": "Tom / he had left | on / in TIME  OR  Tom / he had been on / in TIME | leaving",
+    "28": "to be | (a) THOROUGH revision to / of / revising of",
+    "29": "was a GRADUAL | rise / increase / improvement in",
+    "30": "was of | no CONSEQUENCE  OR  was not / wasn't of | (any) CONSEQUENCE"
+  },
+  "5": { "31": 3, "32": 1, "33": 2, "34": 1, "35": 0, "36": 2 },
+  "6": { "37": 3, "38": 0, "39": 1, "40": 2 },
+  "7": { "41": "C", "42": "E", "43": "G", "44": "A", "45": "F", "46": "D" },
+  "8": { "47": 2, "48": 0, "49": 3, "50": 1, "51": 0, "52": 2, "53": 0, "54": 2, "55": 3, "56": 1 }
+}

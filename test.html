@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cambridge English — Select Paper</title>
+<link rel="stylesheet" href="css/base.css">
+</head>
+<body>
+
+<div class="header">
+  <div class="brand">
+    <div class="brand-logo">CAMBRIDGE<small>English</small></div>
+  </div>
+</div>
+
+<div class="menu-container">
+  <div class="breadcrumb">
+    <a href="index.html">Library</a>
+    <span class="sep">›</span>
+    <a id="bookLink" href="#">Book</a>
+    <span class="sep">›</span>
+    <span id="testTitle">Test</span>
+  </div>
+
+  <h1 id="pageTitle">Test</h1>
+  <p class="subtitle">Choose which paper to take.</p>
+
+  <div class="menu-grid">
+    <a class="menu-card" id="readingCard">
+      <span class="card-label">Paper 1</span>
+      <span class="card-title">Reading and Use of English</span>
+      <span class="card-meta">1 hour 30 minutes · 56 questions · 8 parts</span>
+    </a>
+    <a class="menu-card disabled">
+      <span class="card-label">Paper 2</span>
+      <span class="card-title">Writing</span>
+      <span class="card-meta">Coming soon</span>
+    </a>
+    <a class="menu-card disabled">
+      <span class="card-label">Paper 3</span>
+      <span class="card-title">Listening</span>
+      <span class="card-meta">Coming soon</span>
+    </a>
+    <a class="menu-card disabled">
+      <span class="card-label">Paper 4</span>
+      <span class="card-title">Speaking</span>
+      <span class="card-meta">Coming soon</span>
+    </a>
+  </div>
+</div>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const book = params.get('book') || 'cae1';
+  const test = params.get('test') || '1';
+
+  const BOOK_TITLES = {
+    cae1: 'Cambridge English Advanced 1',
+    cae2: 'Cambridge English Advanced 2',
+    cae3: 'Cambridge English Advanced 3',
+    cae4: 'Cambridge English Advanced 4',
+    cae5: 'Cambridge English Advanced 5',
+  };
+
+  document.getElementById('bookLink').textContent = BOOK_TITLES[book] || book;
+  document.getElementById('bookLink').href = `book.html?book=${book}`;
+  document.getElementById('testTitle').textContent = `Test ${test}`;
+  document.getElementById('pageTitle').textContent = `${BOOK_TITLES[book] || book} — Test ${test}`;
+
+  document.getElementById('readingCard').href = `exam.html?book=${book}&test=${test}&paper=reading`;
+</script>
+
+</body>
+</html>

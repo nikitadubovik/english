@@ -1,0 +1,213 @@
+{
+  "title": "Cambridge English Advanced 1 — Test 1",
+  "paper": "Reading and Use of English",
+  "parts": {
+    "1": {
+      "title": "The camera never lies",
+      "text": "Arthur Conan Doyle, creator of the Sherlock Holmes stories, believed himself to be a rational man, a scientist even. But in 1920, when he saw photographs of fairies taken in a garden [[1]], he thought he was seeing scientific proof that these tiny creatures really existed. He published the photographs alongside an article he wrote, [[2]] fairies as supernatural wonders. It was not until 1939 that the two ladies who took the photos admitted these were [[3]]. They simply cut out pictures of fairies from a book and [[4]] them among flowers. The results are [[5]] beautiful. But the simplicity of the trick [[6]] a basic principle of photography, that the camera cannot lie.\n\nBut it can, and always could. Today, we are used to computer software [[7]] us to rework our digital images and it is a [[8]] that photography ever had a true age of innocence. From the moment cameras began capturing reality, that reality was being altered.",
+      "options": {
+        "1": ["venue", "setting", "background", "surrounding"],
+        "2": ["calling", "naming", "attributing", "acknowledging"],
+        "3": ["false", "faulty", "fake", "fictional"],
+        "4": ["arranged", "spaced", "settled", "distributed"],
+        "5": ["categorically", "unavoidably", "substantially", "undeniably"],
+        "6": ["weakens", "undermines", "demolishes", "dismantles"],
+        "7": ["letting", "supporting", "enabling", "empowering"],
+        "8": ["fantasy", "legend", "dream", "myth"]
+      }
+    },
+    "2": {
+      "title": "Online passwords – what everyone should know",
+      "text": "When it comes to online security, we all know what we ought to do: choose a different, random set of letters and numbers for every email account, shopping site or bank account. But hardly [[9]] does this, because memorising them all is impossible. So we use the same familiar words for every site, [[10]] a pet's name or, even worse, the word 'password', occasionally remembering to replace the letter O with a zero, or choosing to [[11]] use of a capital letter.\n\nEven if we opt [[12]] a random group of letters such as 'fpqzy', there is now software available which can make a thousand guesses per second, enabling a hacker to get to your password in just under four hours.\n\nInterestingly, [[13]] increasing your password to twenty random letters, you increase a hacker's guessing time to 6.5 thousand trillion centuries. The problem is that you would [[14]] no chance of ever remembering those 20 letters. The solution, apparently, is to come [[15]] with three or four short, unrelated words and work [[16]] a way to remember them. Easy!"
+    },
+    "3": {
+      "title": "Too many climbers on Mount Everest",
+      "text": "Mount Everest in Nepal is becoming increasingly popular as a destination for adventure tourism. During the month of May, [[17]] weather presents a number of safe opportunities to make the climb. As a result, the sheer number of climbers has brought an [[18]] problem, potentially even more dangerous than low temperatures and changeable weather – overcrowded conditions. The fact that there are so many climbers, many of them complete [[19]], means that at times people are queuing for hours to reach the summit.\n\nThis hazard has led to calls for stricter assessments of new learner climbers, as in their [[20]] to reach the mountain's summit such inexperienced climbers are sometimes ignoring the advice of their Nepalese guides, which may [[21]] everyone's lives.\n\nPerhaps one [[22]] would be to make the charges for climbing the mountain so high that only a few people could afford the climb. Or [[23]], one could ban the use of artificial oxygen and local guides, leaving Everest to the very best [[24]]. Extreme, maybe, but it may just prove necessary.",
+      "keywords": {
+        "17": "FAVOUR",
+        "18": "EXPECT",
+        "19": "BEGIN",
+        "20": "DESPERATE",
+        "21": "DANGER",
+        "22": "SOLVE",
+        "23": "ALTERNATE",
+        "24": "MOUNTAIN"
+      }
+    },
+    "4": {
+      "questions": {
+        "25": {
+          "first": "'You should stop your children watching so much television,' Mary's sister told her.",
+          "keyword": "LET",
+          "before": "Mary's sister advised her",
+          "after": "so much television."
+        },
+        "26": {
+          "first": "The local council wants to impose a ban on driving at more than 30 kilometres per hour anywhere in this area.",
+          "keyword": "ILLEGAL",
+          "before": "The local council wants to",
+          "after": "at more than 30 kilometres per hour anywhere in this area."
+        },
+        "27": {
+          "first": "Tom missed his plane because he was late leaving for the airport.",
+          "keyword": "TIME",
+          "before": "If only",
+          "after": "for the airport, he wouldn't have missed his plane."
+        },
+        "28": {
+          "first": "I'm disappointed with the Fishers' new album when I compare it to their previous one.",
+          "keyword": "COMPARISON",
+          "before": "I think the Fishers' new album is",
+          "after": "their previous one."
+        },
+        "29": {
+          "first": "The employment rate rose gradually as the economy began to recover.",
+          "keyword": "GRADUAL",
+          "before": "There",
+          "after": "the employment rate as the economy began to recover."
+        },
+        "30": {
+          "first": "The change in the company's logo didn't make any difference to the majority of its customers.",
+          "keyword": "CONSEQUENCE",
+          "before": "The change in the company's logo",
+          "after": "to the majority of its customers."
+        }
+      }
+    },
+    "5": {
+      "title": "Jean Piaget",
+      "paragraphs": [
+        "Jean Piaget, the pioneering Swiss philosopher and psychologist, became famous for his theories on child development. A child prodigy, he became interested in the scientific study of nature at an early age. He developed a special fascination for biology, having some of his work published before graduating from high school. When, aged 10, his observations led to questions that could be answered only by access to the university library, Piaget wrote and published some notes on the sighting of an albino sparrow in the hope that this would persuade the librarian to stop treating him like a child. It worked. Piaget was launched on a path that led to his doctorate in zoology and a lifelong conviction that the way to understand anything is to know how it evolves.",
+        "Piaget went on to spend much of his professional life listening to and watching children, and poring over reports of researchers who were doing the same. He found, to put it succinctly, that children don't think like adults. After thousands of interactions with young people often barely old enough to talk, Piaget began to suspect that behind their cute and seemingly illogical utterances were thought processes that had their own kind of order and their own special logic. Albert Einstein, the renowned physicist, deemed this a discovery 'so simple that only a genius could have thought of it'.",
+        "Piaget's insight opened a new window into the inner workings of the mind. Several new fields of science, among them developmental psychology and cognitive theory, came into being as a result of his research. Although not an educational reformer, he championed a way of thinking about children that provided the foundation for today's education reform movements. One might say that Piaget was the first to take children's thinking seriously. Others who shared this respect for children may have fought harder for immediate change in schools, but Piaget's influence on education remains deeper and more pervasive.",
+        "Piaget has been revered by generations of teachers inspired by the belief that children are not empty vessels to be filled with knowledge, as traditional academic thinking had it, but active builders of knowledge – little scientists who are constantly creating and testing their own theories of the world. And while he may not be as famous as Sigmund Freud, Piaget's contribution to psychology may be longer lasting. As computers and the Internet give children greater autonomy to explore ever larger digital worlds, the ideas he pioneered become ever more relevant.",
+        "In the 1940s, working in Alfred Binet's child-psychology lab in Paris, Piaget noticed that children of the same age, regardless of their background or gender, made comparable errors on true–false intelligence tests. Back in Switzerland, the young scientist began watching children play, scrupulously recording their words and actions as their minds raced to find reasons for why things are the way they are. Piaget recognised that a five-year-old's beliefs, while not correct by any adult criterion, are not 'incorrect' either. They are entirely sensible and coherent within the framework of the child's 'way of knowing'. In Piaget's view, classifying them as 'true' or 'false' misses the point and shows a lack of respect for the child. What Piaget was after was a theory that could find coherence and ingenuity in the child's justification, and evidence of a kind of explanatory principle that stands young children in very good stead when they don't know enough or don't have enough skill to handle the kind of explanation that grown-ups prefer.",
+        "The core of Piaget's work is his belief that looking carefully at how children acquire knowledge sheds light on how adults think and understand the world. Whether this has, in fact, led to deeper understanding remains, like everything about Piaget, contentious. In recent years, Piaget has been vigorously challenged by the current emphasis on viewing knowledge as an intrinsic property of the brain. Ingenious experiments have demonstrated that newborn infants already have some of the knowledge that Piaget believed children constructed. But for those of us who still see Piaget as the giant in the field of cognitive theory, the disparity between what the baby brings and what the adult has is so immense that the new discoveries do not significantly reduce the gap, only increase the mystery."
+      ],
+      "questions": {
+        "31": {
+          "stem": "In the first paragraph, the writer suggests that as a child Piaget",
+          "options": [
+            "was particularly eager to teach others about animals.",
+            "was confident his research would help other children.",
+            "was already certain about the career he would follow.",
+            "was determined that nothing should hold back his progress."
+          ]
+        },
+        "32": {
+          "stem": "In quoting Einstein, the writer is",
+          "options": [
+            "questioning the simplicity of Piaget's ideas.",
+            "supporting the conclusion that Piaget reached.",
+            "suggesting that Piaget's research methods were unprecedented.",
+            "recommending a less complicated approach than Piaget's."
+          ]
+        },
+        "33": {
+          "stem": "In the third paragraph, the writer puts forward the view that",
+          "options": [
+            "Piaget's work with children was difficult to put to a practical use.",
+            "Piaget's theories about children were less revolutionary than he thought.",
+            "Piaget laid the basis for our current understanding of how children's minds work.",
+            "Piaget was actually committed to radical change in the education system."
+          ]
+        },
+        "34": {
+          "stem": "The phrase 'empty vessels' (paragraph 4) refers to",
+          "options": [
+            "why children should be encouraged to study more independently.",
+            "what traditional academic theory said about children and learning.",
+            "how teachers can increase children's motivation to learn.",
+            "the kind of knowledge that children need to acquire."
+          ]
+        },
+        "35": {
+          "stem": "The writer says Piaget was unwilling to categorise children's ideas as true or false because",
+          "options": [
+            "he realised that the reasoning behind a child's statement was more important.",
+            "he knew that this could have long-term effects on a child.",
+            "he felt that this did not reflect what happens in real life.",
+            "he felt that children are easily influenced by what adults have told them."
+          ]
+        },
+        "36": {
+          "stem": "What does the writer conclude about newer theories that have appeared?",
+          "options": [
+            "They completely undermine Piaget's ideas.",
+            "They put greater emphasis on scientific evidence.",
+            "They are an interesting addition to the body of knowledge.",
+            "They are based on flawed research."
+          ]
+        }
+      }
+    },
+    "6": {
+      "title": "The role of advertising in society today",
+      "intro": "Which contributor",
+      "label": "Contributor",
+      "sections": [
+        { "letter": "A", "text": "Almost all public spaces nowadays have advertisements in sight, and all forms of media, from newspapers to the cinema to the Internet, are filled with adverts. This all-pervasive presence reflects the value of advertising to us. Without it, businesses of all types and sizes would struggle to inform potential customers about the products or services they provide, and consumers would be unable to make informed assessments when looking for products to buy and services to use. Without advertising, the promotion of products and practices that contribute to our physical and psychological well-being – medicines to treat minor ailments, insurance schemes to protect us, clothes and cosmetics to make us look and feel better – would be infinitely more problematic than it is. And without advertisements and the aspirations represented in them, the world would be a far duller place." },
+        { "letter": "B", "text": "Advertising is everywhere, and it's often so subtle that we don't realise it's there at some level of our consciousness. The ultimate aim, of course, is to get us to buy things, regardless of whether it makes sense for us to do so. In fact, adverts mostly impair rational decision-making. A recent study in the UK found that 90% of customers failed to understand the truth about what was on offer in adverts for broadband internet services. This irrational dimension is evident in the success advertisers enjoy not only in getting us to buy products that, directly or indirectly, cause physical damage to us, but also in raising our expectations about what our lives should be like – expectations that inevitably imply something is wrong with us if we don't meet them. Having said this, advertising is fundamental to the workings of modern economies, so the chances are that it will only continue to grow in significance." },
+        { "letter": "C", "text": "There is a tendency to underestimate people's intelligence and to invest advertising with powers it doesn't have. Certain dubious techniques have been banned – like the use of subliminal images shown so quickly that viewers don't consciously realise they've seen them – but other forms of advertising are simply manifestations of creativity. Audiences understand this and are able to enjoy adverts without falling prey to some complex deception. They know that an advert tells them a product exists and suggests they might benefit from having it. They don't expect it to provide objective details, confirming why they should or should not go ahead with a purchase. They are also smart enough to know that what they see in advertisements is fiction and, therefore, not something they should feel bad about if they don't have it. The bottom line, however, is that advertising helps the wheels of the economy to turn, a crucial role which societies are likely to depend on for the foreseeable future." },
+        { "letter": "D", "text": "Advertising is a worldwide, multi-billion dollar industry and inevitably tends to favour large businesses, which can afford advertising costs, rather than smaller companies. That can't. In that way, it makes life ever more difficult for that sector of the economy – small and medium-sized businesses – which is the key to a nation's prosperity. Advertising also encourages certain patterns of consumption – fast food, cars, labour-saving devices and so on – which characterise a sedentary lifestyle and undermine physical well-being, while also generating a sense of inadequacy and unhappiness among people who feel inferior if they don't possess a product or conform to certain ideas of what is 'beautiful' or 'cool'. And far from providing consumers with clear, reliable information enabling them to make sensible decisions about what to spend their money on, advertisers use underhand methods to confuse and manipulate feelings and thoughts." }
+      ],
+      "questions": {
+        "37": "expresses a different view from the others about the impact that advertising has on a country's economy?",
+        "38": "has a different opinion from the others on the extent to which advertising helps people to make choices?",
+        "39": "takes a similar view to contributor D about the influence advertising can have on people's self-esteem?",
+        "40": "expresses a different opinion from contributor B regarding public awareness of how advertising works?"
+      }
+    },
+    "7": {
+      "title": "Secrets of the deep",
+      "intro": "Until recently, little was known about the movements of the whale shark. But a pioneering project is shedding new light on this ocean giant. Project scientist Jonathan Green reports.",
+      "blocks": [
+        { "type": "p", "text": "When an animal the size of a very large double-decker bus – the largest fish in the ocean – makes a sudden 90° turn, it has to be for a good reason. As the satellite tracks started to come in from whale sharks which we had tagged off the Galapagos Islands, they clearly showed that as the sharks were swimming away from the islands, they were all reaching a certain point and then making a very abrupt change in direction." },
+        { "type": "gap", "q": 41 },
+        { "type": "p", "text": "That, among other things, was what The Galapagos Whale Shark Project was attempting to find out. Established to study the population of sharks that visits the islands each year, the primary aim of the research was to find out more about whale shark movements on a local scale." },
+        { "type": "gap", "q": 42 },
+        { "type": "p", "text": "This involved two main processes. To begin with, we had to be able to identify individual sharks. We used a modified version of photo software initially developed for the mapping of stars and deep-space objects. This worked because the characteristic white spots of the whale shark resemble the human fingerprint in that each pattern is individually unique. By running photographs of the sharks' sides through the software, we could characterise the patterns of spots, and figure out which shark was which." },
+        { "type": "gap", "q": 43 },
+        { "type": "p", "text": "We also attached tags to the sharks to track their movements. This was done by inserting a small dart through the thick skin into a fatty layer beneath using a pneumatic spear gun and then tethering the tags with a piece of steel cable. They were intended to be towed alongside or above the dorsal fin in order to break the surface and transmit data by satellite. But getting the tags to stay on was easier said than done. For reasons unknown, some came off in less than 24 hours." },
+        { "type": "gap", "q": 44 },
+        { "type": "p", "text": "The sharks used common departure routes soon after we had tagged them. They headed due north, following a series of sea fissures until they reached the Galapagos Rift Valley system. This zone is where the divergence of two oceanic plates has created a rift system similar to that which runs through eastern Africa. Many reached the margin between the two plates and most then turned west." },
+        { "type": "gap", "q": 45 },
+        { "type": "p", "text": "Conversely, one juvenile female's track was astounding, overlaying almost perfectly the rift system as it runs west. It's clear that she and the other whale sharks are using geological features as route indicators, just as motorists use, say, familiar buildings. But how the sharks perceive such features thousands of meters below on the ocean floor is as yet unresolved." },
+        { "type": "gap", "q": 46 },
+        { "type": "p", "text": "The theory we are working on is that the Earth's magnetic field reverses its polarity intermittently over the course of time, thus supplying a source of directional information. Fault systems, rift valleys, ocean trenches and plate margins all emit a distinct magnetic signature that can be used by whale sharks and other species as a virtual map." }
+      ],
+      "paragraphs": {
+        "A": "There may be a number of explanations: the sharks might have rubbed up against rocks, or the tags may have been ripped off by associated species, such as silky sharks, that mistook them for prey. Having begun with a 1.8-metre tether, we shortened this to 1.3 metres, which seemed to be more effective.",
+        "B": "After three months, all the sharks that had retained their tags proceeded to head south. They converged on three mountain chains that run westwards from the edge of Peru's continental shelf. There, one by one, they shed their tags and continued on to destinations unknown.",
+        "C": "However, it wasn't until we overlaid them onto a map of the sea floor that we saw that these movements were apparently in response to geological features deep in the ocean that the sharks couldn't possibly see. It became clear that they must somehow be using faults, fissures and plate boundaries. But how?",
+        "D": "After all, the marine environment, in comparison to that on land, has few apparent points of reference. The waters are often murky and the maximum penetration of light only extends into the upper levels. So how do marine creatures navigate over long distances?",
+        "E": "We undertook one of the most ambitious whale shark programmes to date. The fieldwork was carried out in three 15-day sorties.",
+        "F": "The frequency of transmissions from the tags depended on the behaviour of the individual sharks. Some spent a lot of time on or near the surface, and their tags reported on a regular basis. Others, such as the single male we tagged, spent a great deal of the time diving – for six weeks we didn't receive a single transmission.",
+        "G": "If spotted at the same location at a later date, or a different location, the shark was 'recaptured' on a database, which stores photos of whale sharks from around the globe, thus providing details of their movements geographically and over time."
+      }
+    },
+    "8": {
+      "title": "The Rise of Home Working",
+      "intro": "In which section are the following mentioned?",
+      "label": "Section",
+      "sections": [
+        { "letter": "A", "text": "Whether you call it working from home, telecommuting or home-working, it's a growing market. Banks, call centres, councils, software companies, law firms, PR agencies: all are increasingly allowing their staff to do it at least part-time. British Telecom, the pioneer of home working in Britain, now has 65,000 flexible workers, of whom 10,000 do not come into the office at all. However, we're still a long way from the dreams of 25 years ago, which imagined offices emptying of everyone who didn't operate a machine or wield a mop. So how do you get on the home-working bandwagon? In some countries, if you have a child under 16, or 18 if they are disabled, in a sense you have a head start. Employers in Britain are legally obliged at least to consider your case if you ask to work flexibly, and that could include working at home for at least part of the week. They must also consider an application if you are caring for a friend or a family member. But even if none of those apply, you are still likely to have a strong case – if you can persuade your company to listen." },
+        { "letter": "B", "text": "Not only do home workers cut down on the need for large offices, they are often vastly more productive. American studies show a 30–40% increase. Noel Hodson, a key proponent of home working, suggests that this is at least partly down to the removal of the daily commute: 'What we found was that most of the time saved went back into work. These workers valued their new lifestyle and to protect it they did more work.' Companies that offer flexible working also find it easier to attract staff, and to hang on to them. At British Telecom, at least 97% of women who take maternity leave come back to work afterwards, against a national average of about half that. The downtime, the recruitment, the instruction of each person at a very moderate estimate would be around £10,000. So, not only are they creating a more socially integrated company in line with government guidelines, they're saving £5m–£6m on skill losses." },
+        { "letter": "C", "text": "And there are bonuses for society too. Home working encourages a more diverse labour force, introducing to the world of work, sometimes for the first time, not just carers but disabled people or those who live in remote locations. Then there's the reduction in pollution and greenhouse gases. So if home working is so great, why aren't we all doing it? 'The issues are human, not technological,' says Peter Thomson of the Telework Association. 'For the past 200 years we have been in an environment where people get together in the same place to work and a manager stands there and watches what they do.' So the last barriers are attitudinal, but it's a myth that someone is in total charge of what people do just because they are all working in the same location. Most managers who are worried about this kind of thing are actually holed up in their offices and rarely interact with their people. Merely turning up is a really poor performance indicator." },
+        { "letter": "D", "text": "Mark Thomas runs a PR consultancy whose employees work at home. 'We've come up with measures of performance that are more to do with what they produce than with desk time. This is the way forward,' he says. Some managers are concerned that their home workers might go shopping during the 'working day'. This goes against the idea of flexible working since hours shouldn't matter so long as the required productivity is there. The concern still remains whether some employees will abuse this, but the same technology that makes it possible to escape the office makes it harder to get away from your boss, which is surely true even if you work in an office. It's well known that some managers insist on interrupting their underlings' evenings and weekends with 'urgent' enquiries that could easily wait. So, many of us are already on call 24/7. However, the great thing about technology is that it has an 'off button'. The best employers will not just expect you to use it, but worry if you don't." }
+      ],
+      "questions": {
+        "47": "the mistaken view that physical proximity at work automatically ensures good supervision",
+        "48": "the fact that the proportion of home workers in the labour force has not matched expectations",
+        "49": "the risk of an employer making unreasonable demands on a home worker",
+        "50": "the fact that staff retention increases in firms that encourage home working",
+        "51": "the duty of firms not to dismiss requests to work at home out of hand",
+        "52": "one of the main obstacles to home working in employers' minds being the fear of loss of direct control",
+        "53": "personal circumstances increasing the likelihood of an individual being allowed to work at home",
+        "54": "the wider benefits that home working brings to the community",
+        "55": "the advisability of ensuring that home workers are not putting in excessive hours",
+        "56": "a reduction in expenditure on premises as a result of home working"
+      }
+    }
+  }
+}
