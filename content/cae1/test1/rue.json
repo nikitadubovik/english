@@ -55,10 +55,10 @@
           "after": "for the airport, he wouldn't have missed his plane."
         },
         "28": {
-          "first": "I'm disappointed with the Fishers' new album when I compare it to their previous one.",
-          "keyword": "COMPARISON",
-          "before": "I think the Fishers' new album is",
-          "after": "their previous one."
+          "first": "The guidelines for the appointment of new staff need to be thoroughly revised.",
+          "keyword": "THOROUGH",
+          "before": "There needs",
+          "after": "the guidelines for the appointment of new staff."
         },
         "29": {
           "first": "The employment rate rose gradually as the economy began to recover.",
