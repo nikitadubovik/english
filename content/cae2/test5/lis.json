@@ -1,0 +1,76 @@
+{
+  "title": "Cambridge English Advanced 1 — Test 1",
+  "paper": "Listening",
+  "parts": {
+    "1": {
+      "extracts": [
+        {
+          "intro": "PLACEHOLDER — You hear two colleagues discussing a training course.",
+          "questions": {
+            "1": {
+              "stem": "PLACEHOLDER — What does the woman say about the course materials?",
+              "options": [
+                "They were harder to follow than she had expected.",
+                "They repeated content she already knew well.",
+                "They were poorly matched to the length of the course."
+              ]
+            },
+            "2": {
+              "stem": "PLACEHOLDER — The two speakers agree that the tutor",
+              "options": [
+                "gave too little time to individual questions.",
+                "explained the practical tasks unusually clearly.",
+                "relied too heavily on his own experience."
+              ]
+            }
+          }
+        },
+        {
+          "intro": "PLACEHOLDER — You hear a musician talking about a recent tour.",
+          "questions": {
+            "3": {
+              "stem": "PLACEHOLDER — How did she feel about the opening night?",
+              "options": [
+                "Relieved that a technical problem went unnoticed.",
+                "Surprised by the reaction of the audience.",
+                "Frustrated by the size of the venue."
+              ]
+            },
+            "4": {
+              "stem": "PLACEHOLDER — What does she say she would do differently next time?",
+              "options": [
+                "Allow longer gaps between performances.",
+                "Involve the band in planning the set list.",
+                "Spend less time rehearsing in advance."
+              ]
+            }
+          }
+        },
+        {
+          "intro": "PLACEHOLDER — You hear part of a radio programme about urban wildlife.",
+          "questions": {
+            "5": {
+              "stem": "PLACEHOLDER — The speaker suggests that public attitudes to city foxes",
+              "options": [
+                "have shifted more slowly than researchers predicted.",
+                "vary widely between neighbouring districts.",
+                "are shaped mainly by inaccurate media coverage."
+              ]
+            },
+            "6": {
+              "stem": "PLACEHOLDER — What does the speaker recommend that residents do?",
+              "options": [
+                "Report sightings to a national database.",
+                "Change how they store household waste.",
+                "Avoid feeding animals during the winter."
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "2": {},
+    "3": {},
+    "4": {}
+  }
+}
