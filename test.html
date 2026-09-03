@@ -37,10 +37,10 @@
       <span class="card-title">Writing</span>
       <span class="card-meta">Coming soon</span>
     </a>
-    <a class="menu-card disabled">
+    <a class="menu-card" id="listeningCard">
       <span class="card-label">Paper 3</span>
       <span class="card-title">Listening</span>
-      <span class="card-meta">Coming soon</span>
+      <span class="card-meta">About 40 minutes · 30 questions · 4 parts · play the audio yourself</span>
     </a>
     <a class="menu-card disabled">
       <span class="card-label">Paper 4</span>
@@ -69,6 +69,7 @@
   document.getElementById('pageTitle').textContent = `${BOOK_TITLES[book] || book} — Test ${test}`;
 
   document.getElementById('readingCard').href = `exam.html?book=${book}&test=${test}&paper=reading`;
+  document.getElementById('listeningCard').href = `listening.html?book=${book}&test=${test}`;
 </script>
 
 </body>
