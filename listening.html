@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>C1 Advanced — Listening</title>
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/exam.css">
+<link rel="stylesheet" href="css/listening.css">
+</head>
+<body>
+
+<div class="header">
+  <div class="brand">
+    <div class="brand-logo">CAMBRIDGE<small>English</small></div>
+    <div class="candidate-id">Candidate ID</div>
+  </div>
+  <div class="header-icons">
+    <span>📶</span><span>🔔</span><span>☰</span><span>✎</span>
+  </div>
+</div>
+
+<div class="instructions" id="instructions">
+  <h2 id="instr-title">Questions 1–6</h2>
+  <p id="instr-text">You will hear three different extracts. For each question, choose the correct answer. There are two questions for each extract.</p>
+</div>
+
+<div class="content-wrap">
+  <div class="content part-view active" data-view="1">
+    <div class="lis-container" id="p1Container"></div>
+  </div>
+  <div class="content part-view" data-view="2">
+    <div class="lis-container" id="p2Container"></div>
+  </div>
+  <div class="content part-view" data-view="3">
+    <div class="lis-container" id="p3Container"></div>
+  </div>
+  <div class="content part-view" data-view="4">
+    <div class="lis-container" id="p4Container"></div>
+  </div>
+</div>
+
+<div class="results-screen" id="finalResults">
+  <h1>Your results</h1>
+  <p class="lead">Listening — C1 Advanced</p>
+  <div id="finalScoreCards"></div>
+  <h2>Your answers</h2>
+  <div class="answer-review" id="answerReview"></div>
+  <div class="results-actions">
+    <button class="btn-secondary" id="backToTestBtn">Back to the test</button>
+  </div>
+</div>
+
+<div class="nav-arrows">
+  <button id="prevBtn" title="Previous">←</button>
+  <button class="primary" id="nextBtn" title="Next">→</button>
+</div>
+
+<div class="footer" id="footer"></div>
+
+<script src="js/listening.js"></script>
+</body>
+</html>
