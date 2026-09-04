@@ -14,11 +14,11 @@
     1: { type: 'mc-extracts', count: 6, range: [1, 6], title: 'Questions 1–6',
          instr: 'You will hear three different extracts. For each question, choose the correct answer. There are two questions for each extract.' },
     2: { type: 'sentence-completion', count: 8, range: [7, 14], title: 'Questions 7–14',
-         instr: 'For each question, write the correct answer in the gap. Write <b>one</b> word or a short phrase.' },
+         instr: 'For each question, write the correct answer in the gap. Write a word or short phrase.' },
     3: { type: 'mc', count: 6, range: [15, 20], title: 'Questions 15–20',
          instr: 'For each question, choose the correct answer.' },
     4: { type: 'multi-match', count: 10, range: [21, 30], title: 'Questions 21–30',
-         instr: 'You will hear five short extracts. While you listen you must complete both tasks.' },
+         instr: 'You will hear five short extracts. For each question, choose the correct answer. Complete <b>both</b> tasks.' },
   };
 
   // Every question in the Listening paper is worth 1 mark.
@@ -77,6 +77,44 @@
   }
 
   // --------------------------------------------------------
+  // Shared bits
+  // --------------------------------------------------------
+  function makeFlagButton(q) {
+    const flag = document.createElement('button');
+    flag.className = 'lis-flag';
+    flag.title = 'Flag for review';
+    flag.innerHTML = FLAG_SVG;
+    flag.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (flagged.has(q)) { flagged.delete(q); flag.classList.remove('active'); }
+      else { flagged.add(q); flag.classList.add('active'); }
+      const holder = flag.closest('.lis-question');
+      if (holder) holder.classList.toggle('is-flagged', flagged.has(q));
+      refreshFooter();
+    });
+    return flag;
+  }
+
+  // The rubric can be overridden per test, since Parts 2–4 name the speaker.
+  function instrFor(p) {
+    const data = CONTENT && CONTENT.parts && CONTENT.parts[String(p)];
+    return (data && data.instr) || PARTS[p].instr;
+  }
+
+  // Stems and options occasionally carry a title in italics, written as *Carp Magazine*.
+  function escapeHtml(s) {
+    return (s || '').replace(/[&<>"]/g, ch => (
+      { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]
+    ));
+  }
+  function formatInline(s) {
+    return escapeHtml(s).replace(/\*([^*]+)\*/g, '<em>$1</em>');
+  }
+  function plainText(s) {
+    return (s || '').replace(/\*([^*]+)\*/g, '$1');
+  }
+
+  // --------------------------------------------------------
   // Generic multiple-choice question block
   // --------------------------------------------------------
   function buildMCQuestion(q, stem, options) {
@@ -91,7 +129,7 @@
     num.textContent = q;
     head.appendChild(num);
     const stemSpan = document.createElement('span');
-    stemSpan.textContent = stem;
+    stemSpan.innerHTML = formatInline(stem);
     head.appendChild(stemSpan);
     qDiv.appendChild(head);
 
@@ -105,7 +143,7 @@
       radio.className = 'lis-radio';
       opt.appendChild(radio);
       const txt = document.createElement('span');
-      txt.textContent = label;
+      txt.innerHTML = formatInline(label);
       opt.appendChild(txt);
       opt.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -119,17 +157,7 @@
     });
     qDiv.appendChild(optsDiv);
 
-    const flag = document.createElement('button');
-    flag.className = 'lis-flag';
-    flag.title = 'Flag for review';
-    flag.innerHTML = FLAG_SVG;
-    flag.addEventListener('click', (e) => {
-      e.stopPropagation();
-      if (flagged.has(q)) { flagged.delete(q); flag.classList.remove('active'); }
-      else { flagged.add(q); flag.classList.add('active'); }
-      refreshFooter();
-    });
-    qDiv.appendChild(flag);
+    qDiv.appendChild(makeFlagButton(q));
 
     qDiv.addEventListener('click', () => setCurrent(q));
     return qDiv;
@@ -179,6 +207,256 @@
   }
 
   // --------------------------------------------------------
+  // PART 2 — sentence completion, gaps marked as [[N]] in each line
+  // --------------------------------------------------------
+  function renderPart2() {
+    const container = document.getElementById('p2Container');
+    container.innerHTML = '';
+    const data = CONTENT.parts && CONTENT.parts['2'];
+    if (!data || !Array.isArray(data.lines) || !data.lines.length) {
+      container.innerHTML = stubMarkup(2);
+      return;
+    }
+
+    if (data.title) {
+      const h = document.createElement('h2');
+      h.className = 'lis-title';
+      h.textContent = data.title;
+      container.appendChild(h);
+    }
+
+    data.lines.forEach(line => {
+      const p = document.createElement('p');
+      p.className = 'lis-question lis-sentence';
+
+      let firstQ = null;
+      // Split on [[N]] tokens, keeping the numbers.
+      line.split(/(\[\[\d+\]\])/).forEach(chunk => {
+        const m = chunk.match(/^\[\[(\d+)\]\]$/);
+        if (!m) {
+          if (chunk) p.appendChild(document.createTextNode(chunk));
+          return;
+        }
+        const q = parseInt(m[1], 10);
+        if (firstQ === null) firstQ = q;
+
+        const wrap = document.createElement('span');
+        wrap.className = 'lis-gap-wrap';
+
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.className = 'lis-input';
+        input.dataset.q = q;
+        input.autocomplete = 'off';
+        input.spellcheck = false;
+
+        const num = document.createElement('span');
+        num.className = 'lis-gap-num';
+        num.textContent = q;
+
+        input.addEventListener('focus', () => setCurrent(q));
+        input.addEventListener('click', (e) => e.stopPropagation());
+        input.addEventListener('input', () => {
+          answers[q] = input.value;
+          wrap.classList.toggle('filled', input.value.trim() !== '');
+          refreshFooter();
+        });
+
+        wrap.appendChild(input);
+        wrap.appendChild(num);
+        p.appendChild(wrap);
+      });
+
+      if (firstQ !== null) {
+        p.dataset.q = firstQ;
+        p.appendChild(makeFlagButton(firstQ));
+        p.addEventListener('click', () => setCurrent(firstQ));
+      }
+      container.appendChild(p);
+    });
+  }
+
+  // --------------------------------------------------------
+  // PART 3 — six multiple-choice questions on one scrolling page
+  // --------------------------------------------------------
+  function renderPart3() {
+    const container = document.getElementById('p3Container');
+    container.innerHTML = '';
+    const data = CONTENT.parts && CONTENT.parts['3'];
+    if (!data || !data.questions || !Object.keys(data.questions).length) {
+      container.innerHTML = stubMarkup(3);
+      return;
+    }
+    Object.keys(data.questions)
+      .map(Number)
+      .sort((a, b) => a - b)
+      .forEach(q => {
+        const item = data.questions[q];
+        container.appendChild(buildMCQuestion(q, item.stem, item.options));
+      });
+  }
+
+  // --------------------------------------------------------
+  // PART 4 — two matching tasks, five speakers and eight options each
+  // --------------------------------------------------------
+  function taskOf(q) {
+    const tasks = ((CONTENT.parts || {})['4'] || {}).tasks || [];
+    for (const t of tasks) if (t.questions && t.questions[q] !== undefined) return t;
+    return null;
+  }
+
+  function paintSlot(slot) {
+    const q = parseInt(slot.dataset.q, 10);
+    const letter = answers[q];
+    slot.innerHTML = '';
+
+    const txt = document.createElement('span');
+    if (letter) {
+      const task = taskOf(q);
+      txt.innerHTML = formatInline((task && task.options[letter]) || letter);
+      slot.classList.add('filled');
+    } else {
+      txt.textContent = q;
+      slot.classList.remove('filled');
+    }
+    slot.appendChild(txt);
+
+    const rm = document.createElement('button');
+    rm.className = 'lis-slot-remove';
+    rm.textContent = '✕';
+    rm.title = 'Clear';
+    rm.addEventListener('click', (e) => {
+      e.stopPropagation();
+      delete answers[q];
+      paintSlot(slot);
+      updateUsedOptions(slot.dataset.task);
+      setCurrent(q);
+      refreshFooter();
+    });
+    slot.appendChild(rm);
+  }
+
+  function assign(q, letter, taskIdx) {
+    // Within a task each option can only be used once, so free it elsewhere first.
+    const task = ((CONTENT.parts['4'] || {}).tasks || [])[taskIdx];
+    if (task) {
+      Object.keys(task.questions).map(Number).forEach(other => {
+        if (other !== q && answers[other] === letter) delete answers[other];
+      });
+    }
+    answers[q] = letter;
+    document.querySelectorAll(`#p4Container .lis-slot[data-task="${taskIdx}"]`).forEach(paintSlot);
+    updateUsedOptions(taskIdx);
+    setCurrent(q);
+    refreshFooter();
+  }
+
+  function updateUsedOptions(taskIdx) {
+    const task = ((CONTENT.parts['4'] || {}).tasks || [])[taskIdx];
+    if (!task) return;
+    const used = new Set(Object.keys(task.questions).map(Number).map(q => answers[q]).filter(Boolean));
+    document.querySelectorAll(`#p4Container .lis-opt-box[data-task="${taskIdx}"]`).forEach(box => {
+      box.classList.toggle('used', used.has(box.dataset.letter));
+    });
+  }
+
+  function renderPart4() {
+    const container = document.getElementById('p4Container');
+    container.innerHTML = '';
+    const data = CONTENT.parts && CONTENT.parts['4'];
+    if (!data || !Array.isArray(data.tasks) || !data.tasks.length) {
+      container.innerHTML = stubMarkup(4);
+      return;
+    }
+
+    data.tasks.forEach((task, ti) => {
+      const wrap = document.createElement('div');
+      wrap.className = 'lis-task';
+
+      const head = document.createElement('p');
+      head.className = 'lis-task-head';
+      head.innerHTML = '<b>' + escapeHtml(task.label || ('Task ' + (ti + 1))) + '</b>: ' +
+                       formatInline(task.instr || '');
+      wrap.appendChild(head);
+
+      const body = document.createElement('div');
+      body.className = 'lis-task-body';
+
+      const left = document.createElement('div');
+      left.className = 'lis-speakers';
+
+      Object.keys(task.questions).map(Number).sort((a, b) => a - b).forEach(q => {
+        const row = document.createElement('div');
+        row.className = 'lis-question lis-speaker-row';
+        row.dataset.q = q;
+
+        const label = document.createElement('span');
+        label.className = 'lis-speaker-label';
+        label.textContent = task.questions[q];
+        row.appendChild(label);
+
+        const slot = document.createElement('div');
+        slot.className = 'lis-slot';
+        slot.dataset.q = q;
+        slot.dataset.task = ti;
+        slot.addEventListener('click', (e) => { e.stopPropagation(); setCurrent(q); });
+        slot.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          slot.classList.add('drag-over');
+        });
+        slot.addEventListener('dragleave', () => slot.classList.remove('drag-over'));
+        slot.addEventListener('drop', (e) => {
+          e.preventDefault();
+          slot.classList.remove('drag-over');
+          const payload = e.dataTransfer.getData('text/plain');
+          const [letter, from] = payload.split(':');
+          if (parseInt(from, 10) !== ti) return;   // options belong to one task only
+          assign(q, letter, ti);
+        });
+        paintSlot(slot);
+        row.appendChild(slot);
+
+        row.appendChild(makeFlagButton(q));
+        left.appendChild(row);
+      });
+
+      const right = document.createElement('div');
+      right.className = 'lis-optlist';
+
+      Object.keys(task.options).sort().forEach(letter => {
+        const box = document.createElement('div');
+        box.className = 'lis-opt-box';
+        box.draggable = true;
+        box.dataset.letter = letter;
+        box.dataset.task = ti;
+        box.innerHTML = formatInline(task.options[letter]);
+        box.addEventListener('dragstart', (e) => {
+          e.dataTransfer.setData('text/plain', letter + ':' + ti);
+          box.classList.add('dragging');
+        });
+        box.addEventListener('dragend', () => box.classList.remove('dragging'));
+        box.addEventListener('click', (e) => {
+          e.stopPropagation();
+          // Click assigns to the current speaker if it belongs to this task,
+          // otherwise to the first speaker still empty.
+          const qs = Object.keys(task.questions).map(Number).sort((a, b) => a - b);
+          let target = qs.includes(currentQ) ? currentQ : qs.find(q => !answers[q]);
+          if (target === undefined) target = qs[qs.length - 1];
+          assign(target, letter, ti);
+        });
+        right.appendChild(box);
+      });
+
+      body.appendChild(left);
+      body.appendChild(right);
+      wrap.appendChild(body);
+      container.appendChild(wrap);
+
+      updateUsedOptions(ti);
+    });
+  }
+
+  // --------------------------------------------------------
   // Shared state refresh for question blocks
   // --------------------------------------------------------
   function updateQuestionState(containerId) {
@@ -187,6 +465,7 @@
     container.querySelectorAll('.lis-question').forEach(qDiv => {
       const q = parseInt(qDiv.dataset.q, 10);
       qDiv.classList.toggle('current', q === currentQ);
+      qDiv.classList.toggle('is-flagged', flagged.has(q));
       const flag = qDiv.querySelector('.lis-flag');
       if (flag) flag.classList.toggle('active', flagged.has(q));
       const ans = answers[q];
@@ -213,6 +492,9 @@
 
     const el = document.querySelector(`.part-view.active .lis-question[data-q="${q}"]`);
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+    const input = document.querySelector(`.part-view.active .lis-input[data-q="${q}"]`);
+    if (input && document.activeElement !== input) input.focus();
   }
 
   // --------------------------------------------------------
@@ -315,7 +597,7 @@
       v.classList.toggle('active', v.dataset.view == p);
     });
     document.getElementById('instr-title').textContent = PARTS[p].title;
-    document.getElementById('instr-text').innerHTML = PARTS[p].instr;
+    document.getElementById('instr-text').innerHTML = instrFor(p);
     buildFooter();
     setCurrent(PARTS[p].range[0]);
   }
@@ -355,8 +637,26 @@
     return accepted.map(normalize).includes(ans);
   }
 
+  function keyValue(part, q) {
+    const k = KEY[String(part)];
+    if (!k) return undefined;
+    const v = k[q];
+    if (v === null || v === undefined) return undefined;
+    if (Array.isArray(v) && !v.length) return undefined;
+    return v;
+  }
+
+  function missingKeyCount() {
+    let n = 0;
+    for (let p = 1; p <= 4; p++) {
+      const [lo, hi] = PARTS[p].range;
+      for (let q = lo; q <= hi; q++) if (keyValue(p, q) === undefined) n++;
+    }
+    return n;
+  }
+
   function isCorrect(part, q) {
-    if (!KEY[part] || KEY[part][q] === undefined) return false;
+    if (keyValue(part, q) === undefined) return false;
     if (PARTS[part].type === 'sentence-completion') return isTextCorrect(part, q);
     return answers[q] === KEY[part][q];
   }
@@ -395,6 +695,17 @@
   function renderScoreCards() {
     const cards = document.getElementById('finalScoreCards');
     cards.innerHTML = '';
+
+    const missing = missingKeyCount();
+    if (missing) {
+      const warn = document.createElement('div');
+      warn.className = 'error-box';
+      warn.textContent = missing === 30
+        ? 'No answer key has been filled in for this test yet, so nothing can be marked. Fill in lis_key.json.'
+        : `${missing} of the 30 answers are missing from lis_key.json and are counted as wrong.`;
+      cards.appendChild(warn);
+    }
+
     const parts = [1, 2, 3, 4];
     const total = parts.reduce((acc, p) => acc + scorePart(p), 0);
     const max = parts.reduce((acc, p) => acc + MAX_SCORES[p], 0);
@@ -420,12 +731,22 @@
     if (part === 1) {
       const extracts = CONTENT.parts['1'].extracts;
       for (const ex of extracts) {
-        if (ex.questions[q]) return ex.questions[q].options[idx];
+        if (ex.questions[q]) return plainText(ex.questions[q].options[idx]);
       }
     }
     const data = CONTENT.parts[String(part)];
-    if (data && data.questions && data.questions[q]) return data.questions[q].options[idx];
+    if (data && data.questions && data.questions[q]) return plainText(data.questions[q].options[idx]);
     return '';
+  }
+
+  // Parts 1 and 3 store an option index; Part 4 stores a letter.
+  function answerTextFor(p, q, value) {
+    if (value === undefined || value === null || value === '') return '';
+    if (p === 4) {
+      const task = taskOf(q);
+      return value + ' — ' + plainText((task && task.options[value]) || '');
+    }
+    return LETTERS[value] + ' — ' + optionTextFor(p, q, value);
   }
 
   function renderAnswerReview() {
@@ -465,13 +786,14 @@
 
         if (isText) {
           your.textContent = ans || '—';
-          key.textContent = ((KEY[String(p)][q]) || []).join(' / ');
+          key.textContent = keyValue(p, q) === undefined
+            ? 'key not set'
+            : (KEY[String(p)][q] || []).join(' / ');
         } else {
-          const keyIdx = KEY[String(p)][q];
-          your.textContent = ans !== undefined
-            ? `${LETTERS[ans]} — ${optionTextFor(p, q, ans)}`
-            : '—';
-          key.textContent = `${LETTERS[keyIdx]} — ${optionTextFor(p, q, keyIdx)}`;
+          your.textContent = answerTextFor(p, q, ans) || '—';
+          key.textContent = keyValue(p, q) === undefined
+            ? 'key not set'
+            : answerTextFor(p, q, KEY[String(p)][q]);
         }
 
         if (ans === undefined || ans === null || ans === '') your.classList.add('empty');
@@ -524,9 +846,12 @@
     }
 
     renderPart1();
-    document.getElementById('p2Container').innerHTML = stubMarkup(2);
-    document.getElementById('p3Container').innerHTML = stubMarkup(3);
-    document.getElementById('p4Container').innerHTML = stubMarkup(4);
+    renderPart2();
+    renderPart3();
+    renderPart4();
+
+    document.getElementById('instr-title').textContent = PARTS[1].title;
+    document.getElementById('instr-text').innerHTML = instrFor(1);
 
     buildFooter();
     setCurrent(1);
