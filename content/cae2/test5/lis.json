@@ -1,76 +1,194 @@
 {
-  "title": "Cambridge English Advanced 1 — Test 1",
+  "title": "Cambridge English Advanced 2 — Test 5",
   "paper": "Listening",
   "parts": {
     "1": {
+      "instr": "You will hear three different extracts. For each question, choose the correct answer. There are two questions for each extract.",
       "extracts": [
         {
-          "intro": "PLACEHOLDER — You hear two colleagues discussing a training course.",
+          "intro": "You hear a trainee teacher called Susanna talking to her tutor.",
           "questions": {
             "1": {
-              "stem": "PLACEHOLDER — What does the woman say about the course materials?",
+              "stem": "What point does the tutor make about a teacher's attitude?",
               "options": [
-                "They were harder to follow than she had expected.",
-                "They repeated content she already knew well.",
-                "They were poorly matched to the length of the course."
+                "A good teacher can put any subject across effectively.",
+                "Students will pick up on a teacher's commitment.",
+                "There's little point in a teacher trying to fake passion for a subject."
               ]
             },
             "2": {
-              "stem": "PLACEHOLDER — The two speakers agree that the tutor",
+              "stem": "What is Susanna doing?",
               "options": [
-                "gave too little time to individual questions.",
-                "explained the practical tasks unusually clearly.",
-                "relied too heavily on his own experience."
+                "complaining about her students' lack of enthusiasm",
+                "proposing ways of making her subject more appealing",
+                "asking for ideas about exercises her students could do"
               ]
             }
           }
         },
         {
-          "intro": "PLACEHOLDER — You hear a musician talking about a recent tour.",
+          "intro": "You hear a student called Sam telling his friend Ella about a concert he's been to.",
           "questions": {
             "3": {
-              "stem": "PLACEHOLDER — How did she feel about the opening night?",
+              "stem": "Sam is trying to",
               "options": [
-                "Relieved that a technical problem went unnoticed.",
-                "Surprised by the reaction of the audience.",
-                "Frustrated by the size of the venue."
+                "suggest how the visual impact could have been improved.",
+                "challenge Ella's preconceptions about the music.",
+                "persuade Ella to go to a similar one in the future."
               ]
             },
             "4": {
-              "stem": "PLACEHOLDER — What does she say she would do differently next time?",
+              "stem": "In Sam's opinion, what makes the performer stand out?",
               "options": [
-                "Allow longer gaps between performances.",
-                "Involve the band in planning the set list.",
-                "Spend less time rehearsing in advance."
+                "the influence her academic background has on her music",
+                "the instinctive way she responds to her audience",
+                "the high level of stage presence she displays"
               ]
             }
           }
         },
         {
-          "intro": "PLACEHOLDER — You hear part of a radio programme about urban wildlife.",
+          "intro": "You hear a woman telling her friend about new policies adopted by her company.",
           "questions": {
             "5": {
-              "stem": "PLACEHOLDER — The speaker suggests that public attitudes to city foxes",
+              "stem": "Staff have been planting trees in order to",
               "options": [
-                "have shifted more slowly than researchers predicted.",
-                "vary widely between neighbouring districts.",
-                "are shaped mainly by inaccurate media coverage."
+                "promote a desirable image.",
+                "encourage a spirit of mutual co-operation.",
+                "compensate for environmental damage."
               ]
             },
             "6": {
-              "stem": "PLACEHOLDER — What does the speaker recommend that residents do?",
+              "stem": "The company was surprised that its remote working initiative resulted in",
               "options": [
-                "Report sightings to a national database.",
-                "Change how they store household waste.",
-                "Avoid feeding animals during the winter."
+                "more appreciative customers.",
+                "a better standard of new recruits.",
+                "a more motivated workforce."
               ]
             }
           }
         }
       ]
     },
-    "2": {},
-    "3": {},
-    "4": {}
+    "2": {
+      "instr": "You will hear a scientist called Jim Weller giving a talk about some robots he has created and how they function like insects called termites. For each question, write the correct answer in the gap. Write a word or short phrase.",
+      "title": "Robots Like Termites",
+      "lines": [
+        "Jim says termites differ from bees in that a [[7]] is not responsible for organising their building work.",
+        "Jim uses the word [[8]] to refer to the group of robots he's created to function as independent units.",
+        "Jim observed termites depositing partially consumed [[9]] in shared habitats, which activated a response from other termites.",
+        "Jim states that the robots receive [[10]] to help them correct any errors they make.",
+        "Jim got a single robot to finish the construction of a [[11]] when publicly demonstrating how simple structure building is performed.",
+        "Jim predicts that his robots will soon be able to move [[12]] into position to help people cope with the threat of floods.",
+        "Jim compares both termites and his robots to brain cells, in that they all create a superior form of [[13]].",
+        "A group of Turkish researchers has observed Jim's work in the hope of coming up with a [[14]] they can learn from."
+      ]
+    },
+    "3": {
+      "instr": "You will hear an interview in which a historian called Mark Connor and a writer called Judith Monroe are talking about the history of the underground railway in London. For each question, choose the correct answer.",
+      "questions": {
+        "15": {
+          "stem": "Mark says that the problems which led to the creation of the railway",
+          "options": [
+            "resulted from poor urban planning.",
+            "were similar to those we have today.",
+            "typified the thinking of their age.",
+            "only had one possible solution."
+          ]
+        },
+        "16": {
+          "stem": "Judith believes that the engineering methods used to make the first tunnel",
+          "options": [
+            "worked surprisingly quickly.",
+            "were too basic to be efficient.",
+            "caused a minimum amount of disruption.",
+            "resulted in the loss of too many homes."
+          ]
+        },
+        "17": {
+          "stem": "How does Mark feel about the public reaction when the first underground line opened?",
+          "options": [
+            "disappointed by their reluctance to go underground",
+            "struck by their willingness to tolerate lengthy journeys",
+            "amused by their unfounded fears",
+            "impressed by their general enthusiasm"
+          ]
+        },
+        "18": {
+          "stem": "Judith and Mark both say that, during the early years of its construction, the railway",
+          "options": [
+            "created many jobs for people.",
+            "had a big influence on urban development.",
+            "inspired imitators all over the world.",
+            "made national heroes of its developers."
+          ]
+        },
+        "19": {
+          "stem": "Judith compares certain underground stations to a classic film in that",
+          "options": [
+            "they are designed in the style of a particular era.",
+            "they give a feeling of being in a cinema.",
+            "they are a product of the same creative vision.",
+            "they give a similar sense of size and excitement."
+          ]
+        },
+        "20": {
+          "stem": "What does Mark think about the railway map?",
+          "options": [
+            "It has come to represent the city.",
+            "It can confuse people unfamiliar with its format.",
+            "It encourages people to use the underground.",
+            "It is well designed for something so inexpensive."
+          ]
+        }
+      }
+    },
+    "4": {
+      "instr": "You will hear five short extracts in which people are talking about visits they have made to museums. For Task 1, choose from the list each speaker's reason for visiting the museum. For Task 2, choose from the list what impressed each speaker most about the museum. For each question, choose the correct answer. Complete <b>both</b> tasks.",
+      "tasks": [
+        {
+          "label": "Task 1",
+          "instr": "choose from the list each speaker's reason for visiting the museum.",
+          "options": {
+            "A": "to record certain images",
+            "B": "to view a particular exhibit",
+            "C": "to listen to a lecture",
+            "D": "to follow up on a recommendation",
+            "E": "to check some data",
+            "F": "to do some research",
+            "G": "to see recent renovations",
+            "H": "to seek expert opinion"
+          },
+          "questions": {
+            "21": "Speaker 1",
+            "22": "Speaker 2",
+            "23": "Speaker 3",
+            "24": "Speaker 4",
+            "25": "Speaker 5"
+          }
+        },
+        {
+          "label": "Task 2",
+          "instr": "choose from the list what impressed each speaker most about the museum.",
+          "options": {
+            "A": "the helpfulness of the staff",
+            "B": "the relevance to local life",
+            "C": "the effective audio-guide",
+            "D": "the international appeal",
+            "E": "the diversity of the items on show",
+            "F": "the comprehensive information supplied",
+            "G": "the opportunities for interaction",
+            "H": "the authentic reconstructions"
+          },
+          "questions": {
+            "26": "Speaker 1",
+            "27": "Speaker 2",
+            "28": "Speaker 3",
+            "29": "Speaker 4",
+            "30": "Speaker 5"
+          }
+        }
+      ]
+    }
   }
 }
