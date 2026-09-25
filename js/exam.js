@@ -312,6 +312,26 @@
   // --------------------------------------------------------
   // PART 5 — split view with text and MC questions
   // --------------------------------------------------------
+  // Renders the small [[bold]]...[[/bold]] markup used in content JSON.
+  // This keeps the source data safe while allowing selected phrases to be bold.
+  function appendMarkedText(parent, text) {
+    const re = /\[\[bold\]\](.*?)\[\[\/bold\]\]/g;
+    let last = 0;
+    let match;
+    while ((match = re.exec(text)) !== null) {
+      if (match.index > last) {
+        parent.appendChild(document.createTextNode(text.slice(last, match.index)));
+      }
+      const strong = document.createElement('strong');
+      strong.textContent = match[1];
+      parent.appendChild(strong);
+      last = re.lastIndex;
+    }
+    if (last < text.length) {
+      parent.appendChild(document.createTextNode(text.slice(last)));
+    }
+  }
+
   function renderPart5() {
     const left = document.getElementById('p5Left');
     const right = document.getElementById('p5Right');
@@ -325,7 +345,7 @@
     left.appendChild(h);
     data.paragraphs.forEach(text => {
       const p = document.createElement('p');
-      p.textContent = text;
+      appendMarkedText(p, text);
       left.appendChild(p);
     });
 
@@ -431,7 +451,7 @@
     num.textContent = q;
     head.appendChild(num);
     const stemSpan = document.createElement('span');
-    stemSpan.textContent = stem;
+    appendMarkedText(stemSpan, stem);
     stemSpan.style.fontWeight = 'normal';
     head.appendChild(stemSpan);
     qDiv.appendChild(head);
