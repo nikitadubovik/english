@@ -4,7 +4,7 @@
   "parts": {
     "1": {
       "title": "Solar Power for Indian Villages",
-      "text": "Gulab Devi looks like a typical rural woman from Rajasthan in north-west India. She can neither read nor write, but is [[1]] a successful pioneer in the Barefoot Solar Engineering Project, a scheme [[2]] to bring solar power to hundreds of villages across India. The availability of solar power [[3]] women from the arduous task of searching for wood for fuel and also reduces their [[4]] to unhealthy wood smoke.\n\nGulab is her family’s sole breadwinner. Her job as a solar engineer [[5]] making electronic circuits and chargers for solar lighting panels, and she and her family are able to live comfortably on her salary.\n\nMost of the engineers in the scheme are women, and are trained at the Barefoot College [[6]] up by social worker Bunker Roy. His [[7]] is to address problems by building on skills that people already have, and then place the solutions to their problems in their own hands.\n\nEarly [[8]] are that the project is having a powerful impact on the lives of women like Gulab.",
+      "text": "Gulab Devi looks like a typical rural woman from Rajasthan in north-west India. She can neither read nor write, but is [[1]] a successful pioneer in the Barefoot Solar Engineering Project, a scheme [[2]] to bring solar power to hundreds of villages across India. The availability of solar power [[3]] women from the arduous task of searching for wood for fuel and also reduces their [[4]] to unhealthy wood smoke.\n\nGulab is her family’s sole breadwinner. Her job as a solar engineer [[5]] making electronic circuits and chargers for solar lighting panels, and she and her family are able to live comfortably on her salary.\n\nMost of the engineers in the scheme are women, and are trained at the Barefoot College [[6]] by social worker Bunker Roy. His [[7]] is to address problems by building on skills that people already have, and then place the solutions to their problems in their own hands.\n\nEarly [[8]] are that the project is having a powerful impact on the lives of women like Gulab.",
       "options": {
         "1": [
           "furthermore",
@@ -92,12 +92,12 @@
           "first": "The driver said that we were delayed because an earlier train had broken down.",
           "keyword": "CAUSED",
           "before": "According to the driver, our",
-          "after": "."
+          "after": "breakdown of an earlier train."
         },
         "28": {
           "first": "It was Sarah’s ideas that enabled us to put on a successful fashion show.",
           "keyword": "FOR",
-          "before": "If it hadn’t been",
+          "before": "If",
           "after": "ideas, we wouldn’t have been able to put on a successful fashion show."
         },
         "29": {
@@ -267,12 +267,12 @@
         }
       ],
       "paragraphs": {
-        "A": "It’s an attractive proposition. A report in 2008 found that the energy lost as heat each year by US industry equalled the annual energy use of five million citizens. Power generation is a major culprit; the heat lost from that sector alone dwarfs the total energy use of Japan. The situation in other industrialised countries is similar.",
-        "B": "Yet even this is just a drop in the ocean compared with the heat lost from our homes, offices, road vehicles and trains. However, waste heat from these myriad sources is much harder to harness than the waste heat from single, concentrated sources like power plants. What’s more, it’s barely warm enough to merit its name. Reclaiming that would be an altogether more difficult proposition.",
-        "C": "A more successful way of using the heat is to move the heat directly to where it is needed. A number of power plants now do exactly that. They capture some or all of their waste heat and send it — as steam or hot water — through a network of pipes to nearby cities.",
-        "D": "The system takes advantage of the fact that in temperate regions — regardless of surface temperature — a few metres underground, the soil always remains lukewarm and stable. These pumps can tap into that consistent temperature to heat a house in the winter.",
-        "E": "While this is not what you might consider hot, it nonetheless causes the liquid to evaporate into a gas. When this gas circulates back into the building, it is fed through a compressor, which vastly intensifies the heat. That heat can then be used by a heat exchanger to warm up hot water or air ducts.",
-        "F": "But that’s not all it can do. Reverse the process and it can cool a home in summer. If the ground is cold enough, it simply absorbs the heat from inside the building instead of from the ground.",
+        "A": "But that’s not all it can do. Reverse the process and it can cool a home in summer. If the ground is cold enough, it simply absorbs the heat from inside the building instead of from the ground.",
+        "B": "It’s an attractive proposition. A report in 2008 found that the energy lost as heat each year by US industry equalled the annual energy use of five million citizens. Power generation is a major culprit; the heat lost from that sector alone dwarfs the total energy use of Japan. The situation in other industrialised countries is similar.",
+        "C": "Yet even this is just a drop in the ocean compared with the heat lost from our homes, offices, road vehicles and trains. However, waste heat from these myriad sources is much harder to harness than the waste heat from single, concentrated sources like power plants. What’s more, it’s barely warm enough to merit its name. Reclaiming that would be an altogether more difficult proposition.",
+        "D": "A more successful way of using the heat is to move the heat directly to where it is needed. A number of power plants now do exactly that. They capture some or all of their waste heat and send it — as steam or hot water — through a network of pipes to nearby cities.",
+        "E": "The system takes advantage of the fact that in temperate regions — regardless of surface temperature — a few metres underground, the soil always remains lukewarm and stable. These pumps can tap into that consistent temperature to heat a house in the winter.",
+        "F": "While this is not what you might consider hot, it nonetheless causes the liquid to evaporate into a gas. When this gas circulates back into the building, it is fed through a compressor, which vastly intensifies the heat. That heat can then be used by a heat exchanger to warm up hot water or air ducts.",
         "G": "Rather than stewing in that excess heat, what if we could make it work for us? Throughout our energy system — from electricity generation in power plants to powering a car — more than fifty percent of the energy we use leaks into the surroundings."
       }
     },
