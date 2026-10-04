@@ -1,0 +1,194 @@
+{
+  "title": "Cambridge English Advanced 2 — Test 6",
+  "paper": "Listening",
+  "parts": {
+    "1": {
+      "instr": "You will hear three different extracts. For questions 1–6, choose the answer (A, B or C) which fits best according to what you hear. There are two questions for each extract.",
+      "extracts": [
+        {
+          "intro": "You hear a sportsman and a businesswoman discussing the issue of being competitive.",
+          "questions": {
+            "1": {
+              "stem": "How does the man feel about the book he’s read on competitiveness?",
+              "options": [
+                "surprised that it contradicts a well-established theory",
+                "confused by the wide range of evidence it quotes",
+                "unsure about certain aspects of its argument"
+              ]
+            },
+            "2": {
+              "stem": "The woman feels that in the business world, prioritising competitiveness leads to",
+              "options": [
+                "a demotivating effect on the workforce.",
+                "a constant drive towards greater productivity.",
+                "an obsession with short-term goals."
+              ]
+            }
+          }
+        },
+        {
+          "intro": "You hear two friends discussing some research into the impact of colour on memory.",
+          "questions": {
+            "3": {
+              "stem": "They both say that",
+              "options": [
+                "restaurants use clever tactics to attract new customers.",
+                "the research methods used seem valid.",
+                "the same colours can affect people in different ways."
+              ]
+            },
+            "4": {
+              "stem": "The woman feels that the teenager’s findings",
+              "options": [
+                "could prove significant in the long-term.",
+                "need the backing of the scientific establishment.",
+                "confirm initial evidence about the way memory is viewed."
+              ]
+            }
+          }
+        },
+        {
+          "intro": "You hear two people discussing a television programme about music and the effect it has on the brain.",
+          "questions": {
+            "5": {
+              "stem": "How does the woman feel about the programme?",
+              "options": [
+                "surprised by its conclusion",
+                "confused by the approach it took",
+                "disappointed by the lack of explanation"
+              ]
+            },
+            "6": {
+              "stem": "What do they agree about music?",
+              "options": [
+                "It has unexpected benefits.",
+                "Its effects on intelligence are obvious.",
+                "It’s important to study its psychological impact."
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "2": {
+      "instr": "You will hear a radio report by the journalist Susie Stubbs, who has been to the tropical island of Réunion to find out about the flavouring called vanilla. For questions 7–14, complete the sentences with a word or short phrase.",
+      "title": "Vanilla",
+      "lines": [
+        "Susie says that, despite its cost, vanilla is the world’s most [[7]] spice.",
+        "The vanilla plant is originally from Mexico, where it depends on a local [[8]] for its existence.",
+        "Susie says the term [[9]] is used to talk about vanilla plants on the island.",
+        "Recently the vanilla harvest has been affected by [[10]] and this impacts on the price.",
+        "These days the vanilla plants are covered by [[11]] for protection.",
+        "Sometimes there are [[12]] in the vanilla seed pods to show which farm they come from.",
+        "The vanilla pods are sun-dried and then [[13]] briefly before being packed in boxes.",
+        "The boxes used to store the pods are wrapped in [[14]] to keep the heat in."
+      ]
+    },
+    "3": {
+      "instr": "You will hear a radio interview in which two young journalists – called Angus Brown and Yolanda Zouche – are talking about their work. For questions 15–20, choose the answer (A, B, C or D) which fits best according to what you hear.",
+      "questions": {
+        "15": {
+          "stem": "In Yolanda’s opinion, what is the most challenging aspect of her job?",
+          "options": [
+            "finding suitable images to accompany articles",
+            "trying to locate interviewees",
+            "expressing herself coherently within a tight word limit",
+            "working to demanding time constraints"
+          ]
+        },
+        "16": {
+          "stem": "What is it about their work that Angus and Yolanda both enjoy?",
+          "options": [
+            "the variety of the projects they get involved in",
+            "the challenge of reporting news effectively",
+            "the opportunity to meet interesting people",
+            "the appeal of searching out information"
+          ]
+        },
+        "17": {
+          "stem": "In Angus’s opinion, the advantage of online newspapers over print versions is that they",
+          "options": [
+            "are able to cover a greater range of topics.",
+            "can keep up with events as they develop.",
+            "allow interaction by readers.",
+            "reach a far wider public."
+          ]
+        },
+        "18": {
+          "stem": "What made getting a job in journalism so hard for Angus?",
+          "options": [
+            "the extent of competition for posts",
+            "a low level of encouragement from others",
+            "a lack of previous professional experience",
+            "the difficulty of establishing useful contacts"
+          ]
+        },
+        "19": {
+          "stem": "Yolanda believes that the essential requirement for a journalist entering the profession is",
+          "options": [
+            "an ability to write persuasively.",
+            "a clear and logical mind.",
+            "a resourceful and confident character.",
+            "a mastery of interviewing techniques."
+          ]
+        },
+        "20": {
+          "stem": "Angus’s recommendation for aspiring journalists is to",
+          "options": [
+            "cultivate an interest in a specific field.",
+            "seize every opportunity to express themselves in writing.",
+            "concentrate on developing a distinct style.",
+            "become a keen observer of life around them."
+          ]
+        }
+      }
+    },
+    "4": {
+      "instr": "You will hear five short extracts in which people are talking about strategies they’ve adopted for handling work-related problems. For questions 21–25, choose from the list (A–H) why each speaker decided to adopt their particular strategy. For questions 26–30, choose from the list (A–H) how each speaker felt after implementing the strategy. While you listen, you must complete both tasks.",
+      "tasks": [
+        {
+          "label": "Task One",
+          "instr": "For questions 21–25, choose from the list (A–H) why each speaker decided to adopt their particular strategy.",
+          "options": {
+            "A": "to strengthen a relationship",
+            "B": "to reassure an employer",
+            "C": "to help deal with extensive responsibilities",
+            "D": "to meet the demands of colleagues",
+            "E": "to cope with unpredictability",
+            "F": "to avoid unfair criticism",
+            "G": "to fulfil public expectations",
+            "H": "to get some personal space"
+          },
+          "questions": {
+            "21": "Speaker 1",
+            "22": "Speaker 2",
+            "23": "Speaker 3",
+            "24": "Speaker 4",
+            "25": "Speaker 5"
+          }
+        },
+        {
+          "label": "Task Two",
+          "instr": "For questions 26–30, choose from the list (A–H) how each speaker felt after implementing the strategy.",
+          "options": {
+            "A": "angry at the incompetence of colleagues",
+            "B": "delighted by an unexpected benefit",
+            "C": "upset by an unsympathetic response",
+            "D": "amused by a coincidence",
+            "E": "optimistic at the prospect of future success",
+            "F": "disappointed because of a misunderstanding",
+            "G": "puzzled by people’s reactions",
+            "H": "envious of the ability of others"
+          },
+          "questions": {
+            "26": "Speaker 1",
+            "27": "Speaker 2",
+            "28": "Speaker 3",
+            "29": "Speaker 4",
+            "30": "Speaker 5"
+          }
+        }
+      ]
+    }
+  }
+}
