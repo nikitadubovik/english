@@ -1,12 +1,84 @@
+/* Shared tokens, header and menu pages. Every colour used by the site is defined here. */
+
 :root {
-  --bg: #f4f5f7;
+  --bg: #f7fafa;
+  --surface: #ffffff;
+  --soft: #f1f4f5;
   --border: #d8dce2;
+  --line: #b8bec8;
+  --dash: #e3e6eb;
   --text: #1a1a1a;
+  --text-2: #333333;
   --muted: #6b7280;
+  --faint: #888888;
   --teal: #0f7a7a;
   --teal-dark: #0b5c5c;
-  --blue: #4a9eff;
+  --blue: #3d8fd1;
   --orange: #ff8c1a;
+  --hover: #e9eeee;
+  --selected: #c7def5;
+  --on-selected: #000000;
+  --drop: #eaf4ff;
+  --gap-border: #9099a5;
+  --dark-1: #232323;
+  --dark-2: #3d3d3d;
+  --on-dark: #ffffff;
+  --opt-hover: #2a6c96;
+  --divider: rgba(0, 0, 0, 0.5);
+  --divider-bar: rgba(0, 0, 0, 0.38);
+  --scroll-thumb: rgba(0, 0, 0, 0.4);
+  --scroll-thumb-hover: rgba(0, 0, 0, 0.55);
+  --nav-prev: #666666;
+  --ok: #0a7a3e;
+  --bad: #b81b1b;
+  --warn: #b37400;
+  --err-bg: #fff3f3;
+  --err-border: #f5c2c2;
+  --err-text: #8a1f1f;
+  --shadow: rgba(0, 0, 0, 0.3);
+  --card-shadow: rgba(15, 122, 122, 0.12);
+  color-scheme: light;
+}
+
+/* js/ui.js always sets data-theme on <html>, from the saved choice or the system setting. */
+:root[data-theme="dark"] {
+  --bg: #14181a;
+  --surface: #1e2326;
+  --soft: #262c30;
+  --border: #363d42;
+  --line: #4a5258;
+  --dash: #343b40;
+  --text: #e9edee;
+  --text-2: #cfd5d8;
+  --muted: #9aa4aa;
+  --faint: #8a9499;
+  --teal: #1fa3a3;
+  --teal-dark: #178585;
+  --blue: #5aa6e0;
+  --orange: #ff9d3d;
+  --hover: #2a3034;
+  --selected: #234a63;
+  --on-selected: #ffffff;
+  --drop: #1d3547;
+  --gap-border: #6b757c;
+  --dark-1: #0b0d0e;
+  --dark-2: #343a3e;
+  --on-dark: #ffffff;
+  --opt-hover: #2f7bab;
+  --divider: rgba(255, 255, 255, 0.45);
+  --divider-bar: rgba(255, 255, 255, 0.32);
+  --scroll-thumb: rgba(255, 255, 255, 0.32);
+  --scroll-thumb-hover: rgba(255, 255, 255, 0.48);
+  --nav-prev: #5d6367;
+  --ok: #5fc27e;
+  --bad: #f08a80;
+  --warn: #e0a84a;
+  --err-bg: #3a2222;
+  --err-border: #6b3a3a;
+  --err-text: #f3b4b4;
+  --shadow: rgba(0, 0, 0, 0.6);
+  --card-shadow: rgba(0, 0, 0, 0.4);
+  color-scheme: dark;
 }
 
 * { box-sizing: border-box; }
@@ -23,42 +95,80 @@ html, body {
 
 a { color: inherit; text-decoration: none; }
 
+/* Rectangular scrollbars, as in the exam player */
+::-webkit-scrollbar { width: 14px; height: 14px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--scroll-thumb); border-radius: 0; }
+::-webkit-scrollbar-thumb:hover { background: var(--scroll-thumb-hover); }
+::-webkit-scrollbar-corner { background: transparent; }
+@supports not selector(::-webkit-scrollbar) {
+  * { scrollbar-color: var(--scroll-thumb) transparent; }
+}
+
 /* Shared page header */
 .header {
-  background: #fff;
+  background: var(--surface);
   border-bottom: 1px solid var(--border);
-  padding: 14px 32px;
+  padding: 10px 32px;
+  min-height: 62px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 24px;
 }
-.brand { display: flex; align-items: center; gap: 16px; }
-.brand-logo {
-  font-family: 'Times New Roman', serif;
-  font-weight: bold;
-  font-size: 22px;
-  letter-spacing: 1px;
-  color: #000;
-}
-.brand-logo small {
+.brand { display: flex; align-items: center; gap: 10px; color: var(--text); }
+.brand svg { width: 36px; height: 36px; color: var(--teal); flex-shrink: 0; }
+.brand-name {
   display: block;
-  font-size: 11px;
-  font-weight: normal;
-  letter-spacing: 2px;
-  color: #333;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 1.15;
+}
+.brand-sub {
+  display: block;
+  font-size: 12px;
+  line-height: 1.3;
+  color: var(--muted);
 }
 .candidate-id {
   font-size: 13px;
-  color: #333;
-  margin-left: 40px;
+  font-weight: bold;
+  color: var(--text-2);
+  margin-left: 16px;
 }
+.timer {
+  margin-left: auto;
+  font-size: 20px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  font-variant-numeric: tabular-nums;
+}
+.timer.low { color: var(--bad); }
 .header-icons {
   display: flex;
-  gap: 22px;
-  color: #444;
-  font-size: 18px;
+  align-items: center;
+  gap: 16px;
+  margin-left: auto;
+  color: var(--text-2);
 }
-.header-icons span { cursor: pointer; }
+.header-icons svg { width: 24px; height: 24px; display: block; }
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px; height: 36px;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--surface);
+  color: var(--text-2);
+  cursor: pointer;
+}
+.theme-toggle:hover { background: var(--hover); }
+.theme-toggle:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+.theme-toggle svg { width: 20px; height: 20px; }
+.theme-toggle .i-sun { display: none; }
+:root[data-theme="dark"] .theme-toggle .i-sun { display: block; }
+:root[data-theme="dark"] .theme-toggle .i-moon { display: none; }
 
 /* Menu / selection pages */
 .menu-container {
@@ -69,7 +179,7 @@ a { color: inherit; text-decoration: none; }
 .menu-container h1 {
   font-size: 30px;
   margin: 0 0 8px;
-  color: #222;
+  color: var(--text);
 }
 .menu-container .subtitle {
   color: var(--muted);
@@ -86,7 +196,7 @@ a { color: inherit; text-decoration: none; }
 }
 .breadcrumb a { color: var(--teal); }
 .breadcrumb a:hover { text-decoration: underline; }
-.breadcrumb .sep { color: #bbb; }
+.breadcrumb .sep { color: var(--line); }
 
 .menu-grid {
   display: grid;
@@ -94,7 +204,7 @@ a { color: inherit; text-decoration: none; }
   gap: 18px;
 }
 .menu-card {
-  background: #fff;
+  background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 8px;
   padding: 24px 26px;
@@ -111,7 +221,7 @@ a { color: inherit; text-decoration: none; }
 .menu-card:hover {
   border-color: var(--teal);
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(15, 122, 122, 0.12);
+  box-shadow: 0 6px 16px var(--card-shadow);
 }
 .menu-card .card-label {
   font-size: 12px;
@@ -123,7 +233,7 @@ a { color: inherit; text-decoration: none; }
 .menu-card .card-title {
   font-size: 18px;
   font-weight: bold;
-  color: #222;
+  color: var(--text);
 }
 .menu-card .card-meta {
   font-size: 13px;
@@ -140,24 +250,25 @@ a { color: inherit; text-decoration: none; }
 }
 
 .error-box {
-  background: #fff3f3;
-  border: 1px solid #f5c2c2;
-  color: #8a1f1f;
+  background: var(--err-bg);
+  border: 1px solid var(--err-border);
+  color: var(--err-text);
   padding: 20px 24px;
   border-radius: 6px;
   margin: 24px 0;
 }
 .coming-soon {
-  background: #fff;
-  border: 1px dashed #b8bec8;
+  background: var(--surface);
+  border: 1px dashed var(--line);
   border-radius: 8px;
   padding: 48px 32px;
   text-align: center;
   color: var(--muted);
-  margin: 24px 0;
+  margin: 24px 32px;
 }
 .coming-soon h2 {
-  color: #444;
+  color: var(--text-2);
   margin: 0 0 8px;
   font-size: 22px;
 }
+.coming-soon a { color: var(--teal); }

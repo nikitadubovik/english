@@ -75,6 +75,7 @@
       }
     },
     "5": {
+      "instr": "Read the article below about the psychologist Jean Piaget. For each question, choose the correct answer.",
       "title": "Jean Piaget",
       "paragraphs": [
         "Jean Piaget, the pioneering Swiss philosopher and psychologist, became famous for his theories on child development. A child prodigy, he became interested in the scientific study of nature at an early age. He developed a special fascination for biology, having some of his work published before graduating from high school. When, aged 10, his observations led to questions that could be answered only by access to the university library, Piaget wrote and published some notes on the sighting of an albino sparrow in the hope that this would persuade the librarian to stop treating him like a child. It worked. Piaget was launched on a path that led to his doctorate in zoology and a lifelong conviction that the way to understand anything is to know how it evolves.",
@@ -142,6 +143,7 @@
       }
     },
     "6": {
+      "instr": "Read the four contributions below to a debate about advertising. For each question, choose the correct contributor. Each contributor may be chosen more than once.",
       "title": "The role of advertising in society today",
       "intro": "Which contributor",
       "label": "Contributor",
@@ -149,7 +151,7 @@
         { "letter": "A", "text": "Almost all public spaces nowadays have advertisements in sight, and all forms of media, from newspapers to the cinema to the Internet, are filled with adverts. This all-pervasive presence reflects the value of advertising to us. Without it, businesses of all types and sizes would struggle to inform potential customers about the products or services they provide, and consumers would be unable to make informed assessments when looking for products to buy and services to use. Without advertising, the promotion of products and practices that contribute to our physical and psychological well-being – medicines to treat minor ailments, insurance schemes to protect us, clothes and cosmetics to make us look and feel better – would be infinitely more problematic than it is. And without advertisements and the aspirations represented in them, the world would be a far duller place." },
         { "letter": "B", "text": "Advertising is everywhere, and it's often so subtle that we don't realise it's there at some level of our consciousness. The ultimate aim, of course, is to get us to buy things, regardless of whether it makes sense for us to do so. In fact, adverts mostly impair rational decision-making. A recent study in the UK found that 90% of customers failed to understand the truth about what was on offer in adverts for broadband internet services. This irrational dimension is evident in the success advertisers enjoy not only in getting us to buy products that, directly or indirectly, cause physical damage to us, but also in raising our expectations about what our lives should be like – expectations that inevitably imply something is wrong with us if we don't meet them. Having said this, advertising is fundamental to the workings of modern economies, so the chances are that it will only continue to grow in significance." },
         { "letter": "C", "text": "There is a tendency to underestimate people's intelligence and to invest advertising with powers it doesn't have. Certain dubious techniques have been banned – like the use of subliminal images shown so quickly that viewers don't consciously realise they've seen them – but other forms of advertising are simply manifestations of creativity. Audiences understand this and are able to enjoy adverts without falling prey to some complex deception. They know that an advert tells them a product exists and suggests they might benefit from having it. They don't expect it to provide objective details, confirming why they should or should not go ahead with a purchase. They are also smart enough to know that what they see in advertisements is fiction and, therefore, not something they should feel bad about if they don't have it. The bottom line, however, is that advertising helps the wheels of the economy to turn, a crucial role which societies are likely to depend on for the foreseeable future." },
-        { "letter": "D", "text": "Advertising is a worldwide, multi-billion dollar industry and inevitably tends to favour large businesses, which can afford advertising costs, rather than smaller companies. That can't. In that way, it makes life ever more difficult for that sector of the economy – small and medium-sized businesses – which is the key to a nation's prosperity. Advertising also encourages certain patterns of consumption – fast food, cars, labour-saving devices and so on – which characterise a sedentary lifestyle and undermine physical well-being, while also generating a sense of inadequacy and unhappiness among people who feel inferior if they don't possess a product or conform to certain ideas of what is 'beautiful' or 'cool'. And far from providing consumers with clear, reliable information enabling them to make sensible decisions about what to spend their money on, advertisers use underhand methods to confuse and manipulate feelings and thoughts." }
+        { "letter": "D", "text": "Advertising is a worldwide, multi-billion dollar industry and inevitably tends to favour large businesses, which can afford advertising costs, rather than smaller companies, which can't. In that way, it makes life ever more difficult for that sector of the economy – small and medium-sized businesses – which is the key to a nation's prosperity. Advertising also encourages certain patterns of consumption – fast food, cars, labour-saving devices and so on – which characterise a sedentary lifestyle and undermine physical well-being, while also generating a sense of inadequacy and unhappiness among people who feel inferior if they don't possess a product or conform to certain ideas of what is 'beautiful' or 'cool'. And far from providing consumers with clear, reliable information enabling them to make sensible decisions about what to spend their money on, advertisers use underhand methods to confuse and manipulate feelings and thoughts." }
       ],
       "questions": {
         "37": "expresses a different view from the others about the impact that advertising has on a country's economy?",
@@ -159,6 +161,7 @@
       }
     },
     "7": {
+      "instr": "Read the magazine article below about whale sharks. Six paragraphs have been removed from the text below. For each question, choose the correct answer. There is one extra paragraph which you do not need to use.",
       "title": "Secrets of the deep",
       "intro": "Until recently, little was known about the movements of the whale shark. But a pioneering project is shedding new light on this ocean giant. Project scientist Jonathan Green reports.",
       "blocks": [
@@ -187,6 +190,7 @@
       }
     },
     "8": {
+      "instr": "Read the article below about working from home. For each question, choose the correct section. Each section may be chosen more than once.",
       "title": "The Rise of Home Working",
       "intro": "In which section are the following mentioned?",
       "label": "Section",

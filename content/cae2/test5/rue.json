@@ -75,6 +75,7 @@
       }
     },
     "5": {
+      "instr": "Read the article below about using social networking sites to find a job. For each question, choose the correct answer.",
       "title": "Using Social Networking Sites to Find a Job",
       "paragraphs": [
         "In many countries, a growing number of people in their twenties are turning to social media in the hope of finding work. Services like the social networking site Twitter and the professional networking site LinkedIn offer the chance for more direct contact with would-be employers than has previously been the case. But with greater access comes a greater chance to make mistakes.",
@@ -142,6 +143,7 @@
       }
     },
     "6": {
+      "instr": "Read the views of four experts below on climate change. For each question, choose the correct expert. Each expert may be chosen more than once.",
       "title": "Can We Reduce Climate Change?",
       "intro": "Which expert",
       "label": "Expert",
@@ -159,6 +161,7 @@
       }
     },
     "7": {
+      "instr": "Read the magazine article below about rock climbing in Oman. Six paragraphs have been removed from the text below. For each question, choose the correct answer. There is one extra paragraph which you do not need to use.",
       "title": "Impossible Rock",
       "intro": "On the northern coast of Oman, climbers test themselves against knife-edge cliffs",
       "blocks": [
@@ -187,6 +190,7 @@
       }
     },
     "8": {
+      "instr": "Read the article below about risk-taking. For each question, choose the correct section. Each section may be chosen more than once.",
       "title": "The Mystery of Risk",
       "intro": "Which section includes",
       "label": "Section",

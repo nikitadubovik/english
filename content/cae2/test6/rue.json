@@ -115,6 +115,7 @@
       }
     },
     "5": {
+      "instr": "Read the article below about the future of newspapers. For each question, choose the correct answer.",
       "title": "The Future of Newspapers",
       "paragraphs": [
         "Anybody who says they can reliably forecast the future of newspapers is either a liar or a fool. Look at the raw figures, and newspapers seem doomed. Since 2000, the circulation of most UK national dailies has fallen by between a third and a half. The authoritative Pew Research Centre in the USA reports that newspapers are now the main source of news for only 26 percent of US citizens as against 45 percent in 2001. There is no shortage of prophets who confidently predict that the last printed newspaper will be safely buried within 15 years at most.",
@@ -181,6 +182,7 @@
       }
     },
     "6": {
+      "instr": "Read the comments of four museum directors below. For each question, choose the correct museum director. Each museum director may be chosen more than once.",
       "title": "Museums",
       "intro": "Which museum director",
       "label": "Museum director",
@@ -210,6 +212,7 @@
       }
     },
     "7": {
+      "instr": "Read the magazine article below about making use of waste heat. Six paragraphs have been removed from the text below. For each question, choose the correct answer. There is one extra paragraph which you do not need to use.",
       "title": "City of Heat",
       "intro": "Escaped heat costs us money and affects our climate. Chelsea Wald reports on a grand plan to capture it and put it to good use.",
       "blocks": [
@@ -277,6 +280,7 @@
       }
     },
     "8": {
+      "instr": "Read the article below about boredom. For each question, choose the correct section. Each section may be chosen more than once.",
       "title": "Time Out",
       "intro": "Which section",
       "label": "Section",

@@ -1,6 +1,6 @@
 // ============================================================
 // Cambridge C1 Advanced — Reading & Use of English exam player
-// Loads content and key JSON from /content/<book>/<test>/reading(.key).json
+// Loads content and key JSON from content/<book>/test<N>/rue.json and rue_key.json
 // ============================================================
 
 (function () {
@@ -19,16 +19,22 @@
     4: { type: 'transform', count: 6, range: [25, 30], title: 'Questions 25–30',
          instr: 'For each question, complete the second sentence so that it means the same as the first. <b>Do not change the word given.</b> You must use between <b>three</b> and <b>six</b> words, including the word given.' },
     5: { type: 'reading-mc', count: 6, range: [31, 36], title: 'Questions 31–36',
-         instr: 'Read the introduction below to a book. For each question, choose the correct answer.' },
+         instr: 'Read the text below. For each question, choose the correct answer.' },
     6: { type: 'multi-match-4', count: 4, range: [37, 40], title: 'Questions 37–40',
-         instr: 'You are going to read four contributions to an online debate. For each question, choose the correct answer. Each answer may be chosen more than once.' },
+         instr: 'Read the four texts below. For each question, choose the correct answer. Each answer may be chosen more than once.' },
     7: { type: 'gapped-text', count: 6, range: [41, 46], title: 'Questions 41–46',
-         instr: 'Read an extract from a magazine article. Six paragraphs have been removed from the text below. For each question, choose the correct answer. There is one extra paragraph which you do not need to use.' },
+         instr: 'Six paragraphs have been removed from the text below. For each question, choose the correct answer. There is one extra paragraph which you do not need to use.' },
     8: { type: 'multi-match', count: 10, range: [47, 56], title: 'Questions 47–56',
-         instr: 'You are going to read an article. For each question, choose the correct answer. Each answer may be chosen more than once.' },
+         instr: 'Read the text below. For each question, choose the correct answer. Each answer may be chosen more than once.' },
   };
 
   const MAX_SCORES = { 1: 8, 2: 8, 3: 8, 4: 12, 5: 12, 6: 8, 7: 12, 8: 10 };
+  const EXAM_SECONDS = 90 * 60;   // 1 hour 30 minutes
+  const LETTERS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+
+  const FLAG_SVG =
+    '<svg viewBox="0 0 18 22" xmlns="http://www.w3.org/2000/svg">' +
+    '<path d="M2 1 L16 1 L16 21 L9 16 L2 21 Z"/></svg>';
 
   // --------------------------------------------------------
   // Runtime state
@@ -65,16 +71,33 @@
   }
 
   function showComingSoon(book, test) {
-    document.querySelector('.header').style.display = '';
     document.querySelector('.instructions').style.display = 'none';
-    document.querySelector('.content-wrap').innerHTML =
-      `<div class="coming-soon">
-         <h2>Coming soon</h2>
-         <p>The Reading paper for <b>${book || 'this book'}</b>, Test ${test || '?'} is not available yet.</p>
-         <p><a href="index.html" style="color: var(--teal);">← Back to library</a></p>
-       </div>`;
+    const box = document.createElement('div');
+    box.className = 'coming-soon';
+    const h = document.createElement('h2');
+    h.textContent = 'Coming soon';
+    const p = document.createElement('p');
+    p.textContent = `The Reading paper for ${book || 'this book'}, Test ${test || '?'} is not available yet.`;
+    const back = document.createElement('p');
+    const a = document.createElement('a');
+    a.href = 'index.html';
+    a.textContent = '← Back to library';
+    back.appendChild(a);
+    box.append(h, p, back);
+    const wrap = document.querySelector('.content-wrap');
+    wrap.innerHTML = '';
+    wrap.appendChild(box);
     document.querySelector('.nav-arrows').style.display = 'none';
     document.querySelector('.footer').style.display = 'none';
+    const timer = document.getElementById('timer');
+    if (timer) timer.style.display = 'none';
+  }
+
+  // The rubric can be set per test in rue.json (parts.N.instr), since
+  // Parts 5–8 name the kind of text; otherwise the generic one is used.
+  function instrFor(p) {
+    const data = CONTENT && CONTENT.parts && CONTENT.parts[String(p)];
+    return (data && data.instr) || PARTS[p].instr;
   }
 
   // --------------------------------------------------------
@@ -164,6 +187,12 @@
         });
 
         gap.appendChild(popup);
+        gap.classList.add('open');
+
+        // The strip starts at the left edge of the gap; if that would push it
+        // off the page, slide it back just far enough to stay visible.
+        const overflow = popup.getBoundingClientRect().right - (document.documentElement.clientWidth - 12);
+        if (overflow > 0) popup.style.left = (-3 - overflow) + 'px';
       });
     });
   }
@@ -310,7 +339,7 @@
   }
 
   // --------------------------------------------------------
-  // PART 5 — split view with text and MC questions
+  // PARTS 5–8 — shared pieces
   // --------------------------------------------------------
   // Renders the small [[bold]]...[[/bold]] markup used in content JSON.
   // This keeps the source data safe while allowing selected phrases to be bold.
@@ -332,6 +361,26 @@
     }
   }
 
+  // Bookmark shown next to the current question only (CSS hides the rest).
+  function makeFlagButton(q, afterToggle) {
+    const flag = document.createElement('button');
+    flag.type = 'button';
+    flag.className = 'p5-flag';
+    flag.title = 'Flag for review';
+    flag.innerHTML = FLAG_SVG;
+    flag.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (flagged.has(q)) flagged.delete(q); else flagged.add(q);
+      flag.classList.toggle('active', flagged.has(q));
+      if (afterToggle) afterToggle();
+      refreshFooter();
+    });
+    return flag;
+  }
+
+  // --------------------------------------------------------
+  // PART 5 — split view with text and MC questions
+  // --------------------------------------------------------
   function renderPart5() {
     const left = document.getElementById('p5Left');
     const right = document.getElementById('p5Right');
@@ -358,87 +407,7 @@
 
   function updatePart5State() { updateSplitState('p5Right'); }
 
-  // --------------------------------------------------------
-  // PART 6 — split view with lettered contributions
-  // --------------------------------------------------------
-  function renderPart6() {
-    const left = document.getElementById('p6Left');
-    const right = document.getElementById('p6Right');
-    if (!left) return;
-    if (left.dataset.rendered) { updatePart6State(); return; }
-    left.dataset.rendered = '1';
-
-    const data = CONTENT.parts['6'];
-    const h = document.createElement('h1');
-    h.textContent = data.title;
-    left.appendChild(h);
-    data.sections.forEach(sec => {
-      const letter = document.createElement('div');
-      letter.className = 'p6-letter';
-      letter.textContent = sec.letter;
-      left.appendChild(letter);
-      const p = document.createElement('p');
-      p.textContent = sec.text;
-      left.appendChild(p);
-    });
-
-    const intro = document.createElement('div');
-    intro.className = 'p6-intro';
-    intro.textContent = data.intro;
-    right.appendChild(intro);
-
-    const labelPrefix = data.label;
-    Object.keys(data.questions).forEach(qStr => {
-      const q = parseInt(qStr, 10);
-      const stem = data.questions[qStr];
-      const opts = ['A','B','C','D'].map(l => `${labelPrefix} ${l}`);
-      right.appendChild(buildSplitQuestion(q, stem, opts));
-    });
-  }
-
-  function updatePart6State() { updateSplitState('p6Right'); }
-
-  // --------------------------------------------------------
-  // PART 8 — split view, multi-match 10 questions
-  // --------------------------------------------------------
-  function renderPart8() {
-    const left = document.getElementById('p8Left');
-    const right = document.getElementById('p8Right');
-    if (!left) return;
-    if (left.dataset.rendered) { updatePart8State(); return; }
-    left.dataset.rendered = '1';
-
-    const data = CONTENT.parts['8'];
-    const h = document.createElement('h1');
-    h.textContent = data.title;
-    left.appendChild(h);
-    data.sections.forEach(sec => {
-      const letter = document.createElement('div');
-      letter.className = 'p6-letter';
-      letter.textContent = sec.letter;
-      left.appendChild(letter);
-      const p = document.createElement('p');
-      p.textContent = sec.text;
-      left.appendChild(p);
-    });
-
-    const intro = document.createElement('div');
-    intro.className = 'p6-intro';
-    intro.textContent = data.intro;
-    right.appendChild(intro);
-
-    const labelPrefix = data.label;
-    Object.keys(data.questions).forEach(qStr => {
-      const q = parseInt(qStr, 10);
-      const stem = data.questions[qStr];
-      const opts = ['A','B','C','D'].map(l => `${labelPrefix} ${l}`);
-      right.appendChild(buildSplitQuestion(q, stem, opts));
-    });
-  }
-
-  function updatePart8State() { updateSplitState('p8Right'); }
-
-  // Generic builder for a split-view question (Parts 5, 6, 8)
+  // Multiple-choice question with real radio buttons (Part 5)
   function buildSplitQuestion(q, stem, options) {
     const qDiv = document.createElement('div');
     qDiv.className = 'p5-question';
@@ -459,47 +428,113 @@
     const optsDiv = document.createElement('div');
     optsDiv.className = 'p5-options';
     options.forEach((label, idx) => {
-      const opt = document.createElement('div');
+      const opt = document.createElement('label');
       opt.className = 'p5-option';
       opt.dataset.idx = idx;
-      const radio = document.createElement('span');
-      radio.className = 'p5-radio';
+      const radio = document.createElement('input');
+      radio.type = 'radio';
+      radio.name = 'q' + q;
+      radio.value = idx;
+      // Store the answer first and repaint afterwards, so our state and the
+      // browser's own checked state can never disagree.
+      radio.addEventListener('click', (e) => {
+        e.stopPropagation();
+        answers[q] = idx;
+        setCurrent(q, false);
+      });
       opt.appendChild(radio);
       const txt = document.createElement('span');
       txt.textContent = label;
       opt.appendChild(txt);
-      opt.addEventListener('click', (e) => {
-        e.stopPropagation();
-        answers[q] = idx;
-        optsDiv.querySelectorAll('.p5-option').forEach(o => o.classList.remove('selected'));
-        opt.classList.add('selected');
-        setCurrent(q);
-        refreshFooter();
-      });
+      opt.addEventListener('click', (e) => e.stopPropagation());
       optsDiv.appendChild(opt);
     });
     qDiv.appendChild(optsDiv);
 
-    const flag = document.createElement('button');
-    flag.className = 'p5-flag';
-    flag.innerHTML = '<svg viewBox="0 0 18 22" xmlns="http://www.w3.org/2000/svg"><path d="M2 1 L16 1 L16 21 L9 16 L2 21 Z"/></svg>';
-    flag.addEventListener('click', (e) => {
-      e.stopPropagation();
-      if (flagged.has(q)) {
-        flagged.delete(q);
-        flag.classList.remove('active');
-      } else {
-        flagged.add(q);
-        flag.classList.add('active');
-      }
-      refreshFooter();
-    });
-    qDiv.appendChild(flag);
-
-    qDiv.addEventListener('click', () => setCurrent(q));
+    qDiv.appendChild(makeFlagButton(q));
+    qDiv.addEventListener('click', () => setCurrent(q, false));
     return qDiv;
   }
 
+  // --------------------------------------------------------
+  // PARTS 6 and 8 — lettered sections, one dropdown per question
+  // --------------------------------------------------------
+  function renderMatch(part, leftId, rightId) {
+    const left = document.getElementById(leftId);
+    const right = document.getElementById(rightId);
+    if (!left) return;
+    if (left.dataset.rendered) { updateSplitState(rightId); return; }
+    left.dataset.rendered = '1';
+
+    const data = CONTENT.parts[String(part)];
+    const h = document.createElement('h1');
+    h.textContent = data.title;
+    left.appendChild(h);
+    data.sections.forEach(sec => {
+      const letter = document.createElement('div');
+      letter.className = 'p6-letter';
+      letter.textContent = sec.letter;
+      left.appendChild(letter);
+      const p = document.createElement('p');
+      p.textContent = sec.text;
+      left.appendChild(p);
+    });
+
+    if (data.intro) {
+      const intro = document.createElement('div');
+      intro.className = 'p6-intro';
+      intro.textContent = /[.?!…:]$/.test(data.intro) ? data.intro : data.intro + '...';
+      right.appendChild(intro);
+    }
+
+    // The choices are the letters of the sections actually in this test,
+    // so a text with five or six sections works as well as one with four.
+    const letters = data.sections.map(sec => sec.letter);
+    Object.keys(data.questions).forEach(qStr => {
+      right.appendChild(buildMatchQuestion(parseInt(qStr, 10), data.questions[qStr], letters));
+    });
+  }
+
+  function renderPart6() { renderMatch(6, 'p6Left', 'p6Right'); }
+  function renderPart8() { renderMatch(8, 'p8Left', 'p8Right'); }
+  function updatePart6State() { updateSplitState('p6Right'); }
+  function updatePart8State() { updateSplitState('p8Right'); }
+
+  function buildMatchQuestion(q, stem, letters) {
+    const row = document.createElement('div');
+    row.className = 'p5-question mm-row';
+    row.dataset.q = q;
+
+    const stemEl = document.createElement('div');
+    stemEl.className = 'mm-stem';
+    appendMarkedText(stemEl, stem);
+    row.appendChild(stemEl);
+
+    const sel = document.createElement('select');
+    sel.className = 'mm-select';
+    sel.setAttribute('aria-label', 'Question ' + q);
+    // The closed box shows the question number until a letter is chosen;
+    // that entry is hidden from the open list, where "Select alternative" clears the answer.
+    const placeholder = new Option(String(q), '');
+    placeholder.hidden = true;
+    sel.appendChild(placeholder);
+    sel.appendChild(new Option('Select alternative', ''));
+    letters.forEach((l, idx) => sel.appendChild(new Option(l, String(idx))));
+    sel.addEventListener('click', (e) => e.stopPropagation());
+    sel.addEventListener('focus', () => { if (currentQ !== q) setCurrent(q, false); });
+    sel.addEventListener('change', () => {
+      if (sel.value === '') delete answers[q];
+      else answers[q] = parseInt(sel.value, 10);
+      setCurrent(q, false);
+    });
+    row.appendChild(sel);
+
+    row.appendChild(makeFlagButton(q));
+    row.addEventListener('click', () => setCurrent(q, false));
+    return row;
+  }
+
+  // Repaints the questions of a split view (Parts 5, 6, 8) from the stored state
   function updateSplitState(rightId) {
     const right = document.getElementById(rightId);
     if (!right) return;
@@ -510,13 +545,22 @@
       if (flag) flag.classList.toggle('active', flagged.has(q));
       const ans = answers[q];
       qDiv.querySelectorAll('.p5-option').forEach(opt => {
-        opt.classList.toggle('selected', parseInt(opt.dataset.idx, 10) === ans);
+        const on = parseInt(opt.dataset.idx, 10) === ans;
+        opt.classList.toggle('selected', on);
+        const radio = opt.querySelector('input');
+        if (radio && radio.checked !== on) radio.checked = on;
       });
+      const sel = qDiv.querySelector('.mm-select');
+      if (sel) {
+        if (ans === undefined) sel.selectedIndex = 0;
+        else sel.value = String(ans);
+      }
     });
   }
 
   // --------------------------------------------------------
-  // PART 7 — gapped text with drag-and-drop paragraphs
+  // PART 7 — gapped text with drag-and-drop paragraphs.
+  // Two independent columns, each with its own scrollbar.
   // --------------------------------------------------------
   function renderPart7() {
     const left = document.getElementById('p7Left');
@@ -526,56 +570,63 @@
     left.dataset.rendered = '1';
 
     const data = CONTENT.parts['7'];
+    const [lo, hi] = PARTS[7].range;
     const h = document.createElement('h1');
     h.textContent = data.title;
     left.appendChild(h);
 
-    const intro = document.createElement('p');
-    intro.style.fontStyle = 'italic';
-    intro.style.textAlign = 'center';
-    intro.textContent = data.intro;
-    left.appendChild(intro);
+    if (data.intro) {
+      const intro = document.createElement('p');
+      intro.className = 'p7-intro';
+      intro.textContent = data.intro;
+      left.appendChild(intro);
+    }
 
     data.blocks.forEach(block => {
       if (block.type === 'p') {
         const p = document.createElement('p');
         p.textContent = block.text;
         left.appendChild(p);
-      } else {
-        const gap = document.createElement('div');
-        gap.className = 'p7-gap empty';
-        gap.dataset.q = block.q;
-        gap.textContent = block.q;
-
-        gap.addEventListener('click', (e) => {
-          e.stopPropagation();
-          setCurrent(block.q);
-        });
-        gap.addEventListener('dragover', (e) => {
-          e.preventDefault();
-          gap.classList.add('drag-over');
-        });
-        gap.addEventListener('dragleave', () => {
-          gap.classList.remove('drag-over');
-        });
-        gap.addEventListener('drop', (e) => {
-          e.preventDefault();
-          gap.classList.remove('drag-over');
-          const letter = e.dataTransfer.getData('text/plain');
-          if (!letter) return;
-          for (const k in answers) {
-            if (answers[k] === letter && parseInt(k, 10) !== block.q) {
-              delete answers[k];
-            }
-          }
-          answers[block.q] = letter;
-          setCurrent(block.q);
-          updatePart7State();
-          refreshFooter();
-        });
-
-        left.appendChild(gap);
+        return;
       }
+
+      const row = document.createElement('div');
+      row.className = 'p7-gap-row';
+      row.dataset.q = block.q;
+
+      const gap = document.createElement('div');
+      gap.className = 'p7-gap empty';
+      gap.dataset.q = block.q;
+      gap.textContent = block.q;
+
+      gap.addEventListener('click', (e) => {
+        e.stopPropagation();
+        setCurrent(block.q, false);
+      });
+      gap.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        gap.classList.add('drag-over');
+      });
+      gap.addEventListener('dragleave', () => {
+        gap.classList.remove('drag-over');
+      });
+      gap.addEventListener('drop', (e) => {
+        e.preventDefault();
+        gap.classList.remove('drag-over');
+        const letter = e.dataTransfer.getData('text/plain');
+        if (!data.paragraphs[letter]) return;
+        // A paragraph can sit in one gap only. Look at Part 7 answers alone:
+        // a typed "A" in Part 2 must not be mistaken for paragraph A.
+        for (let k = lo; k <= hi; k++) {
+          if (k !== block.q && answers[k] === letter) delete answers[k];
+        }
+        answers[block.q] = letter;
+        setCurrent(block.q, false);
+      });
+
+      row.appendChild(gap);
+      row.appendChild(makeFlagButton(block.q, updatePart7State));
+      left.appendChild(row);
     });
 
     Object.keys(data.paragraphs).forEach(letter => {
@@ -597,12 +648,17 @@
     const left = document.getElementById('p7Left');
     const right = document.getElementById('p7Right');
     if (!left) return;
+    const [lo, hi] = PARTS[7].range;
 
-    left.querySelectorAll('.p7-gap').forEach(gap => {
-      const q = parseInt(gap.dataset.q, 10);
+    left.querySelectorAll('.p7-gap-row').forEach(row => {
+      const q = parseInt(row.dataset.q, 10);
+      const gap = row.querySelector('.p7-gap');
+      const flag = row.querySelector('.p5-flag');
       const letter = answers[q];
+      row.classList.toggle('current', q === currentQ);
       gap.classList.toggle('current', q === currentQ);
       gap.classList.toggle('flagged', flagged.has(q));
+      if (flag) flag.classList.toggle('active', flagged.has(q));
 
       if (letter) {
         gap.classList.remove('empty');
@@ -610,13 +666,14 @@
         gap.innerHTML = '';
         gap.textContent = CONTENT.parts['7'].paragraphs[letter];
         const btn = document.createElement('button');
+        btn.type = 'button';
         btn.className = 'p7-gap-remove';
         btn.textContent = '✕';
+        btn.title = 'Remove';
         btn.addEventListener('click', (e) => {
           e.stopPropagation();
           delete answers[q];
-          updatePart7State();
-          refreshFooter();
+          setCurrent(q, false);
         });
         gap.appendChild(btn);
       } else {
@@ -627,7 +684,8 @@
       }
     });
 
-    const used = new Set(Object.values(answers).filter(v => typeof v === 'string' && /^[A-G]$/.test(v)));
+    const used = new Set();
+    for (let q = lo; q <= hi; q++) if (answers[q]) used.add(answers[q]);
     right.querySelectorAll('.p7-para').forEach(para => {
       para.classList.toggle('used', used.has(para.dataset.letter));
     });
@@ -638,6 +696,7 @@
   // --------------------------------------------------------
   function closeAllPopups() {
     document.querySelectorAll('.popup').forEach(p => p.remove());
+    document.querySelectorAll('.gap.open').forEach(g => g.classList.remove('open'));
   }
 
   function positionFlagBtn(gapEl) {
@@ -666,41 +725,25 @@
     });
   }
 
-  function setCurrent(q) {
+  // scroll = true when the move comes from the footer or the arrow buttons.
+  // A click inside the question itself passes false, so the page never jumps
+  // under the mouse.
+  function setCurrent(q, scroll = true) {
     currentQ = q;
+    const reveal = (el) => {
+      if (el && scroll) el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    };
+
     if (currentPart === 4) { renderPart4Question(q); refreshFooter(); return; }
-    if (currentPart === 5) {
-      updatePart5State(); refreshFooter();
-      const el = document.querySelector(`#p5Right .p5-question[data-q="${q}"]`);
-      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      return;
-    }
-    if (currentPart === 6) {
-      updatePart6State(); refreshFooter();
-      const el = document.querySelector(`#p6Right .p5-question[data-q="${q}"]`);
-      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    if (currentPart === 5 || currentPart === 6 || currentPart === 8) {
+      const rightId = 'p' + currentPart + 'Right';
+      updateSplitState(rightId); refreshFooter();
+      reveal(document.querySelector(`#${rightId} .p5-question[data-q="${q}"]`));
       return;
     }
     if (currentPart === 7) {
       updatePart7State(); refreshFooter();
-      const gap = document.querySelector(`#p7Left .p7-gap[data-q="${q}"]`);
-      if (gap) {
-        gap.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        const wrapRect = contentWrap.getBoundingClientRect();
-        const gapRect = gap.getBoundingClientRect();
-        flagBtn.style.top = (gapRect.top - wrapRect.top + gapRect.height / 2 - 12) + 'px';
-        const lcRect = document.getElementById('p7Left').getBoundingClientRect();
-        flagBtn.style.left = (lcRect.right - wrapRect.left + 6) + 'px';
-        flagBtn.style.right = 'auto';
-        flagBtn.classList.add('visible');
-        flagBtn.classList.toggle('active', flagged.has(q));
-      }
-      return;
-    }
-    if (currentPart === 8) {
-      updatePart8State(); refreshFooter();
-      const el = document.querySelector(`#p8Right .p5-question[data-q="${q}"]`);
-      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      reveal(document.querySelector(`#p7Left .p7-gap-row[data-q="${q}"]`));
       return;
     }
     document.querySelectorAll('.gap').forEach(g => {
@@ -710,10 +753,19 @@
     refreshFooter();
     const gap = document.querySelector(`.gap[data-q="${q}"]`);
     if (gap) {
-      gap.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      reveal(gap);
       positionFlagBtn(gap);
-      if (gap.tagName === 'INPUT') gap.focus();
+      if (gap.tagName === 'INPUT') gap.focus({ preventScroll: true });
     }
+  }
+
+  // The split views (Parts 5–8) fill the space between the rubric and the footer.
+  function sizeSplit() {
+    const layout = document.querySelector('.part-view.active .p5-layout');
+    if (!layout) return;
+    const top = layout.getBoundingClientRect().top + window.scrollY;
+    const room = window.innerHeight - top - footer.offsetHeight;
+    layout.style.height = Math.max(320, room) + 'px';
   }
 
   // --------------------------------------------------------
@@ -815,10 +867,12 @@
       v.classList.toggle('active', v.dataset.view == p);
     });
     document.getElementById('instr-title').textContent = PARTS[p].title;
-    document.getElementById('instr-text').innerHTML = PARTS[p].instr;
+    document.getElementById('instr-text').innerHTML = instrFor(p);
     flagBtn.classList.remove('visible', 'active');
+    closeAllPopups();
     updateKeywords();
     buildFooter();
+    if (p >= 5) { window.scrollTo(0, 0); sizeSplit(); }
     if (p === 4) setCurrent(PARTS[4].range[0]);
     if (p === 5) { renderPart5(); setCurrent(PARTS[5].range[0]); }
     if (p === 6) { renderPart6(); setCurrent(PARTS[6].range[0]); }
@@ -842,13 +896,13 @@
     document.querySelectorAll('.gap').forEach(g => {
       g.classList.toggle('flagged', flagged.has(parseInt(g.dataset.q, 10)));
     });
-    if (currentPart === 7) updatePart7State();
     refreshFooter();
   });
 
   document.addEventListener('click', () => closeAllPopups());
   window.addEventListener('resize', () => {
-    if (currentQ !== null) {
+    sizeSplit();
+    if (currentQ !== null && currentPart <= 4) {
       const gap = document.querySelector(`.gap[data-q="${currentQ}"]`);
       if (gap) positionFlagBtn(gap);
     }
@@ -877,40 +931,42 @@
   document.getElementById('prevBtn').addEventListener('click', (e) => { e.stopPropagation(); goPrev(); });
   document.getElementById('nextBtn').addEventListener('click', (e) => { e.stopPropagation(); goNext(); });
 
-  // Split-view divider drag
-  function setupDivider(dividerId, leftId, rightId) {
+  // Split-view divider drag. The whole border reacts, not only the arrow handle;
+  // pointer events make it work with a mouse, a pen and a finger alike.
+  function setupDivider(dividerId, leftId) {
     const divider = document.getElementById(dividerId);
     if (!divider) return;
+    const left = document.getElementById(leftId);
     let dragging = false;
-    divider.addEventListener('mousedown', (e) => {
+
+    divider.addEventListener('pointerdown', (e) => {
       dragging = true;
-      document.body.style.cursor = 'col-resize';
+      divider.setPointerCapture(e.pointerId);
+      divider.classList.add('dragging');
       document.body.style.userSelect = 'none';
       e.preventDefault();
     });
-    document.addEventListener('mousemove', (e) => {
+    divider.addEventListener('pointermove', (e) => {
       if (!dragging) return;
       const layout = divider.parentElement;
       const rect = layout.getBoundingClientRect();
-      const left = document.getElementById(leftId);
-      const right = document.getElementById(rightId);
-      let x = e.clientX - rect.left;
+      const cs = getComputedStyle(layout);
+      const padL = parseFloat(cs.paddingLeft) || 0;
+      const inner = rect.width - padL - (parseFloat(cs.paddingRight) || 0);
       const min = 200;
-      const max = rect.width - 200 - 12;
-      if (x < min) x = min;
-      if (x > max) x = max;
-      const leftPct = (x / rect.width) * 100;
-      const rightPct = 100 - leftPct - 2;
-      left.style.flex = `0 0 ${leftPct}%`;
-      right.style.flex = `0 0 ${rightPct}%`;
+      const max = inner - min - divider.offsetWidth;
+      const x = Math.max(min, Math.min(max, e.clientX - rect.left - padL - divider.offsetWidth / 2));
+      // The right pane keeps flex: 1 and takes whatever is left.
+      left.style.flex = `0 0 ${(x / inner) * 100}%`;
     });
-    document.addEventListener('mouseup', () => {
-      if (dragging) {
-        dragging = false;
-        document.body.style.cursor = '';
-        document.body.style.userSelect = '';
-      }
-    });
+    const stop = () => {
+      if (!dragging) return;
+      dragging = false;
+      divider.classList.remove('dragging');
+      document.body.style.userSelect = '';
+    };
+    divider.addEventListener('pointerup', stop);
+    divider.addEventListener('pointercancel', stop);
   }
 
   // --------------------------------------------------------
@@ -1041,7 +1097,7 @@
 
   function letterFromIdx(idx) {
     if (idx === undefined || idx === null) return '';
-    return ['A', 'B', 'C', 'D', 'E'][idx] || '';
+    return LETTERS[idx] || '';
   }
 
   function renderAnswerReview() {
@@ -1089,7 +1145,7 @@
           key.textContent = KEY['4'][q];
           marks = p4Scores[q] || 0;
           isCorrect = marks > 0;
-          if (marks === 1) { your.style.color = '#b37400'; your.style.fontWeight = 'bold'; }
+          if (marks === 1) your.classList.add('partial');
         } else if (p === 5) {
           your.textContent = ans !== undefined ? letterFromIdx(ans) : '—';
           key.textContent = letterFromIdx(KEY['5'][q]);
@@ -1116,6 +1172,7 @@
 
         if (ans === undefined || ans === null || ans === '') your.classList.add('empty');
         else if (p !== 4) your.classList.add(isCorrect ? 'correct' : 'incorrect');
+        else if (marks === 2) your.classList.add('correct');
 
         mark.textContent = '+' + marks;
         row.appendChild(your); row.appendChild(key); row.appendChild(mark);
@@ -1141,7 +1198,21 @@
       ? `You have answered ${answered} of ${total} questions. Submit anyway?`
       : 'Submit your answers and see your results?';
     if (!confirm(msg)) return;
+    submitAnswers();
+  }
+
+  function submitAnswers() {
+    if (window.ExamUI) window.ExamUI.stopTimer();
+    closeAllPopups();
+    window.scrollTo(0, 0);
     showP4Review();
+  }
+
+  // The clock ran out: no question asked, the paper is handed in as it is.
+  function onTimeUp() {
+    const note = document.getElementById('timeUpNote');
+    if (note) note.style.display = '';
+    submitAnswers();
   }
 
   // --------------------------------------------------------
@@ -1162,12 +1233,14 @@
     renderPart2();
     renderPart3();
     attachPart1Handlers();
-    setupDivider('p5Divider', 'p5Left', 'p5Right');
-    setupDivider('p6Divider', 'p6Left', 'p6Right');
-    setupDivider('p7Divider', 'p7Left', 'p7Right');
-    setupDivider('p8Divider', 'p8Left', 'p8Right');
+    setupDivider('p5Divider', 'p5Left');
+    setupDivider('p6Divider', 'p6Left');
+    setupDivider('p8Divider', 'p8Left');
 
+    document.getElementById('instr-text').innerHTML = instrFor(1);
     buildFooter();
+
+    if (window.ExamUI) window.ExamUI.startTimer(EXAM_SECONDS, onTimeUp);
   }
 
   init();

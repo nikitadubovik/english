@@ -58,12 +58,21 @@
 
   function showComingSoon(book, test) {
     document.querySelector('.instructions').style.display = 'none';
-    document.querySelector('.content-wrap').innerHTML =
-      `<div class="coming-soon">
-         <h2>Coming soon</h2>
-         <p>The Listening paper for <b>${book || 'this book'}</b>, Test ${test || '?'} is not available yet.</p>
-         <p><a href="index.html" style="color: var(--teal);">← Back to library</a></p>
-       </div>`;
+    const box = document.createElement('div');
+    box.className = 'coming-soon';
+    const h = document.createElement('h2');
+    h.textContent = 'Coming soon';
+    const p = document.createElement('p');
+    p.textContent = `The Listening paper for ${book || 'this book'}, Test ${test || '?'} is not available yet.`;
+    const back = document.createElement('p');
+    const a = document.createElement('a');
+    a.href = 'index.html';
+    a.textContent = '← Back to library';
+    back.appendChild(a);
+    box.append(h, p, back);
+    const wrap = document.querySelector('.content-wrap');
+    wrap.innerHTML = '';
+    wrap.appendChild(box);
     document.querySelector('.nav-arrows').style.display = 'none';
     document.querySelector('.footer').style.display = 'none';
   }
