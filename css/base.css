@@ -7,25 +7,34 @@
   --border: #d8dce2;
   --line: #b8bec8;
   --dash: #e3e6eb;
-  --text: #1a1a1a;
+  --text: #000000;
   --text-2: #333333;
   --muted: #6b7280;
   --faint: #888888;
   --teal: #007e86;
   --teal-dark: #00646b;
-  --blue: #3d8fd1;
+  --blue: #418ec8;
   --orange: #f4663b;
-  --hover: #e9eeee;
-  --selected: #c7def5;
+  --hover: #e4e4e4;
+  --selected: #bbd8f0;
   --on-selected: #000000;
   --drop: #eaf4ff;
-  --gap-border: #9099a5;
-  --dark-1: #232323;
+  --gap-border: #949494;
+  --dark-1: #272727;
   --dark-2: #3d3d3d;
   --on-dark: #ffffff;
   --opt-hover: #2a6c96;
   --divider: rgba(0, 0, 0, 0.5);
-  --divider-bar: rgba(0, 0, 0, 0.38);
+  --divider-hover: rgba(2, 45, 93, 0.7);
+  --divider-strip: rgba(0, 0, 0, 0.1);
+  --resize-bg: #f9f9f9;
+  --resize-bg-hover: #e1e1e1;
+  --resize-fg: #535353;
+  --rubric-border: #d5d5d5;
+  --header-line: #c1c1c1;
+  --choice-border: #919191;
+  --dash-border: #333333;
+  --flag-off: #4d4d4d;
   --scroll-thumb: rgba(0, 0, 0, 0.4);
   --scroll-thumb-hover: rgba(0, 0, 0, 0.55);
   --nav-prev: #666666;
@@ -73,7 +82,16 @@
   --on-dark: #ffffff;
   --opt-hover: #2f7bab;
   --divider: rgba(255, 255, 255, 0.45);
-  --divider-bar: rgba(255, 255, 255, 0.32);
+  --divider-hover: rgba(130, 180, 235, 0.85);
+  --divider-strip: rgba(255, 255, 255, 0.1);
+  --resize-bg: #262b2e;
+  --resize-bg-hover: #343a3e;
+  --resize-fg: #c3cacd;
+  --rubric-border: #363d42;
+  --header-line: #363d42;
+  --choice-border: #6b757c;
+  --dash-border: #aab3b8;
+  --flag-off: #aab3b8;
   --scroll-thumb: rgba(255, 255, 255, 0.32);
   --scroll-thumb-hover: rgba(255, 255, 255, 0.48);
   --nav-prev: #5d6367;
@@ -110,7 +128,7 @@ html, body {
 a { color: inherit; text-decoration: none; }
 
 /* Rectangular scrollbars, as in the exam player */
-::-webkit-scrollbar { width: 14px; height: 14px; }
+::-webkit-scrollbar { width: 17px; height: 17px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--scroll-thumb); border-radius: 0; }
 ::-webkit-scrollbar-thumb:hover { background: var(--scroll-thumb-hover); }

@@ -30,7 +30,8 @@
 
   const MAX_SCORES = { 1: 8, 2: 8, 3: 8, 4: 12, 5: 12, 6: 8, 7: 12, 8: 10 };
   const EXAM_SECONDS = 90 * 60;   // 1 hour 30 minutes
-  const FLAG_GAP = 34;            // px between the text column and the bookmark
+  const FLAG_W = 26;              // bookmark button width, px
+  const FLAG_COL = 96;            // width of the bookmark column to the right of the text
   const LETTERS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
 
   const FLAG_SVG =
@@ -50,6 +51,7 @@
 
   const flagBtn = document.getElementById('flagBtn');
   const contentWrap = document.querySelector('.content-wrap');
+  const stage = document.getElementById('stage');
   const footer = document.getElementById('footer');
 
   // --------------------------------------------------------
@@ -193,7 +195,7 @@
         // The strip starts at the left edge of the gap; if that would push it
         // off the page, slide it back just far enough to stay visible.
         const overflow = popup.getBoundingClientRect().right - (document.documentElement.clientWidth - 12);
-        if (overflow > 0) popup.style.left = (-3 - overflow) + 'px';
+        if (overflow > 0) popup.style.left = (-1 - overflow) + 'px';
       });
     });
   }
@@ -319,6 +321,16 @@
     }
     if (flagged.has(q)) input.classList.add('flagged');
 
+    // The box starts 211px wide and grows with the answer, as in the exam player.
+    const fit = () => {
+      const probe = document.createElement('span');
+      probe.style.cssText = 'position:absolute;visibility:hidden;white-space:pre;font:' + getComputedStyle(input).font;
+      probe.textContent = input.value;
+      document.body.appendChild(probe);
+      input.style.width = Math.max(211, Math.ceil(probe.getBoundingClientRect().width) + 20) + 'px';
+      probe.remove();
+    };
+
     input.addEventListener('click', (e) => e.stopPropagation());
     input.addEventListener('input', () => {
       const val = input.value.trim();
@@ -329,12 +341,14 @@
         delete answers[q];
         input.classList.remove('answered');
       }
+      fit();
       refreshFooter();
     });
     second.appendChild(input);
     second.appendChild(document.createTextNode(' ' + data.after));
     container.appendChild(second);
 
+    fit();
     setTimeout(() => positionFlagBtn(input), 0);
     input.focus();
   }
@@ -422,7 +436,6 @@
     head.appendChild(num);
     const stemSpan = document.createElement('span');
     appendMarkedText(stemSpan, stem);
-    stemSpan.style.fontWeight = 'normal';
     head.appendChild(stemSpan);
     qDiv.appendChild(head);
 
@@ -626,9 +639,11 @@
       });
 
       row.appendChild(gap);
-      row.appendChild(makeFlagButton(block.q, updatePart7State));
       left.appendChild(row);
     });
+
+    // The bookmark follows the current gap while the text is scrolled.
+    left.addEventListener('scroll', positionP7Flag);
 
     Object.keys(data.paragraphs).forEach(letter => {
       const para = document.createElement('div');
@@ -654,12 +669,10 @@
     left.querySelectorAll('.p7-gap-row').forEach(row => {
       const q = parseInt(row.dataset.q, 10);
       const gap = row.querySelector('.p7-gap');
-      const flag = row.querySelector('.p5-flag');
       const letter = answers[q];
       row.classList.toggle('current', q === currentQ);
       gap.classList.toggle('current', q === currentQ);
       gap.classList.toggle('flagged', flagged.has(q));
-      if (flag) flag.classList.toggle('active', flagged.has(q));
 
       if (letter) {
         gap.classList.remove('empty');
@@ -703,21 +716,40 @@
   function positionFlagBtn(gapEl) {
     const wrapRect = contentWrap.getBoundingClientRect();
     const gapRect = gapEl.getBoundingClientRect();
-    const top = gapRect.top - wrapRect.top + (gapRect.height / 2) - 12;
+    const top = gapRect.top - wrapRect.top - 2.6;      // the 25px button starts just above the 22.4px gap
     flagBtn.style.top = top + 'px';
-    // The bookmark sits FLAG_GAP px to the right of the text column, at the
-    // height of the current gap, the way the exam player places it; it no
-    // longer goes to the far edge of the window.
+    // The bookmark is centred in a 96px column that starts where the text
+    // column ends, at the height of the current gap.
     const column = currentPart === 3 ? document.querySelector('.part3-text')
-                 : currentPart === 4 ? document.querySelector('.part4-container')
                  : document.querySelector('.part-view.active');
     if (column) {
       const rect = column.getBoundingClientRect();
-      const textRight = rect.right - (parseFloat(getComputedStyle(column).paddingRight) || 0);
-      flagBtn.style.left = (textRight - wrapRect.left + FLAG_GAP) + 'px';
+      // In Parts 1, 2 and 4 the view's right padding is that column plus a 16px margin.
+      const textRight = rect.right - (currentPart === 3 ? 0 : FLAG_COL + 16);
+      flagBtn.style.left = (textRight - wrapRect.left + (FLAG_COL - FLAG_W) / 2) + 'px';
       flagBtn.style.right = 'auto';
     }
     flagBtn.classList.add('visible');
+    flagBtn.classList.toggle('active', flagged.has(currentQ));
+  }
+
+  // Part 7: the bookmark sits in the column to the right of the paragraphs,
+  // level with the current gap; it hides while that gap is scrolled out of view.
+  function positionP7Flag() {
+    if (currentPart !== 7) return;
+    const gap = document.querySelector('#p7Left .p7-gap.current');
+    const pane = document.getElementById('p7Left');
+    const layout = document.querySelector('.p7-layout');
+    if (!gap || !pane || !layout) { flagBtn.classList.remove('visible'); return; }
+    const wrapRect = contentWrap.getBoundingClientRect();
+    const g = gap.getBoundingClientRect(), p = pane.getBoundingClientRect(), l = layout.getBoundingClientRect();
+    const mid = g.top + Math.min(g.height, 24) / 2;
+    const inView = mid > p.top && mid < p.bottom;
+    flagBtn.style.top = (mid - wrapRect.top - 12.5) + 'px';
+    // layout padding-right = 72px bookmark column (32 + 40) + 32px margin + 17px scrollbar
+    flagBtn.style.left = (l.right - wrapRect.left - 121 + 32 + (40 - FLAG_W) / 2) + 'px';
+    flagBtn.style.right = 'auto';
+    flagBtn.classList.toggle('visible', inView);
     flagBtn.classList.toggle('active', flagged.has(currentQ));
   }
 
@@ -746,6 +778,7 @@
     if (currentPart === 7) {
       updatePart7State(); refreshFooter();
       reveal(document.querySelector(`#p7Left .p7-gap-row[data-q="${q}"]`));
+      positionP7Flag();
       return;
     }
     document.querySelectorAll('.gap').forEach(g => {
@@ -761,14 +794,6 @@
     }
   }
 
-  // The split views (Parts 5–8) fill the space between the rubric and the footer.
-  function sizeSplit() {
-    const layout = document.querySelector('.part-view.active .p5-layout');
-    if (!layout) return;
-    const top = layout.getBoundingClientRect().top + window.scrollY;
-    const room = window.innerHeight - top - footer.offsetHeight;
-    layout.style.height = Math.max(320, room) + 'px';
-  }
 
   // --------------------------------------------------------
   // Footer / part switching
@@ -874,7 +899,9 @@
     closeAllPopups();
     updateKeywords();
     buildFooter();
-    if (p >= 5) { window.scrollTo(0, 0); sizeSplit(); }
+    // Parts 1–4 scroll the stage as a whole; Parts 5–8 keep the rubric still
+    // and scroll their own panes (the layout itself is done in CSS).
+    if (stage) { stage.classList.toggle('split', p >= 5); stage.scrollTop = 0; }
     if (p === 4) setCurrent(PARTS[4].range[0]);
     if (p === 5) { renderPart5(); setCurrent(PARTS[5].range[0]); }
     if (p === 6) { renderPart6(); setCurrent(PARTS[6].range[0]); }
@@ -898,12 +925,13 @@
     document.querySelectorAll('.gap').forEach(g => {
       g.classList.toggle('flagged', flagged.has(parseInt(g.dataset.q, 10)));
     });
+    if (currentPart === 7) updatePart7State();
     refreshFooter();
   });
 
   document.addEventListener('click', () => closeAllPopups());
   window.addEventListener('resize', () => {
-    sizeSplit();
+    positionP7Flag();
     if (currentQ !== null && currentPart <= 4) {
       const gap = document.querySelector(`.gap[data-q="${currentQ}"]`);
       if (gap) positionFlagBtn(gap);
@@ -1007,6 +1035,8 @@
     document.querySelector('.content-wrap').classList.add('hidden-during-results');
     document.querySelector('.nav-arrows').classList.add('hidden-during-results');
     document.querySelector('.footer').classList.add('hidden-during-results');
+    flagBtn.classList.remove('visible');
+    if (stage) { stage.classList.add('results'); stage.scrollTop = 0; }
     document.getElementById('finalResults').classList.remove('active');
     document.getElementById('p4Review').classList.add('active');
 
@@ -1190,6 +1220,8 @@
     document.querySelector('.content-wrap').classList.remove('hidden-during-results');
     document.querySelector('.nav-arrows').classList.remove('hidden-during-results');
     document.querySelector('.footer').classList.remove('hidden-during-results');
+    if (stage) stage.classList.remove('results');
+    if (currentQ !== null) setCurrent(currentQ, false);
   });
 
   function handleFinish() {
@@ -1206,7 +1238,6 @@
   function submitAnswers() {
     if (window.ExamUI) window.ExamUI.stopTimer();
     closeAllPopups();
-    window.scrollTo(0, 0);
     showP4Review();
   }
 

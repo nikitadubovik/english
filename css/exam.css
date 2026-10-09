@@ -1,19 +1,46 @@
-/* Exam-player specific styles. All colours come from the variables in base.css. */
+/* Exam-player styles.
+   Sizes follow measurements of the exam player at its standard text size
+   (16px body text, 24px headings). All colours come from base.css. */
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateX(-50%) translateY(3px); }
-  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+/* ---------------------------------------------------------
+   Page frame (Reading and Use of English)
+   72px header, a stage that fills the rest, the footer.
+   Parts 1–4 scroll the stage as a whole, rubric included;
+   Parts 5–8 keep the rubric still and scroll their own panes.
+   --------------------------------------------------------- */
+body.rue {
+  height: 100vh; height: 100dvh;
+  display: flex; flex-direction: column; overflow: hidden;
+  font-size: 16px; line-height: 1.25;
 }
+.rue .header {
+  flex: none; height: 72px; min-height: 0; padding: 0 16px;
+  border-bottom-color: var(--header-line);
+}
+.rue .stage {
+  flex: 1 1 0; min-height: 0; position: relative;
+  display: flex; flex-direction: column;
+  overflow-y: scroll;
+}
+.rue .stage.split { overflow: hidden; }
+.rue .stage.results { overflow-y: auto; }
+.rue .footer { position: static; flex: none; }
 
+/* Rubric */
 .instructions {
-  background: var(--surface); border: 1px solid var(--border);
+  flex: none;
+  background: var(--surface); border: 1px solid var(--rubric-border);
   border-radius: 4px;
-  margin: 20px 32px 0; padding: 14px 20px;
+  margin: 16px 16px 0; padding: 9.6px;
 }
-.instructions h2 { margin: 0 0 6px; font-size: 15px; }
-.instructions p { margin: 0; font-size: 14px; color: var(--text-2); }
+.instructions h2 { margin: 0 0 8px; font-size: 16px; line-height: normal; }
+.instructions p { margin: 0; font-size: 16px; line-height: 20px; color: var(--text); }
+.stage.split .instructions { margin-bottom: 8px; }
 
 .content-wrap { position: relative; }
+.rue .content-wrap { flex: none; }
+
+/* Defaults, still used as they are by the Listening paper */
 .content { padding: 24px 32px 140px; max-width: 1400px; }
 .content h1 { font-size: 22px; margin: 16px 0 24px; }
 .content p {
@@ -22,52 +49,60 @@
   margin: 0 0 18px;
   text-align: left;
 }
-/* Parts 1–3: gapped text needs more air between the lines */
-.rue .part-view[data-view="1"] p,
-.rue .part-view[data-view="2"] p,
-.rue .part-view[data-view="3"] p { line-height: 2.7; }
-
-/* A 95px column on the right of the text is kept free for the bookmark,
-   which exam.js centres in it at the height of the current gap. */
-.rue .part-view[data-view="1"],
-.rue .part-view[data-view="2"],
-.rue .part-view[data-view="4"] { padding-right: 95px; }
 
 .part-view { display: none; }
 .part-view.active { display: block; }
 
 /* ---------------------------------------------------------
-   Gap boxes (Parts 1–4)
-   Proportions measured from the exam player: the box is 1.4 times
-   the text size high, at least 9em wide, and its content shares
-   the baseline of the sentence around it.
+   Parts 1–4
+   Text starts 16px from the left edge and 25.6px under the rubric.
+   The text column is at most 1154px wide; a 96px column to its
+   right is kept for the bookmark (centred there by exam.js).
    --------------------------------------------------------- */
+.rue .content { padding: 25.6px 16px 128px; max-width: none; }
+.rue .content h1 { font-size: 24px; line-height: normal; margin: 0 0 19.92px; }
+.rue .content p { font-size: 16px; line-height: 32px; margin: 16px 0; }   /* double line spacing */
+
+.rue .part-view[data-view="1"],
+.rue .part-view[data-view="2"],
+.rue .part-view[data-view="4"] {
+  box-sizing: border-box; max-width: 1282px;     /* 16 + 1154 + 96 + 16 */
+  padding-right: 112px;                          /* 96px bookmark column + 16px */
+}
+/* Part 1: triple line spacing, paragraphs almost closed up */
+.rue .part-view[data-view="1"] h1 { line-height: 48px; }
+.rue .part-view[data-view="1"] p { line-height: 48px; margin: 3.2px 0; }
+
+/* Gap boxes: 22.4px high, at least 144px wide, on the baseline of the sentence */
 .gap {
   display: inline-flex; align-items: center; justify-content: center;
-  position: relative;
-  min-width: 9em; height: 1.4em;
-  padding: 0 6px; margin: 0 0.25em;
+  position: relative; box-sizing: border-box;
+  min-width: 144px; height: 22.4px;
+  padding: 1px 6px; margin: 0 4px;
   border: 1px solid var(--gap-border);
   border-radius: 3px;
   background: var(--surface); color: var(--text);
-  font: inherit; font-weight: bold; line-height: 1;
+  font: inherit; font-size: 16px; font-weight: bold; line-height: 1;
   white-space: nowrap;
   vertical-align: baseline;
   cursor: pointer; user-select: none;
 }
 span.gap:hover { background: var(--hover); }
-/* The blue frame is a 1px border plus a 2px ring, so the text never shifts */
-.gap.current { border-color: var(--blue); box-shadow: 0 0 0 2px var(--blue); }
-.gap.flagged { border-color: var(--orange); box-shadow: 0 0 0 1px var(--orange); }
-.gap.flagged.current { border-color: var(--orange); box-shadow: 0 0 0 2px var(--orange); }
-/* While its options are open the gap turns dark, like the option strip above it */
-span.gap.open, span.gap.open:hover { background: var(--dark-1); color: var(--on-dark); }
+/* current gap: 1px border + 1px ring in blue; flagged gap: orange border */
+.gap.current { border-color: var(--blue); box-shadow: 0 0 0 1px var(--blue); }
+.gap.flagged { border-color: var(--orange); }
+.gap.flagged.current { border-color: var(--orange); box-shadow: 0 0 0 1px var(--orange); }
+/* while its options are open the gap is dark with white text */
+span.gap.open, span.gap.open:hover {
+  background: var(--dark-1); color: var(--on-dark);
+  border-color: var(--blue); box-shadow: 0 0 0 1px var(--blue);
+}
 
 /* Text input gaps (Parts 2–4): bold centred number until something is typed,
-   then plain left-aligned text in the size of the surrounding sentence */
+   then plain left-aligned text */
 input.gap {
   display: inline-block;
-  width: 180px;
+  width: 211.9px;
   padding: 0 8px;
   font-weight: normal; line-height: normal;
   text-align: left;
@@ -76,14 +111,14 @@ input.gap {
 }
 input.gap:placeholder-shown { text-align: center; }
 input.gap::placeholder { color: var(--text); font-weight: bold; opacity: 1; }
-input.gap:focus { border-color: var(--blue); box-shadow: 0 0 0 2px var(--blue); }
-input.gap.flagged:focus { border-color: var(--orange); box-shadow: 0 0 0 2px var(--orange); }
+input.gap:focus { border-color: var(--blue); box-shadow: 0 0 0 1px var(--blue); }
+input.gap.flagged:focus { border-color: var(--orange); box-shadow: 0 0 0 1px var(--orange); }
 
-/* Part 1 option strip: starts at the left edge of the gap, sits right on top of it */
+/* Part 1 option strip: same height as the gap, starts at its left edge, sits on top of it */
 .popup {
-  position: absolute; left: -3px; bottom: calc(100% + 3px);
+  position: absolute; left: -1px; bottom: calc(100% + 2px);
   display: none; z-index: 50;
-  border: 3px solid var(--blue);
+  border: 2px solid var(--blue);
   background: var(--dark-2); color: var(--on-dark);
   font-weight: normal; line-height: 1; white-space: nowrap;
   box-shadow: 0 4px 12px var(--shadow);
@@ -92,194 +127,206 @@ input.gap.flagged:focus { border-color: var(--orange); box-shadow: 0 0 0 2px var
 .popup.open { display: flex; align-items: stretch; }
 .popup .close, .popup .opt {
   display: flex; align-items: center; justify-content: center;
-  height: 1.5em; padding: 0 12px;
+  height: 22.4px; padding: 0 6px;
   cursor: pointer;
 }
-.popup .close { padding: 0 10px; background: var(--dark-2); }
+.popup .close { padding: 0 7px; background: var(--dark-2); }
 /* children: ✕, then options alternating very dark / dark */
 .popup .opt:nth-child(even) { background: var(--dark-1); }
 .popup .opt:nth-child(odd) { background: var(--dark-2); }
 .popup .opt.selected { background: var(--teal); }
 .popup .close:hover, .popup .opt:hover { background: var(--opt-hover); }
 
-/* Part 3 layout: narrower text column, keyword list pushed to the right */
-.part3-layout {
-  display: flex; justify-content: space-between; gap: 60px;
-  align-items: flex-start; max-width: 1280px;
+/* Part 3: a 684px text column, its bookmark column, and the keyword list
+   at the right edge of the window (20% of its width), which stays in place
+   while the text scrolls */
+.rue .part-view[data-view="3"] { padding-left: 20px; }
+.part3-layout { display: flex; justify-content: space-between; align-items: flex-start; gap: 96px; }
+.part3-text { flex: 0 1 684px; min-width: 0; }
+.part3-text input.gap { width: 251.8px; }
+.keyword-list {
+  position: sticky; top: 108px;
+  flex: 0 0 auto; width: 20vw; min-width: 190px; max-width: 30vw;
 }
-.part3-text { flex: 0 1 780px; min-width: 0; }
-.part3-text input.gap { width: 230px; }
-.keyword-list { width: 200px; flex-shrink: 0; padding-top: 60px; }
-.kw-title { font-weight: bold; font-size: 16px; margin-bottom: 14px; color: var(--text); }
+.kw-title { font-weight: bold; font-size: 16px; line-height: normal; padding: 0 0 7px 7px; color: var(--text); }
 .keyword {
-  padding: 3px 10px; font-size: 15px; font-weight: normal;
-  color: var(--text-2); cursor: pointer; user-select: none;
-  margin-bottom: 0; border-radius: 2px;
-  transition: background 0.12s;
+  padding: 7px; font-size: 16px; line-height: normal;
+  color: var(--text); cursor: pointer; user-select: none;
 }
 .keyword:hover { background: var(--hover); }
 .keyword.active { background: var(--selected); color: var(--on-selected); }
 
-/* Part 4 */
-.part4-container { max-width: 1100px; }
-.part4-first { font-size: 17px; margin: 0 0 18px; }
+/* Part 4: three lines, each double-spaced, 16px apart; the box grows with the answer */
+.part4-container { max-width: none; }
+.rue .content p.part4-first, .rue .content p.part4-second { margin: 0 0 16px; }
 .part4-keyword {
-  font-weight: bold; font-size: 16px;
-  letter-spacing: 0.5px; margin: 0 0 18px; color: var(--text);
+  font-weight: bold; font-size: 16px; line-height: 32px;
+  margin: 0 0 16px; color: var(--text);
 }
-.part4-second { font-size: 17px; line-height: 2.7; margin: 0; }
-.part4-second input.gap { width: 480px; max-width: 100%; }
+.part4-second input.gap { width: 211px; min-width: 211px; max-width: 100%; }
 
 /* ---------------------------------------------------------
-   Split layout (Parts 5–8)
-   Its height is set from exam.js so it always ends at the footer.
+   Split layout (Parts 5, 6, 8)
+   Left pane 47% of the width with its own scrollbar, a 2px
+   border, then the questions. Both panes always show a 17px
+   scrollbar track.
    --------------------------------------------------------- */
-.part-view[data-view="5"], .part-view[data-view="6"],
-.part-view[data-view="7"], .part-view[data-view="8"] {
-  padding: 0 !important; max-width: none;
-}
-.p5-layout {
-  display: flex; align-items: stretch;
-  height: calc(100vh - 240px); min-height: 320px;
-  padding: 14px 32px 0;
-}
+.rue .stage.split .content-wrap { flex: 1 1 0; min-height: 0; display: flex; padding-bottom: 17px; }
+.rue .stage.split .content-wrap:has(.part-view[data-view="7"].active) { padding-bottom: 6.7px; }
+.rue .part-view[data-view="5"], .rue .part-view[data-view="6"],
+.rue .part-view[data-view="7"], .rue .part-view[data-view="8"] { padding: 0; max-width: none; }
+.rue .stage.split .part-view.active { flex: 1 1 0; min-width: 0; min-height: 0; display: flex; }
+.p5-layout { flex: 1 1 0; min-width: 0; min-height: 0; display: flex; align-items: stretch; }
+
 .p5-left {
-  flex: 1 1 50%; min-width: 200px;
-  overflow-y: auto;
-  padding: 0 20px 60px 0;
+  flex: 0 0 47%; min-width: 200px; box-sizing: border-box;
+  overflow-y: scroll;
+  padding: 32px 16px 48px;
 }
-.p5-left h1 { font-size: 22px; margin: 6px 0 18px; text-align: left; }
-.p5-left p { font-size: 15px; line-height: 1.7; margin: 0 0 14px; text-align: left; }
+.rue .p5-left h1 { font-size: 24px; line-height: normal; margin: 0 0 19.92px; text-align: left; max-width: 1000px; }
+.rue .p5-left p { font-size: 16px; line-height: 20px; margin: 0 0 26.4px; max-width: 1000px; }
+
 .p5-right {
-  flex: 1 1 50%; min-width: 200px;
-  overflow-y: auto;
-  padding: 0 14px 90px 8px;   /* bottom room for the arrow buttons */
+  flex: 1 1 0; min-width: 200px; box-sizing: border-box;
+  overflow-y: scroll;
+  padding: 25.6px 16px 128px 17px;
 }
 
-/* Divider: a thin line that becomes a grey bar under the mouse.
-   It can be dragged anywhere along its length, not only by the handle. */
+/* The border between the panes: a 2px line with an invisible 16px strip to
+   its right and a 36px button on it. Any of the three can be dragged.
+   Under the mouse the strip shows and the button darkens; while dragging
+   the button turns teal. */
 .p5-divider {
-  flex: 0 0 18px; position: relative;
-  display: flex; align-items: center; justify-content: center;
-  cursor: col-resize; touch-action: none;
-}
-.p5-divider::before {
-  content: ""; position: absolute; top: 0; bottom: 0; left: 50%;
-  width: 2px; transform: translateX(-50%);
+  flex: 0 0 2px; position: relative; z-index: 6;
   background: var(--divider);
-  transition: width 0.12s, background 0.12s;
+  cursor: ew-resize; touch-action: none;
 }
-.p5-divider:hover::before, .p5-divider.dragging::before {
-  width: 14px; background: var(--divider-bar);
+.p5-divider::after {
+  content: ""; position: absolute; top: 0; bottom: 0; left: 2px; width: 16px;
 }
 .p5-divider .handle {
-  width: 28px; height: 28px; background: var(--surface);
-  border: 2px solid var(--divider);
+  position: absolute; top: 50%; left: -17px; margin-top: -16px;
+  box-sizing: border-box; width: 36px; height: 36px;
   display: flex; align-items: center; justify-content: center;
-  color: var(--text-2);
-  position: relative; z-index: 5; pointer-events: none;
+  background: var(--resize-bg); border: 2px solid var(--resize-fg);
+  color: var(--resize-fg);
+  cursor: ew-resize;
 }
 .p5-divider .handle svg { width: 16px; height: 16px; display: block; }
+.p5-divider:hover, .p5-divider.dragging { background: var(--divider-hover); }
+.p5-divider:hover::after, .p5-divider.dragging::after { background: var(--divider-strip); }
+.p5-divider:hover .handle { background: var(--resize-bg-hover); }
+.p5-divider.dragging .handle { background: var(--teal); border-color: var(--teal); color: #fff; }
 
-/* Part 5 questions */
-.p5-question {
-  position: relative; padding: 14px 44px 18px 0;
-  border-bottom: 1px solid var(--dash);
-}
-.p5-question:last-child { border-bottom: none; }
+/* Part 5 questions. The last 40px of each row are the bookmark column. */
+.p5-question { position: relative; margin: 0 0 24px; padding: 0 40px 0 0; }
 .p5-qhead {
-  display: flex; align-items: flex-start; gap: 10px;
-  margin-bottom: 10px; font-weight: bold; font-size: 15px;
+  display: flex; align-items: flex-start;
+  margin: 0 0 8.8px; font-size: 16px; line-height: 20px; font-weight: bold;
 }
 .p5-qnum {
-  display: inline-flex; align-items: center; justify-content: center;
-  min-width: 24px; height: 22px; padding: 0 4px; flex-shrink: 0;
+  flex: none; box-sizing: content-box;
+  min-width: 20.8px; height: 16px; padding: 4px 2px 3px; margin: 0 4px 0 0;
+  border: 2px solid transparent; border-radius: 3px;
+  line-height: 16px; text-align: center; white-space: nowrap;
 }
-.p5-question.current .p5-qnum {
-  border: 1.5px solid var(--teal); color: var(--teal); border-radius: 2px;
-}
-.p5-options { padding-left: 34px; }
+.p5-question.current .p5-qnum { border-color: var(--blue); }
+.p5-qhead > span:last-child { flex: 1 1 0; min-width: 0; padding-top: 4px; }
 .p5-option {
-  display: flex; align-items: flex-start; gap: 10px;
-  padding: 8px 10px; font-size: 15px; cursor: pointer;
-  border-radius: 2px; margin-bottom: 2px;
+  position: relative; display: block;
+  margin: 0 0 1px; padding: 12.8px 8px 12.8px 32px;
+  background: var(--surface);
+  font-size: 16px; line-height: normal;
+  cursor: pointer;
 }
 .p5-option:hover { background: var(--hover); }
 .p5-option.selected { background: var(--selected); color: var(--on-selected); }
-/* A real radio button: the browser draws the dot, so it is always centred */
+/* A real radio button, drawn by the browser */
 .p5-option input[type="radio"] {
-  flex: none; width: 16px; height: 16px;
-  margin: 4px 0 0;
-  accent-color: var(--teal);
+  position: absolute; left: 13px; top: 15px;
+  width: 13px; height: 13px; margin: 0;
   cursor: pointer;
 }
 
+/* Bookmark of the current question, centred in the 40px column */
 .p5-flag {
-  position: absolute; top: 16px; right: 12px;
-  width: 20px; height: 24px; display: none;
+  position: absolute; top: -5px; right: 7px;
+  width: 26px; height: 25px; display: none;
   align-items: center; justify-content: center;
   cursor: pointer; background: transparent; border: none; padding: 0;
 }
 .p5-question.current .p5-flag { display: flex; }
-.p5-flag svg { width: 14px; height: 18px; display: block; }
+.p5-flag svg { width: 15px; height: 20px; display: block; }
 .p5-flag svg path {
-  fill: none; stroke: var(--faint); stroke-width: 1.6;
+  fill: none; stroke: var(--flag-off); stroke-width: 1.6;
   transition: fill 0.15s, stroke 0.15s;
 }
 .p5-flag:hover svg path { stroke: var(--orange); }
 .p5-flag.active svg path { fill: var(--orange); stroke: var(--orange); }
 
-/* Parts 6 and 8 — lettered sections on the left, one dropdown per question on the right */
-.p6-letter {
-  display: block; font-weight: bold;
-  font-size: 16px; margin-top: 6px; margin-bottom: 4px;
-}
-.p6-intro { font-weight: bold; font-size: 22px; margin: 6px 0 14px; }
+/* Parts 6 and 8 — lettered sections on the left; on the right a 24px heading
+   and one row per question: the statement (16px, single-spaced, about 78% of
+   the width) and a 144px dropdown, rows 21px apart */
+.p6-letter { display: block; font-weight: bold; font-size: 16px; line-height: 20px; }
+.p6-intro { font-weight: bold; font-size: 24px; line-height: 48px; margin: 0 0 19.92px; }
 .p5-question.mm-row {
-  display: grid; grid-template-columns: minmax(0, 1fr) 170px 20px;
-  align-items: center; column-gap: 24px;
-  padding: 12px 0; border-bottom: none;
+  display: grid; grid-template-columns: minmax(0, 78%) 152px;
+  column-gap: 13px; align-items: start;
+  min-height: 24.8px; margin: 0 0 21.2px; padding: 1px 40px 1px 0;
 }
-.mm-stem { font-size: 15px; line-height: 1.4; }
+#p6Right .mm-row { grid-template-columns: minmax(0, 79%) 152px; }
+#p8Right .mm-row { grid-template-columns: minmax(0, 77%) 152px; }
+/* a one-line statement is centred in its 24.8px row; the dropdown stays at the top */
+.mm-stem { align-self: center; font-size: 16px; line-height: 16px; padding: 0 0 3.2px 1px; }
 .mm-select {
-  width: 170px; height: 32px; padding: 0 6px;
-  border: 1px solid var(--gap-border); border-radius: 4px;
+  justify-self: start;
+  width: 143.7px; height: 22.4px; margin: 0.8px 4px 0; padding: 0;
+  border: 1px solid var(--gap-border); border-radius: 3px;
   background: var(--surface); color: var(--text);
-  font: inherit; font-size: 16px; font-weight: bold;
+  font: inherit; font-size: 16px; font-weight: normal;
   text-align: center; text-align-last: center;
   cursor: pointer; outline: none;
 }
-.mm-select option { font-weight: normal; }
-.mm-row.current .mm-select { border-color: var(--blue); box-shadow: 0 0 0 2px var(--blue); }
-.mm-row .p5-flag { position: static; display: flex; visibility: hidden; }
-.mm-row.current .p5-flag { visibility: visible; }
+.mm-row.current .mm-select { border-color: var(--blue); box-shadow: 0 0 0 1px var(--blue); }
+.mm-row .p5-flag { top: -2px; }
 
-/* Part 7 — gapped text and the removed paragraphs, each column with its own scrollbar */
-.p7-layout { gap: 44px; }
-.p7-layout .p5-left { padding-right: 18px; }
-.p7-layout .p5-right { padding-left: 0; }
-.p7-layout .p5-left p { font-size: 16px; line-height: 1.35; margin: 0 0 24px; }
-.p7-layout .p5-left p.p7-intro { font-weight: bold; }
-.p7-gap-row { display: flex; align-items: center; gap: 14px; margin: 0 0 24px; }
-.p7-gap {
-  flex: 0 0 42%; min-width: 190px; min-height: 28px;
-  display: flex; align-items: center; justify-content: center;
-  margin: 1px; padding: 2px 8px;
-  border: 1px dotted var(--text-2); border-radius: 4px;
-  background: var(--surface);
-  font-size: 16px; font-weight: bold; line-height: 1.25;
-  position: relative; cursor: pointer;
+/* ---------------------------------------------------------
+   Part 7 — gapped text and the removed paragraphs.
+   Two halves, each with its own scrollbar (the left one has a
+   rounded thumb), then a column for the bookmark.
+   --------------------------------------------------------- */
+.p7-layout {
+  box-sizing: border-box;
+  padding: 9.6px 121px 0 16px;     /* right: 72px bookmark column + 32px margin + 17px */
 }
-.p7-gap.filled {
-  flex: 1 1 auto; justify-content: flex-start; text-align: left;
-  border: 1px solid var(--gap-border);
-  padding: 4px 30px 4px 6px; font-weight: normal;
+/* the text half is 32px wider than the paragraph half, as measured */
+.p7-layout .p5-left { flex: 0 0 calc(50% + 32px); padding: 0 64px 16px 0; }
+.p7-layout .p5-left::-webkit-scrollbar-thumb { border-radius: 4px; }
+.p7-layout .p5-right { flex: 1 1 0; padding: 0 16px 16px 32px; }
+.rue .p7-layout .p5-left p.p7-intro { font-weight: bold; }
+.p7-gap-row { margin: 0 0 26.4px; }
+.p7-gap {
+  display: inline-flex; align-items: center; justify-content: center;
+  box-sizing: border-box; position: relative;
+  width: 300px; max-width: 100%; min-height: 22px; margin: 1px;
+  border: 1px dashed var(--dash-border); border-radius: 5px;
+  background: var(--surface);
+  font-size: 16px; line-height: 20px; font-weight: bold; text-align: center;
+  vertical-align: middle; cursor: pointer;
 }
 .p7-gap.current { margin: 0; border: 2px dashed var(--blue); }
 .p7-gap.flagged { border-color: var(--orange); }
 .p7-gap.drag-over { background: var(--drop); border-color: var(--blue); }
+/* a gap holding a paragraph looks like the paragraph boxes on the right */
+.p7-gap.filled {
+  display: flex; width: auto; justify-content: flex-start; text-align: left;
+  padding: 3px 28px 2px 3px;
+  border-style: solid; border-color: var(--choice-border); border-radius: 4px;
+  font-weight: normal; line-height: normal;
+}
+.p7-gap.filled.current { border-style: dashed; border-color: var(--blue); }
 .p7-gap-remove {
-  position: absolute; top: 4px; right: 6px;
+  position: absolute; top: 3px; right: 5px;
   width: 18px; height: 18px;
   border: none; background: transparent;
   color: var(--faint); cursor: pointer; font-size: 14px; line-height: 1;
@@ -287,43 +334,42 @@ input.gap.flagged:focus { border-color: var(--orange); box-shadow: 0 0 0 2px var
 }
 .p7-gap.filled .p7-gap-remove { display: block; }
 .p7-gap-remove:hover { color: var(--bad); }
-.p7-gap-row .p5-flag { position: static; flex: none; display: flex; visibility: hidden; }
-.p7-gap-row.current .p5-flag { visibility: visible; }
 
 .p7-para {
-  border: 1px solid var(--gap-border); border-radius: 3px;
-  padding: 3px 5px; margin-bottom: 12px; background: var(--surface);
-  font-size: 16px; line-height: 1.25;
-  cursor: grab; user-select: none;
+  margin: 5px; padding: 3px 2px 2px;
+  border: 1px solid var(--choice-border); border-radius: 4px;
+  background: var(--surface);
+  font-size: 16px; line-height: normal;
+  cursor: move; user-select: none;
 }
 .p7-para:hover { background: var(--hover); }
 .p7-para.dragging { opacity: 0.4; }
 .p7-para.used { opacity: 0.35; pointer-events: none; background: var(--soft); }
 
-/* Floating bookmark for Parts 1–4 */
+/* Floating bookmark (Parts 1–4 and 7), positioned by exam.js */
 .flag-btn {
-  position: absolute; width: 20px; height: 24px;
+  position: absolute; width: 26px; height: 25px;
   display: none; align-items: center; justify-content: center;
   cursor: pointer; background: transparent; border: none; padding: 0;
   z-index: 10;
 }
 .flag-btn.visible { display: flex; }
-.flag-btn svg { width: 14px; height: 18px; display: block; }
+.flag-btn svg { width: 15px; height: 20px; display: block; }
 .flag-btn svg path {
-  fill: none; stroke: var(--faint); stroke-width: 1.6;
+  fill: none; stroke: var(--flag-off); stroke-width: 1.6;
   transition: fill 0.15s, stroke 0.15s;
 }
 .flag-btn:hover svg path { stroke: var(--orange); }
 .flag-btn.active svg path { fill: var(--orange); stroke: var(--orange); }
 
 /* Footer — sizes measured from the exam player.
-   54px high: a 3px strip in the page surface colour, then the tabs.
+   53px high: a 3px strip in the page surface colour, then the tabs.
    The open part is white and as wide as its question numbers;
    the other parts are grey and share the remaining width. */
 .footer {
   position: fixed; bottom: 0; left: 0; right: 0; z-index: 30;
   display: flex; align-items: stretch;
-  height: 54px;
+  height: 53px;
   background: var(--surface); color: var(--foot-fg);
   font-size: 16px; line-height: 1.15;
 }
@@ -382,12 +428,12 @@ input.gap.flagged:focus { border-color: var(--orange); box-shadow: 0 0 0 2px var
   line-height: 18px; text-align: center; cursor: pointer;
 }
 .part .qnums span::before {
-  content: ""; position: absolute; top: -17px; left: 0; right: -1px;
+  content: ""; position: absolute; top: -16.6px; left: 0; right: -1px;
   height: 3px; background: var(--bar-empty);
 }
 .part .qnums span.answered::before { background: var(--text); }
 .part .qnums span.flagged::after {
-  content: ""; position: absolute; top: -12.5px; left: 50%; transform: translateX(-50%);
+  content: ""; position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
   width: 7px; height: 10px; background: var(--orange);
   clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 72%, 0 100%);
 }
@@ -407,17 +453,21 @@ input.gap.flagged:focus { border-color: var(--orange); box-shadow: 0 0 0 2px var
 .finish:hover { background: var(--foot-hover); }
 
 .nav-arrows {
-  position: fixed; right: 24px; bottom: 70px;
-  display: flex; gap: 2px; z-index: 40;
+  position: fixed; right: 32px; bottom: 88px;
+  display: flex; gap: 2.4px; z-index: 40;
 }
 .nav-arrows button {
-  width: 52px; height: 48px; border: none;
-  background: var(--nav-prev); color: #fff; font-size: 22px; cursor: pointer;
+  width: 56px; height: 56px; padding: 0;
+  display: flex; align-items: center; justify-content: center;
+  border: none; border-radius: 3px;
+  background: var(--nav-prev); color: #fff; cursor: pointer;
 }
+.nav-arrows button svg { width: 34px; height: 34px; display: block; }
 .nav-arrows button.primary { background: var(--teal); }
 .nav-arrows button:hover { filter: brightness(1.1); }
 
 /* Results screens */
+.rue .results-screen { flex: none; width: 100%; box-sizing: border-box; }
 .results-screen {
   display: none;
   padding: 32px 48px 100px; max-width: 1100px; margin: 0 auto;
