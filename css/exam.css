@@ -27,25 +27,32 @@
 .rue .part-view[data-view="2"] p,
 .rue .part-view[data-view="3"] p { line-height: 2.7; }
 
+/* A 95px column on the right of the text is kept free for the bookmark,
+   which exam.js centres in it at the height of the current gap. */
+.rue .part-view[data-view="1"],
+.rue .part-view[data-view="2"],
+.rue .part-view[data-view="4"] { padding-right: 95px; }
+
 .part-view { display: none; }
 .part-view.active { display: block; }
 
 /* ---------------------------------------------------------
    Gap boxes (Parts 1–4)
-   The box takes the size of the surrounding text, sits on the
-   middle of the line, and centres its content on both axes.
+   Proportions measured from the exam player: the box is 1.4 times
+   the text size high, at least 9em wide, and its content shares
+   the baseline of the sentence around it.
    --------------------------------------------------------- */
 .gap {
   display: inline-flex; align-items: center; justify-content: center;
   position: relative;
-  min-width: 150px; height: 1.9em;
-  padding: 0 12px; margin: 0 4px;
+  min-width: 9em; height: 1.4em;
+  padding: 0 6px; margin: 0 0.25em;
   border: 1px solid var(--gap-border);
-  border-radius: 4px;
+  border-radius: 3px;
   background: var(--surface); color: var(--text);
   font: inherit; font-weight: bold; line-height: 1;
   white-space: nowrap;
-  vertical-align: middle;
+  vertical-align: baseline;
   cursor: pointer; user-select: none;
 }
 span.gap:hover { background: var(--hover); }
@@ -61,7 +68,7 @@ span.gap.open, span.gap.open:hover { background: var(--dark-1); color: var(--on-
 input.gap {
   display: inline-block;
   width: 180px;
-  padding: 0 10px;
+  padding: 0 8px;
   font-weight: normal; line-height: normal;
   text-align: left;
   outline: none;
@@ -85,10 +92,10 @@ input.gap.flagged:focus { border-color: var(--orange); box-shadow: 0 0 0 2px var
 .popup.open { display: flex; align-items: stretch; }
 .popup .close, .popup .opt {
   display: flex; align-items: center; justify-content: center;
-  height: 1.9em; padding: 0 14px;
+  height: 1.5em; padding: 0 12px;
   cursor: pointer;
 }
-.popup .close { padding: 0 11px; background: var(--dark-2); }
+.popup .close { padding: 0 10px; background: var(--dark-2); }
 /* children: ✕, then options alternating very dark / dark */
 .popup .opt:nth-child(even) { background: var(--dark-1); }
 .popup .opt:nth-child(odd) { background: var(--dark-2); }
@@ -309,69 +316,98 @@ input.gap.flagged:focus { border-color: var(--orange); box-shadow: 0 0 0 2px var
 .flag-btn:hover svg path { stroke: var(--orange); }
 .flag-btn.active svg path { fill: var(--orange); stroke: var(--orange); }
 
-/* Footer */
+/* Footer — sizes measured from the exam player.
+   54px high: a 3px strip in the page surface colour, then the tabs.
+   The open part is white and as wide as its question numbers;
+   the other parts are grey and share the remaining width. */
 .footer {
-  position: fixed; bottom: 0; left: 0; right: 0;
-  background: var(--surface); border-top: 1px solid var(--border);
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 30;
   display: flex; align-items: stretch;
-  font-size: 13px; height: 52px;
-  z-index: 30;
+  height: 54px;
+  background: var(--surface); color: var(--foot-fg);
+  font-size: 16px; line-height: 1.15;
 }
 .part {
-  position: relative; flex: 1; padding: 0 18px;
-  display: flex; align-items: center; gap: 10px;
-  border-right: 1px solid var(--border);
-  cursor: pointer; color: var(--text-2);
+  position: relative; flex: 1 1 0; min-width: 0;
+  display: flex; flex-wrap: wrap;
+  align-items: center; align-content: center; justify-content: center;
+  column-gap: 16px; row-gap: 0;       /* "Part 2" and "1 of 8" go on two lines when the tab is narrow */
+  margin: 0 1px; padding: 0 10px;
+  border-top: 3px solid var(--surface);
+  background: var(--foot-item); color: var(--foot-fg);
+  line-height: 1.05;                  /* keeps a two-line tab clear of the bookmark above it */
+  text-align: center; cursor: pointer;
 }
-.part.active { background: var(--hover); }
+.part:hover { background: var(--foot-hover); }
+.part.active {
+  flex: 0 0 auto; flex-wrap: nowrap; justify-content: flex-start;
+  column-gap: 0; padding: 0;
+  background: var(--surface); cursor: default;
+}
 .part .label {
-  position: relative; font-weight: bold;
   display: flex; align-items: center; gap: 6px;
-  white-space: nowrap; flex-shrink: 0;
+  font-weight: normal; white-space: nowrap; flex-shrink: 0;
 }
-.part .check { color: var(--text); font-weight: bold; display: none; }
+.part.active .label {
+  position: relative; align-self: stretch;
+  padding: 0 20px; font-weight: 600;
+}
+/* Strip above the name of the open part; black once all its questions are answered */
+.part.active .label::before {
+  content: ""; position: absolute; top: -3px; left: 1px; right: 1px;
+  height: 3px; background: var(--bar-empty);
+}
+.part.active.completed .label::before { background: var(--text); }
+.part .check { font-weight: bold; display: none; }
 .part.completed .check { display: inline; }
-.part.completed .label::before {
-  content: ""; position: absolute; top: -6px;
-  left: 50%; transform: translateX(-50%);
-  width: 26px; height: 3px; background: var(--text);
-  animation: fadeIn 0.25s ease;
-}
-.part .qnums { display: flex; gap: 4px; color: var(--muted); }
-.part .qnums span {
-  position: relative;
-  min-width: 22px; padding: 2px 5px;
-  text-align: center; border-radius: 2px; cursor: pointer;
-}
-.part .qnums span:hover { background: var(--border); }
-.part .qnums span.current {
-  border: 1.5px solid var(--teal);
-  color: var(--teal); font-weight: bold; padding: 1px 4px;
-}
-.part .qnums span.answered::before {
-  content: ""; position: absolute; top: -6px;
-  left: 50%; transform: translateX(-50%);
-  width: 12px; height: 3px; background: var(--text);
-  animation: fadeIn 0.25s ease;
-}
-.part .qnums span.flagged::after {
-  content: ""; position: absolute; top: -12px;
-  left: 50%; transform: translateX(-50%);
-  width: 9px; height: 12px; background: var(--orange);
-  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 72%, 0 100%);
-  animation: fadeIn 0.2s ease;
-}
+.part .progress { color: var(--foot-muted); white-space: nowrap; }
+
+/* Small bookmark at the top of a closed part that contains flagged questions */
 .part .part-flag {
-  position: absolute; top: 6px; left: 10px;
-  width: 9px; height: 12px; background: var(--orange);
+  position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  width: 7px; height: 10px; background: var(--orange);
   clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 72%, 0 100%);
   display: none;
 }
 .part.has-flag .part-flag { display: block; }
-.part .progress { color: var(--muted); font-size: 12px; }
+.part.active .part-flag { display: none; }
+
+/* Question numbers of the open part. Each has a strip in the top 3px of the
+   footer (grey, black when answered) and, when flagged, a bookmark under it. */
+.part .qnums { display: flex; align-items: center; }
+.part .qnums span {
+  position: relative; box-sizing: border-box;
+  min-width: 21px; height: 27px; padding: 2.4px 4px;
+  border: 2px solid transparent; border-radius: 3px;
+  line-height: 18px; text-align: center; cursor: pointer;
+}
+.part .qnums span::before {
+  content: ""; position: absolute; top: -17px; left: 0; right: -1px;
+  height: 3px; background: var(--bar-empty);
+}
+.part .qnums span.answered::before { background: var(--text); }
+.part .qnums span.flagged::after {
+  content: ""; position: absolute; top: -12.5px; left: 50%; transform: translateX(-50%);
+  width: 7px; height: 10px; background: var(--orange);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 72%, 0 100%);
+}
+.part .qnums span:hover { background: var(--foot-hover); }
+.part .qnums span.current {
+  border-color: var(--teal); background: var(--cur-bg);
+  color: var(--cur-fg); font-weight: bold;
+}
+
+.finish {
+  flex: none; width: 77px; margin-left: 1px;
+  border-top: 3px solid var(--surface);
+  background: var(--foot-item); color: var(--foot-fg);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 19px;
+}
+.finish:hover { background: var(--foot-hover); }
 
 .nav-arrows {
-  position: fixed; right: 24px; bottom: 68px;
+  position: fixed; right: 24px; bottom: 70px;
   display: flex; gap: 2px; z-index: 40;
 }
 .nav-arrows button {
@@ -380,12 +416,6 @@ input.gap.flagged:focus { border-color: var(--orange); box-shadow: 0 0 0 2px var
 }
 .nav-arrows button.primary { background: var(--teal); }
 .nav-arrows button:hover { filter: brightness(1.1); }
-
-.finish {
-  width: 54px; background: var(--teal); color: #fff;
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer; font-size: 20px;
-}
 
 /* Results screens */
 .results-screen {

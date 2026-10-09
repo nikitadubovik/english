@@ -30,6 +30,7 @@
 
   const MAX_SCORES = { 1: 8, 2: 8, 3: 8, 4: 12, 5: 12, 6: 8, 7: 12, 8: 10 };
   const EXAM_SECONDS = 90 * 60;   // 1 hour 30 minutes
+  const FLAG_GAP = 34;            // px between the text column and the bookmark
   const LETTERS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
 
   const FLAG_SVG =
@@ -704,16 +705,17 @@
     const gapRect = gapEl.getBoundingClientRect();
     const top = gapRect.top - wrapRect.top + (gapRect.height / 2) - 12;
     flagBtn.style.top = top + 'px';
-    if (currentPart === 3) {
-      const textArea = document.querySelector('.part3-text');
-      if (textArea) {
-        const textRect = textArea.getBoundingClientRect();
-        flagBtn.style.left = (textRect.right - wrapRect.left + 16) + 'px';
-        flagBtn.style.right = 'auto';
-      }
-    } else {
-      flagBtn.style.right = '16px';
-      flagBtn.style.left = 'auto';
+    // The bookmark sits FLAG_GAP px to the right of the text column, at the
+    // height of the current gap, the way the exam player places it; it no
+    // longer goes to the far edge of the window.
+    const column = currentPart === 3 ? document.querySelector('.part3-text')
+                 : currentPart === 4 ? document.querySelector('.part4-container')
+                 : document.querySelector('.part-view.active');
+    if (column) {
+      const rect = column.getBoundingClientRect();
+      const textRight = rect.right - (parseFloat(getComputedStyle(column).paddingRight) || 0);
+      flagBtn.style.left = (textRight - wrapRect.left + FLAG_GAP) + 'px';
+      flagBtn.style.right = 'auto';
     }
     flagBtn.classList.add('visible');
     flagBtn.classList.toggle('active', flagged.has(currentQ));
