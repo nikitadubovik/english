@@ -568,6 +568,7 @@
     };
     footer.appendChild(finish);
     refreshFooter();
+    if (window.ExamUI) window.ExamUI.fitFooter(footer);
   }
 
   function countAnswered(p) {
@@ -837,6 +838,12 @@
     document.querySelector('.content-wrap').classList.remove('hidden-during-results');
     document.querySelector('.nav-arrows').classList.remove('hidden-during-results');
     document.querySelector('.footer').classList.remove('hidden-during-results');
+    if (window.ExamUI) window.ExamUI.fitFooter(footer);
+  });
+
+  // Also sent by ui.js when the text size changes or the notes panel opens or closes.
+  window.addEventListener('resize', () => {
+    if (window.ExamUI) window.ExamUI.fitFooter(footer);
   });
 
   // --------------------------------------------------------
@@ -864,6 +871,25 @@
 
     buildFooter();
     setCurrent(1);
+
+    if (window.ExamUI) {
+      window.ExamUI.leaveMessage = 'Leave the test? Your answers will not be saved.';
+      // Notes and highlights: anywhere in the questions, not in the rubric.
+      window.ExamUI.initNotes({
+        scope: document.querySelector('.content-wrap'),
+        where: () => ({ part: currentPart, label: PARTS[currentPart].range.join('–') }),
+        // A note card was clicked: show the part (and the Part 1 extract) it belongs to.
+        goTo: (part, mark) => {
+          if (document.getElementById('finalResults').classList.contains('active')) return;
+          if (part !== currentPart) switchPart(part);
+          const block = mark && mark.closest('.lis-block');
+          if (block && !block.classList.contains('active')) {
+            const first = block.querySelector('.lis-question');
+            if (first) setCurrent(parseInt(first.dataset.q, 10));
+          }
+        },
+      });
+    }
   }
 
   init();

@@ -30,8 +30,8 @@
 
   const MAX_SCORES = { 1: 8, 2: 8, 3: 8, 4: 12, 5: 12, 6: 8, 7: 12, 8: 10 };
   const EXAM_SECONDS = 90 * 60;   // 1 hour 30 minutes
-  const FLAG_W = 26;              // bookmark button width, px
   const FLAG_COL = 96;            // width of the bookmark column to the right of the text
+  const LEAVE_MESSAGE = 'Leave the test? Your answers will not be saved.';
   const LETTERS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
 
   const FLAG_SVG =
@@ -194,7 +194,8 @@
 
         // The strip starts at the left edge of the gap; if that would push it
         // off the page, slide it back just far enough to stay visible.
-        const overflow = popup.getBoundingClientRect().right - (document.documentElement.clientWidth - 12);
+        const notesWidth = document.body.classList.contains('notes-open') ? 300 : 0;
+        const overflow = popup.getBoundingClientRect().right - (document.documentElement.clientWidth - notesWidth - 12);
         if (overflow > 0) popup.style.left = (-1 - overflow) + 'px';
       });
     });
@@ -284,6 +285,8 @@
   // --------------------------------------------------------
   // PART 4 — one question at a time
   // --------------------------------------------------------
+  // Each question is built once and afterwards only shown or hidden, so the
+  // notes and highlights made in it are still there when you come back.
   function renderPart4Question(q) {
     const view = document.querySelector('.part-view[data-view="4"]');
     let container = view.querySelector('.part4-container');
@@ -293,19 +296,38 @@
       container.className = 'part4-container';
       view.appendChild(container);
     }
-    container.innerHTML = '';
     const data = CONTENT.parts['4'].questions[q];
     if (!data) return;
+
+    let item = container.querySelector(`.part4-item[data-q="${q}"]`);
+    if (!item) {
+      item = buildPart4Item(q, data);
+      container.appendChild(item);
+    }
+    container.querySelectorAll('.part4-item').forEach(other => { other.hidden = other !== item; });
+
+    const input = item.querySelector('input.gap');
+    input.classList.add('current');
+    input.classList.toggle('flagged', flagged.has(q));
+    fitPart4Input(input);
+    positionFlagBtn(input);
+    input.focus({ preventScroll: true });
+  }
+
+  function buildPart4Item(q, data) {
+    const item = document.createElement('div');
+    item.className = 'part4-item';
+    item.dataset.q = q;
 
     const first = document.createElement('p');
     first.className = 'part4-first';
     first.textContent = data.first;
-    container.appendChild(first);
+    item.appendChild(first);
 
     const kw = document.createElement('div');
     kw.className = 'part4-keyword';
     kw.textContent = data.keyword;
-    container.appendChild(kw);
+    item.appendChild(kw);
 
     const second = document.createElement('p');
     second.className = 'part4-second';
@@ -315,22 +337,6 @@
     input.className = 'gap current';
     input.dataset.q = q;
     input.placeholder = q;
-    if (answers[q] !== undefined) {
-      input.value = answers[q];
-      input.classList.add('answered');
-    }
-    if (flagged.has(q)) input.classList.add('flagged');
-
-    // The box starts 211px wide and grows with the answer, as in the exam player.
-    const fit = () => {
-      const probe = document.createElement('span');
-      probe.style.cssText = 'position:absolute;visibility:hidden;white-space:pre;font:' + getComputedStyle(input).font;
-      probe.textContent = input.value;
-      document.body.appendChild(probe);
-      input.style.width = Math.max(211, Math.ceil(probe.getBoundingClientRect().width) + 20) + 'px';
-      probe.remove();
-    };
-
     input.addEventListener('click', (e) => e.stopPropagation());
     input.addEventListener('input', () => {
       const val = input.value.trim();
@@ -341,16 +347,26 @@
         delete answers[q];
         input.classList.remove('answered');
       }
-      fit();
+      fitPart4Input(input);
+      positionFlagBtn(input);
       refreshFooter();
     });
     second.appendChild(input);
     second.appendChild(document.createTextNode(' ' + data.after));
-    container.appendChild(second);
+    item.appendChild(second);
+    return item;
+  }
 
-    fit();
-    setTimeout(() => positionFlagBtn(input), 0);
-    input.focus();
+  // The box starts 211px wide (at the regular text size) and grows with the
+  // answer, as in the exam player.
+  function fitPart4Input(input) {
+    const unit = parseFloat(getComputedStyle(document.documentElement).fontSize) / 16;
+    const probe = document.createElement('span');
+    probe.style.cssText = 'position:absolute;visibility:hidden;white-space:pre;font:' + getComputedStyle(input).font;
+    probe.textContent = input.value;
+    document.body.appendChild(probe);
+    input.style.width = Math.max(211 * unit, Math.ceil(probe.getBoundingClientRect().width) + 20) + 'px';
+    probe.remove();
   }
 
   // --------------------------------------------------------
@@ -714,23 +730,23 @@
   }
 
   function positionFlagBtn(gapEl) {
+    flagBtn.classList.add('visible');                    // shown first: a hidden button has no size
+    flagBtn.classList.toggle('active', flagged.has(currentQ));
     const wrapRect = contentWrap.getBoundingClientRect();
     const gapRect = gapEl.getBoundingClientRect();
-    const top = gapRect.top - wrapRect.top - 2.6;      // the 25px button starts just above the 22.4px gap
-    flagBtn.style.top = top + 'px';
-    // The bookmark is centred in a 96px column that starts where the text
-    // column ends, at the height of the current gap.
+    const w = flagBtn.offsetWidth, h = flagBtn.offsetHeight;
+    // The button is a little taller than the gap and ends level with its bottom edge.
+    flagBtn.style.top = (gapRect.bottom - h - wrapRect.top) + 'px';
+    // It is centred in a 96px column that starts where the text column ends.
     const column = currentPart === 3 ? document.querySelector('.part3-text')
                  : document.querySelector('.part-view.active');
     if (column) {
       const rect = column.getBoundingClientRect();
-      // In Parts 1, 2 and 4 the view's right padding is that column plus a 16px margin.
-      const textRight = rect.right - (currentPart === 3 ? 0 : FLAG_COL + 16);
-      flagBtn.style.left = (textRight - wrapRect.left + (FLAG_COL - FLAG_W) / 2) + 'px';
+      // In Parts 1, 2 and 4 the view's right padding is that column plus a margin.
+      const textRight = rect.right - (currentPart === 3 ? 0 : parseFloat(getComputedStyle(column).paddingRight) || 0);
+      flagBtn.style.left = (textRight - wrapRect.left + (FLAG_COL - w) / 2) + 'px';
       flagBtn.style.right = 'auto';
     }
-    flagBtn.classList.add('visible');
-    flagBtn.classList.toggle('active', flagged.has(currentQ));
   }
 
   // Part 7: the bookmark sits in the column to the right of the paragraphs,
@@ -741,13 +757,15 @@
     const pane = document.getElementById('p7Left');
     const layout = document.querySelector('.p7-layout');
     if (!gap || !pane || !layout) { flagBtn.classList.remove('visible'); return; }
+    flagBtn.classList.add('visible');
+    const w = flagBtn.offsetWidth, h = flagBtn.offsetHeight;
     const wrapRect = contentWrap.getBoundingClientRect();
     const g = gap.getBoundingClientRect(), p = pane.getBoundingClientRect(), l = layout.getBoundingClientRect();
-    const mid = g.top + Math.min(g.height, 24) / 2;
+    const mid = g.top + Math.min(g.height, h - 1) / 2;
     const inView = mid > p.top && mid < p.bottom;
-    flagBtn.style.top = (mid - wrapRect.top - 12.5) + 'px';
+    flagBtn.style.top = (mid - wrapRect.top - h / 2) + 'px';
     // layout padding-right = 72px bookmark column (32 + 40) + 32px margin + 17px scrollbar
-    flagBtn.style.left = (l.right - wrapRect.left - 121 + 32 + (40 - FLAG_W) / 2) + 'px';
+    flagBtn.style.left = (l.right - wrapRect.left - 121 + 32 + (40 - w) / 2) + 'px';
     flagBtn.style.right = 'auto';
     flagBtn.classList.toggle('visible', inView);
     flagBtn.classList.toggle('active', flagged.has(currentQ));
@@ -856,6 +874,7 @@
     };
     footer.appendChild(finish);
     refreshFooter();
+    if (window.ExamUI) window.ExamUI.fitFooter(footer);
   }
 
   function countAnswered(p) {
@@ -930,10 +949,15 @@
   });
 
   document.addEventListener('click', () => closeAllPopups());
+  // Also sent by ui.js when the text size changes or the notes panel opens or closes.
   window.addEventListener('resize', () => {
+    if (stage && stage.classList.contains('results')) return;
+    if (window.ExamUI) window.ExamUI.fitFooter(footer);
+    closeAllPopups();
     positionP7Flag();
     if (currentQ !== null && currentPart <= 4) {
       const gap = document.querySelector(`.gap[data-q="${currentQ}"]`);
+      if (gap && currentPart === 4) fitPart4Input(gap);
       if (gap) positionFlagBtn(gap);
     }
   });
@@ -1221,6 +1245,7 @@
     document.querySelector('.nav-arrows').classList.remove('hidden-during-results');
     document.querySelector('.footer').classList.remove('hidden-during-results');
     if (stage) stage.classList.remove('results');
+    if (window.ExamUI) window.ExamUI.fitFooter(footer);
     if (currentQ !== null) setCurrent(currentQ, false);
   });
 
@@ -1273,7 +1298,22 @@
     document.getElementById('instr-text').innerHTML = instrFor(1);
     buildFooter();
 
-    if (window.ExamUI) window.ExamUI.startTimer(EXAM_SECONDS, onTimeUp);
+    if (window.ExamUI) {
+      window.ExamUI.leaveMessage = LEAVE_MESSAGE;
+      window.ExamUI.startTimer(EXAM_SECONDS, onTimeUp);
+      // Notes and highlights: anywhere in the texts and questions, not in the rubric.
+      window.ExamUI.initNotes({
+        scope: contentWrap,
+        where: () => ({ part: currentPart, label: PARTS[currentPart].range.join('–') }),
+        // A note card was clicked: show the part (and the Part 4 question) it belongs to.
+        goTo: (part, mark) => {
+          if (stage && stage.classList.contains('results')) return;
+          if (part !== currentPart) switchPart(part);
+          const item = mark && mark.closest('.part4-item');
+          if (item && item.hidden) setCurrent(parseInt(item.dataset.q, 10));
+        },
+      });
+    }
   }
 
   init();
