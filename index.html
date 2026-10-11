@@ -4,8 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>C1 Advanced — Practice Library</title>
-<link rel="stylesheet" href="css/base.css?v=4">
+<link rel="stylesheet" href="css/base.css?v=5">
 <script src="js/ui.js?v=4"></script>
+<script src="js/books.js?v=1"></script>
 </head>
 <body>
 
@@ -21,51 +22,25 @@
 
 <div class="menu-container">
   <h1>Practice Library</h1>
-  <p class="subtitle">Choose a book to start practising.</p>
+  <p class="subtitle">Choose a book.</p>
 
-  <div class="menu-grid">
-    <a class="menu-card" href="book.html?book=cae1">
-      <span class="card-label">Past papers</span>
-      <span class="card-title">Cambridge English Advanced 1</span>
-      <span class="card-meta">4 tests · Reading, Writing, Listening, Speaking</span>
-    </a>
-    <a class="menu-card" href="book.html?book=cae2">
-      <span class="card-label">Past papers</span>
-      <span class="card-title">Cambridge English Advanced 2</span>
-      <span class="card-meta">4 tests · Reading, Writing, Listening, Speaking</span>
-    </a>
-    <a class="menu-card disabled">
-      <span class="card-label">Past papers</span>
-      <span class="card-title">Cambridge English Advanced 3</span>
-      <span class="card-meta">Coming soon</span>
-    </a>
-    <a class="menu-card disabled">
-      <span class="card-label">Past papers</span>
-      <span class="card-title">Cambridge English Advanced 4</span>
-      <span class="card-meta">Coming soon</span>
-    </a>
-    <a class="menu-card disabled">
-      <span class="card-label">Past papers</span>
-      <span class="card-title">Cambridge English Advanced 5</span>
-      <span class="card-meta">Coming soon</span>
-    </a>
-    <a class="menu-card disabled">
-      <span class="card-label">Training</span>
-      <span class="card-title">Advanced Trainer</span>
-      <span class="card-meta">Coming soon</span>
-    </a>
-    <a class="menu-card disabled">
-      <span class="card-label">Training</span>
-      <span class="card-title">C1 Advanced Trainer 2</span>
-      <span class="card-meta">Coming soon</span>
-    </a>
-    <a class="menu-card disabled">
-      <span class="card-label">Training</span>
-      <span class="card-title">Formula C1 Practice Exams</span>
-      <span class="card-meta">Coming soon</span>
-    </a>
-  </div>
+  <div class="menu-grid books" id="bookGrid"></div>
 </div>
+
+<script>
+  // One card per book: just its name
+  const grid = document.getElementById('bookGrid');
+  window.C1_BOOKS.forEach(b => {
+    const card = document.createElement('a');
+    card.className = 'menu-card';
+    card.href = 'book.html?book=' + encodeURIComponent(b.id);
+    const title = document.createElement('span');
+    title.className = 'card-title';
+    title.textContent = b.title;
+    card.appendChild(title);
+    grid.appendChild(card);
+  });
+</script>
 
 </body>
 </html>

@@ -1,6 +1,14 @@
 # english
 useful tools for self-preparation for C1 Advanced exam (CAE)
 
+## Books and tests
+
+`js/books.js` lists the books of the library and the test numbers in each one.
+The files of a test live in `content/<book id>/test<number>/`:
+`rue.json` + `rue_key.json` (Reading and Use of English), `wri.json` (Writing),
+`lis.json` + `lis_key.json` (Listening). On the page of a test, a paper opens
+once its file is there; until then its card says "Coming soon".
+
 ## Adding a Writing paper
 
 The Writing player (`writing.html`) reads `content/<book>/test<N>/wri.json`.

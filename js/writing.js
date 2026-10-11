@@ -5,7 +5,8 @@
 // Part 1: one question that must be answered.
 // Part 2: three questions, one of which is answered. The candidate
 // says which with the "Answering this question?" dropdown.
-// Nothing is marked: after the test the answers are shown as written.
+// Nothing is marked automatically: after the test the two answers are shown
+// as written and the candidate marks them against the four Writing criteria.
 // ============================================================
 
 (function () {
@@ -44,6 +45,7 @@
   const answers = {};             // question number -> text
   const choice = {};              // Part 2 question number -> 'undecided' | 'yes' | 'no'
   const flagged = new Set();
+  const marks = {};               // question number -> { content: 0–5, ... } given on the results page
   const views = {};               // question number -> { view, left, textarea, count, flag, select, icon, picked }
   let current = null;             // question number on screen
   let book = '', test = '';
@@ -416,11 +418,17 @@
   // --------------------------------------------------------
   const HIDE_DURING_RESULTS = ['.instructions', '.content-wrap', '.nav-arrows', '.footer'];
 
-  // What is handed in: Part 1, and in Part 2 the chosen question
-  // (or, if none was chosen, whatever was written)
+  // What is marked: the Part 1 answer and one Part 2 answer — the question
+  // chosen with "Yes" or, if none was chosen, the one with the most text.
   function handedIn() {
-    const c = chosen();
-    return QUESTIONS.filter(q => hasText(q.n) && (q.part !== 2 || !c || c.n === q.n));
+    const out = [];
+    inPart(1).forEach(q => out.push({ part: 1, q, chosen: true }));
+    if (inPart(2).length) {
+      const c = chosen();
+      const written = inPart(2).filter(q => hasText(q.n)).sort((x, y) => wordsIn(answers[y.n]) - wordsIn(answers[x.n]));
+      out.push({ part: 2, q: c || written[0] || null, chosen: !!c });
+    }
+    return out;
   }
 
   function handleFinish() {
@@ -450,20 +458,46 @@
     submitAnswers();
   }
 
+  // --------------------------------------------------------
+  // Self-assessment
+  // Each answer gets 0–5 for each of the four criteria, 20 marks an answer
+  // and 40 in all. The total is turned into an approximate Cambridge English
+  // Scale score.
+  // --------------------------------------------------------
+  const CRITERIA = [
+    ['content', 'Content'],
+    ['communicative', 'Communicative Achievement'],
+    ['organisation', 'Organisation'],
+    ['language', 'Language'],
+  ];
+  // Writing marks 16–40 -> scale scores 160–210
+  const SCALE_FROM = 16;
+  const SCALE = [160, 162, 165, 168, 170, 172, 175, 178, 180, 182, 184, 186, 189, 191, 193, 195, 196, 198, 200, 202, 203, 205, 207, 208, 210];
+  // Below 160 the line runs down to 142 at 10 marks, the lowest score reported for this exam
+  function scaleScore(total) {
+    if (total >= SCALE_FROM) return SCALE[Math.min(total, 40) - SCALE_FROM];
+    if (total >= 10) return 142 + (total - 10) * 3;
+    return null;
+  }
+
   function renderReview() {
     const box = document.getElementById('writingReview');
     box.innerHTML = '';
-    const list = handedIn();
-    if (!list.length) {
-      const p = el('p', 'wri-empty');
-      p.textContent = 'You did not write anything.';
-      box.appendChild(p);
-    }
-    const c = chosen();
-    list.forEach(q => {
+    handedIn().forEach(item => {
+      const q = item.q;
       const card = el('div', 'wri-result');
       const h = el('h3');
-      h.textContent = `Part ${q.part} — Question ${q.n}`;
+      h.textContent = q ? `Part ${item.part} — Question ${q.n}` : `Part ${item.part}`;
+      card.appendChild(h);
+
+      if (!q || !hasText(q.n)) {
+        const none = el('p', 'wri-empty');
+        none.textContent = 'No answer: 0 marks.';
+        card.appendChild(none);
+        box.appendChild(card);
+        return;
+      }
+
       const meta = el('div', 'meta');
       const n = wordsIn(answers[q.n]);
       meta.appendChild(document.createTextNode(n + (n === 1 ? ' word' : ' words')));
@@ -472,17 +506,88 @@
         off.textContent = n < LIMITS.min ? ` · ${LIMITS.min - n} below the minimum` : ` · ${n - LIMITS.max} above the maximum`;
         meta.appendChild(off);
       }
-      if (q.part === 2 && !c) meta.appendChild(document.createTextNode(' · not marked as the question you are answering'));
+      if (!item.chosen) meta.appendChild(document.createTextNode(' · you did not say which Part 2 question you were answering'));
       const text = el('div', 'wri-result-text');
       text.textContent = answers[q.n];
       const copy = el('button', 'btn-secondary');
       copy.type = 'button';
       copy.textContent = 'Copy text';
       copy.addEventListener('click', () => copyText(answers[q.n], copy));
-      card.append(h, meta, text, copy);
+      card.append(meta, text, copy);
+
+      // Marks: one row of real radio buttons, 0–5, for each criterion
+      marks[q.n] = marks[q.n] || {};
+      const table = el('div', 'wri-marks');
+      const subtotal = el('span', 'wri-subtotal');
+      CRITERIA.forEach(([key, name]) => {
+        const row = el('div', 'wri-crit');
+        row.setAttribute('role', 'radiogroup');
+        row.setAttribute('aria-label', name);
+        const label = el('span', 'name');
+        label.textContent = name;
+        const opts = el('span', 'wri-opts');
+        for (let v = 0; v <= 5; v++) {
+          const l = el('label');
+          const r = el('input');
+          r.type = 'radio';
+          r.name = `mark-${q.n}-${key}`;
+          r.value = v;
+          r.checked = marks[q.n][key] === v;
+          r.addEventListener('change', () => { marks[q.n][key] = v; paintTotals(); });
+          const t = el('span');
+          t.textContent = v;
+          l.append(r, t);
+          opts.appendChild(l);
+        }
+        row.append(label, opts);
+        table.appendChild(row);
+      });
+      const foot = el('div', 'wri-crit total');
+      const fl = el('span', 'name');
+      fl.textContent = 'This answer';
+      subtotal.dataset.q = q.n;
+      foot.append(fl, subtotal);
+      table.appendChild(foot);
+      card.appendChild(table);
       box.appendChild(card);
     });
-    document.getElementById('downloadBtn').disabled = !list.length;
+    paintTotals();
+    document.getElementById('downloadBtn').disabled = !handedIn().some(item => item.q && hasText(item.q.n));
+  }
+
+  // Sub-totals, the total out of 40 and the scale score. An answer that was
+  // not written counts as marked, with 0.
+  function assessment() {
+    let total = 0, left = 0;
+    const per = {};
+    handedIn().forEach(item => {
+      if (!item.q || !hasText(item.q.n)) return;
+      const m = marks[item.q.n] || {};
+      per[item.q.n] = 0;
+      CRITERIA.forEach(([key]) => {
+        if (m[key] === undefined) left++;
+        else { per[item.q.n] += m[key]; total += m[key]; }
+      });
+    });
+    return { total, left, per, max: handedIn().length * CRITERIA.length * 5 };
+  }
+  function paintTotals() {
+    const a = assessment();
+    document.querySelectorAll('.wri-subtotal').forEach(s => { s.textContent = a.per[s.dataset.q] + ' / 20'; });
+    document.getElementById('totalMarks').textContent = a.total + ' / ' + a.max;
+    const scale = document.getElementById('scaleScore');
+    const note = document.getElementById('scaleNote');
+    if (a.left) {
+      scale.textContent = '—';
+      note.textContent = a.left === 1 ? 'One criterion is still to be marked.' : a.left + ' criteria are still to be marked.';
+    } else {
+      const s = scaleScore(a.total);
+      scale.textContent = s === null ? 'below 142' : '≈ ' + s;
+      note.textContent = s === null ? 'Fewer than 10 marks: no score is reported for this exam below 142.'
+        : s >= 200 ? 'Level C2 (Grade A at C1 Advanced).'
+        : s >= 180 ? 'Level C1 (a pass at C1 Advanced).'
+        : s >= 160 ? 'Level B2.' : 'Below Level B2.';
+    }
   }
 
   function copyText(text, button) {
@@ -503,9 +608,17 @@
   }
 
   document.getElementById('downloadBtn').addEventListener('click', () => {
-    const parts = handedIn().map(q => `Part ${q.part}, Question ${q.n} (${wordsIn(answers[q.n])} words)\r\n\r\n` + answers[q.n].replace(/\r?\n/g, '\r\n'));
+    const NL = '\r\n';
+    const parts = handedIn().filter(item => item.q && hasText(item.q.n)).map(item => {
+      const q = item.q, m = marks[q.n] || {};
+      const given = CRITERIA.filter(([key]) => m[key] !== undefined).map(([key, name]) => name + ' ' + m[key]);
+      return `Part ${item.part}, Question ${q.n} (${wordsIn(answers[q.n])} words)` + NL + NL + answers[q.n].replace(/\r?\n/g, NL) +
+        (given.length ? NL + NL + 'Marks: ' + given.join(', ') : '');
+    });
     if (!parts.length) return;
-    const blob = new Blob(['C1 Advanced Writing — ' + book + ', Test ' + test + '\r\n\r\n' + parts.join('\r\n\r\n\r\n') + '\r\n'], { type: 'text/plain;charset=utf-8' });
+    const a0 = assessment();
+    const sum = a0.left ? '' : NL + NL + NL + 'Total: ' + a0.total + ' / ' + a0.max + ' — Cambridge English Scale ' + document.getElementById('scaleScore').textContent;
+    const blob = new Blob(['C1 Advanced Writing — ' + book + ', Test ' + test + NL + NL + parts.join(NL + NL + NL) + sum + NL], { type: 'text/plain;charset=utf-8' });
     const a = el('a');
     a.href = URL.createObjectURL(blob);
     a.download = `c1-writing-${book}-test${test}.txt`.replace(/[^\w.-]+/g, '_');

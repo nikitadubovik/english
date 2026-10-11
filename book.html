@@ -4,8 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>C1 Advanced — Select Test</title>
-<link rel="stylesheet" href="css/base.css?v=4">
+<link rel="stylesheet" href="css/base.css?v=5">
 <script src="js/ui.js?v=4"></script>
+<script src="js/books.js?v=1"></script>
 </head>
 <body>
 
@@ -27,50 +28,32 @@
   </div>
 
   <h1 id="pageTitle">Select a test</h1>
-  <p class="subtitle">Pick any of the four tests in this book.</p>
+  <p class="subtitle">Choose a test.</p>
 
-  <div class="menu-grid" id="testGrid"></div>
+  <div class="menu-grid row" id="testGrid"></div>
 </div>
 
 <script>
-  const params = new URLSearchParams(window.location.search);
-  const book = params.get('book') || 'cae1';
+  const book = new URLSearchParams(window.location.search).get('book') || 'cae1';
+  const info = window.C1_BOOK(book) || { id: book, title: 'Unknown book', tests: [] };
 
-  const BOOKS = {
-    cae1: { title: 'Cambridge English Advanced 1', tests: 4 },
-    cae2: { title: 'Cambridge English Advanced 2', tests: 6 },
-    cae3: { title: 'Cambridge English Advanced 3', tests: 4 },
-    cae4: { title: 'Cambridge English Advanced 4', tests: 4 },
-    cae5: { title: 'Cambridge English Advanced 5', tests: 4 },
-  };
-
-  // FIX 1: Define info so the script knows how many tests exist
-  const info = BOOKS[book] || { title: 'Unknown book', tests: 4 };
-
-  // FIX 2: Restore the titles so the user knows which book they opened
   document.getElementById('bookTitle').textContent = info.title;
   document.getElementById('pageTitle').textContent = info.title;
+  document.title = 'C1 Advanced — ' + info.title;
 
+  // The tests stand in one row (one column on a narrow screen)
   const grid = document.getElementById('testGrid');
-
-  // FIX 3: Improved Logic for test numbering (Works for all books)
-  // Extract the number from 'cae2' -> 2
-  const bookNum = parseInt(book.replace('cae', '')); 
-  // Calculate start (e.g., Book 2: (2-1)*4 + 1 = 5)
-  const startNum = ((bookNum - 1) * 4) + 1;
-  const endNum = startNum + (info.tests - 1);
-  
-  for (let i = startNum; i <= endNum; i++) {
+  grid.style.setProperty('--cols', Math.max(1, info.tests.length));
+  info.tests.forEach(n => {
     const card = document.createElement('a');
     card.className = 'menu-card';
-    card.href = `test.html?book=${book}&test=${i}`;
-    
-    card.innerHTML = `
-      <span class="card-label">Test ${i}</span>
-      <span class="card-title">Practice Test ${i}</span>
-    `;
+    card.href = `test.html?book=${encodeURIComponent(info.id)}&test=${n}`;
+    const title = document.createElement('span');
+    title.className = 'card-title';
+    title.textContent = 'Test ' + n;
+    card.appendChild(title);
     grid.appendChild(card);
-  }
+  });
 </script>
 
 </body>

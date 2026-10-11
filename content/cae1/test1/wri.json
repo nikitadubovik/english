@@ -1,0 +1,74 @@
+{
+  "words": { "min": 220, "max": 260 },
+  "parts": {
+    "1": {
+      "questions": [
+        {
+          "n": 1,
+          "task": [
+            "Your class has listened to a radio discussion on how more young people can be encouraged to study science. You have made the notes below:",
+            "",
+            { "box": [
+              "[[bold]][[underline]]Ways of encouraging young people to study science:[[/underline]][[/bold]]",
+              "",
+              "[[bold]]-[[/bold]] advertising",
+              "[[bold]]-[[/bold]] school programmes",
+              "[[bold]]-[[/bold]] government grants"
+            ] },
+            { "box": [
+              "[[bold]]Some opinions expressed in the discussion:[[/bold]]",
+              "",
+              "“You never see positive images of young scientists on TV, just pop stars or actors.”",
+              "",
+              "“Science lessons should be more practical and fun.”",
+              "",
+              "“If young people see science as a career, they’ll want to study it.”"
+            ] },
+            "",
+            "Write an essay discussing [[bold]]two[[/bold]] of the points in your notes. You should [[bold]]explain which way would be more effective in encouraging young people to study science, providing reasons[[/bold]] to support your opinion.",
+            "",
+            "You may, if you wish, make use of the opinions expressed in the discussion, but you should use your own words as far as possible."
+          ]
+        }
+      ]
+    },
+    "2": {
+      "questions": [
+        {
+          "n": 2,
+          "task": [
+            "You recently helped to organise an arts day in your area, promoting local musicians and artists through performances, workshops and exhibitions. You read the article below in a local paper:",
+            { "box": [
+              "[[bold]]Local arts day – a disappointment[[/bold]]",
+              "",
+              "Last week’s arts day didn’t attract many people, had limited appeal to young people and was a waste of council money."
+            ] },
+            "You disagree with the negative opinions expressed by the reporter, and decide to write a letter to the Editor, explaining why you disagree and saying what you feel was achieved on the day.",
+            "",
+            "Write your [[bold]]letter[[/bold]]. You do not need to include postal addresses."
+          ]
+        },
+        {
+          "n": 3,
+          "task": [
+            { "box": [
+              "You are on the Student Committee at the college where you study. A year ago, the college gave the Committee some money to start a student website. The aims of the website were to inform students about local events, to publicise college clubs, and to review products of interest to students.",
+              "",
+              "The Principal has asked you for a report explaining whether the website has met its aims and saying why the website should continue to have financial support."
+            ] },
+            "Write your [[bold]]report[[/bold]]."
+          ]
+        },
+        {
+          "n": 4,
+          "task": [
+            { "box": [
+              "You are a university student and you want to spend a month doing work experience at an international company. You decide to write a letter to the Recruitment Manager at the company explaining why you want to do work experience there and saying how the company would also benefit."
+            ] },
+            "Write your [[bold]]letter[[/bold]]."
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -4,8 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>C1 Advanced — Select Paper</title>
-<link rel="stylesheet" href="css/base.css?v=4">
+<link rel="stylesheet" href="css/base.css?v=5">
 <script src="js/ui.js?v=4"></script>
+<script src="js/books.js?v=1"></script>
 </head>
 <body>
 
@@ -31,21 +32,21 @@
   <h1 id="pageTitle">Test</h1>
   <p class="subtitle">Choose which paper to take.</p>
 
-  <div class="menu-grid">
+  <div class="menu-grid row" id="paperGrid" style="--cols: 4">
     <a class="menu-card" id="readingCard">
       <span class="card-label">Paper 1</span>
       <span class="card-title">Reading and Use of English</span>
-      <span class="card-meta">1 hour 30 minutes · 56 questions · 8 parts</span>
+      <span class="card-meta" data-ready="1 hour 30 minutes · 56 questions">1 hour 30 minutes · 56 questions</span>
     </a>
-    <a class="menu-card disabled" id="writingCard">
+    <a class="menu-card" id="writingCard">
       <span class="card-label">Paper 2</span>
       <span class="card-title">Writing</span>
-      <span class="card-meta" id="writingMeta">Coming soon</span>
+      <span class="card-meta" data-ready="1 hour 30 minutes · 2 tasks">1 hour 30 minutes · 2 tasks</span>
     </a>
     <a class="menu-card" id="listeningCard">
       <span class="card-label">Paper 3</span>
       <span class="card-title">Listening</span>
-      <span class="card-meta">About 40 minutes · 30 questions · 4 parts · play the audio yourself</span>
+      <span class="card-meta" data-ready="About 40 minutes · 30 questions">About 40 minutes · 30 questions</span>
     </a>
     <a class="menu-card disabled">
       <span class="card-label">Paper 4</span>
@@ -59,33 +60,38 @@
   const params = new URLSearchParams(window.location.search);
   const book = params.get('book') || 'cae1';
   const test = params.get('test') || '1';
+  const info = window.C1_BOOK(book) || { id: book, title: book };
+  const q = `book=${encodeURIComponent(book)}&test=${encodeURIComponent(test)}`;
 
-  const BOOK_TITLES = {
-    cae1: 'Cambridge English Advanced 1',
-    cae2: 'Cambridge English Advanced 2',
-    cae3: 'Cambridge English Advanced 3',
-    cae4: 'Cambridge English Advanced 4',
-    cae5: 'Cambridge English Advanced 5',
-  };
-
-  document.getElementById('bookLink').textContent = BOOK_TITLES[book] || book;
-  document.getElementById('bookLink').href = `book.html?book=${book}`;
+  document.getElementById('bookLink').textContent = info.title;
+  document.getElementById('bookLink').href = `book.html?book=${encodeURIComponent(book)}`;
   document.getElementById('testTitle').textContent = `Test ${test}`;
-  document.getElementById('pageTitle').textContent = `${BOOK_TITLES[book] || book} — Test ${test}`;
+  document.getElementById('pageTitle').textContent = `${info.title} — Test ${test}`;
 
-  document.getElementById('readingCard').href = `exam.html?book=${book}&test=${test}&paper=reading`;
-  document.getElementById('listeningCard').href = `listening.html?book=${book}&test=${test}`;
-
-  // The Writing card opens once the test has its tasks (content/<book>/test<N>/wri.json)
-  fetch(`content/${encodeURIComponent(book)}/test${encodeURIComponent(test)}/wri.json`, { method: 'HEAD' })
-    .then(res => {
-      if (!res.ok) return;
-      const card = document.getElementById('writingCard');
-      card.classList.remove('disabled');
-      card.href = `writing.html?book=${encodeURIComponent(book)}&test=${encodeURIComponent(test)}`;
-      document.getElementById('writingMeta').textContent = '1 hour 30 minutes · 2 parts · 220–260 words each';
-    })
-    .catch(() => {});
+  // A paper opens if its file is there; otherwise its card says "Coming soon".
+  // If the check itself fails (the page was opened from disk, say), the cards stay open.
+  const PAPERS = [
+    ['readingCard', `exam.html?${q}&paper=reading`, 'rue.json'],
+    ['writingCard', `writing.html?${q}`, 'wri.json'],
+    ['listeningCard', `listening.html?${q}`, 'lis.json'],
+  ];
+  const grid = document.getElementById('paperGrid');
+  grid.style.visibility = 'hidden';
+  const checks = PAPERS.map(([id, href, file]) => {
+    const card = document.getElementById(id);
+    card.href = href;
+    return fetch(`content/${encodeURIComponent(book)}/test${encodeURIComponent(test)}/${file}`, { method: 'HEAD' })
+      .then(res => {
+        if (res.status !== 404) return;
+        card.classList.add('disabled');
+        card.removeAttribute('href');
+        card.querySelector('.card-meta').textContent = 'Coming soon';
+      })
+      .catch(() => {});
+  });
+  const reveal = () => { grid.style.visibility = ''; };
+  Promise.all(checks).then(reveal);
+  setTimeout(reveal, 1500);
 </script>
 
 </body>
