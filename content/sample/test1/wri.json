@@ -1,0 +1,75 @@
+{
+  "note": "Sample tasks written for this site to show the format. They are not taken from any exam.",
+  "words": { "min": 220, "max": 260 },
+  "parts": {
+    "1": {
+      "questions": [
+        {
+          "n": 1,
+          "task": [
+            "Your class has attended a talk about what towns can do to make everyday travel greener. You have made the notes below:",
+            "",
+            { "box": [
+              "[[bold]][[underline]]Which measures would do most to make travel in towns greener?[[/underline]][[/bold]]",
+              "",
+              "[[bold]]-[[/bold]] cheaper public transport",
+              "[[bold]]-[[/bold]] more cycle lanes",
+              "[[bold]]-[[/bold]] car-free town centres"
+            ] },
+            { "box": [
+              "[[bold]]Some opinions expressed in the talk:[[/bold]]",
+              "",
+              "“People will only leave the car at home if the bus costs less.”",
+              "",
+              "“Cycling feels unsafe on busy roads.”",
+              "",
+              "“Shops lose customers when cars are kept out.”"
+            ] },
+            "",
+            "Write an essay for your tutor discussing [[bold]]two[[/bold]] of the measures in your notes. You should [[bold]]explain which measure would be more effective[[/bold]], [[bold]]giving reasons[[/bold]] in support of your answer.",
+            "",
+            "You may use the opinions from the talk if you wish, but put them in your own words as far as you can."
+          ]
+        }
+      ]
+    },
+    "2": {
+      "questions": [
+        {
+          "n": 2,
+          "task": [
+            { "box": [
+              "The college where you study has been given some money to improve one area of student life, and the principal has asked students for proposals.\n\nIn your proposal, describe a problem that students face at the moment, explain how the money could be used to solve it, and say how the change would benefit the college as a whole."
+            ] },
+            "Write your [[bold]]proposal[[/bold]]."
+          ]
+        },
+        {
+          "n": 3,
+          "task": [
+            "You see this announcement on a travel website:",
+            { "box": [
+              { "center": "[[bold]]‘Journeys worth taking’[[/bold]]" },
+              "",
+              "Have you recently made a journey by train, boat or bus that turned out to be more memorable than the place you were going to?",
+              "",
+              "If so, send us a review of it.",
+              "",
+              "Tell us what made the journey special, mention anything that could have been better, and say what kind of traveller would enjoy it most."
+            ] },
+            "Write your [[bold]]review[[/bold]]."
+          ]
+        },
+        {
+          "n": 4,
+          "task": [
+            { "box": [
+              "You have just finished a month of voluntary work with an organisation in your area. The organiser has asked you to write a report on the scheme.\n\nYour report should outline what your work involved, evaluate how well the scheme was organised, and suggest improvements for the volunteers who come next."
+            ] },
+            "Write your [[bold]]report[[/bold]]."
+          ]
+        }
+      ]
+    }
+  }
+}

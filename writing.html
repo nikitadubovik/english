@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>C1 Advanced — Writing</title>
+<link rel="stylesheet" href="css/base.css?v=4">
+<link rel="stylesheet" href="css/exam.css?v=5">
+<link rel="stylesheet" href="css/writing.css?v=5">
+<script src="js/ui.js?v=4"></script>
+</head>
+<body class="rue wri">
+
+<div class="header">
+  <div class="brand">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" d="M3 6c5-1.6 9-.9 12 1.6v19c-3-2.3-7-3-12-1.6V6Zm26 0c-5-1.6-9-.9-12 1.6v19c3-2.3 7-3 12-1.6V6Z"/></svg>
+    <div><span class="brand-name">C1 Advanced</span><span class="brand-sub">Writing</span></div>
+  </div>
+  <div class="candidate-id">Candidate ID</div>
+  <div class="timer" id="timer" role="timer" aria-label="Time remaining">1:30:00</div>
+  <div class="header-icons">
+    <span class="hbtn" role="img" aria-label="Connected"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M2.5 9.5a14 14 0 0 1 19 0M5.8 13a9.3 9.3 0 0 1 12.4 0M9 16.4a4.6 4.6 0 0 1 6 0"/><circle cx="12" cy="19.6" r="1.3" fill="currentColor" stroke="none"/></svg></span>
+    <span class="hbtn" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 16.5V11a6 6 0 0 1 12 0v5.5l1.5 2h-15l1.5-2ZM10 21h4"/></svg></span>
+    <button class="hbtn" type="button" data-options aria-label="Options" title="Options"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" aria-hidden="true"><path d="M4 6.5h16M4 12h16M4 17.5h16"/></svg></button>
+    <button class="hbtn" type="button" data-notes aria-label="Show notes" aria-expanded="false" title="Notes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 4.5H6a2 2 0 0 0-2 2V18a2 2 0 0 0 2 2h11.5a2 2 0 0 0 2-2v-5"/><path d="M17.8 3.3a1.9 1.9 0 0 1 2.8 2.7L12 14.7l-3.6.9.9-3.6 8.5-8.7Z"/></svg></button>
+  </div>
+</div>
+
+<div class="stage split" id="stage">
+<div class="instructions" id="instructions">
+  <h2 id="instr-title">Question 1</h2>
+  <p id="instr-text">You <b>must</b> answer this question. Write <b>220–260 words</b> in an appropriate style.</p>
+</div>
+
+<!-- One screen per question; js/writing.js builds them from wri.json -->
+<div class="content-wrap" id="views"></div>
+
+<div class="results-screen" id="finalResults">
+  <h1>Your writing</h1>
+  <p class="lead">Writing — C1 Advanced</p>
+  <div class="error-box" id="timeUpNote" style="display:none">Time is up. Your answers were handed in as they were.</div>
+  <p class="wri-note">Writing is not marked automatically. Compare your work with a model answer or show it to a teacher. Each answer should be <b id="limitsText">220–260 words</b> long.</p>
+  <div id="writingReview"></div>
+  <div class="results-actions">
+    <button class="btn-secondary" id="backToTestBtn">Back to the test</button>
+    <button class="btn-secondary" id="downloadBtn">Save answers as a text file</button>
+  </div>
+</div>
+
+</div><!-- /stage -->
+
+<div class="nav-arrows">
+  <button id="prevBtn" title="Previous" aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12H5M11 5l-7 7 7 7"/></svg></button>
+  <button class="primary" id="nextBtn" title="Next" aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15M13 5l7 7-7 7"/></svg></button>
+</div>
+
+<div class="footer" id="footer"></div>
+
+<script src="js/writing.js?v=5"></script>
+</body>
+</html>

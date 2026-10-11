@@ -421,7 +421,7 @@ body.notes-open .footer { right: 300px; }
 }
 .part.active .label {
   position: relative; align-self: stretch;
-  padding: 0 1.25em; font-weight: 600;
+  padding: 0 2.25em 0 1.25em; font-weight: 600;   /* a line-unit more on the right, before the numbers */
 }
 /* Strip above the name of the open part; black once all its questions are answered */
 .part.active .label::before {
@@ -448,6 +448,7 @@ body.notes-open .footer { right: 300px; }
    footer (grey; it fades to black when the question is answered) and, when
    flagged, a bookmark under it. */
 .part .qnums { display: flex; align-items: center; }
+.part .qnums span:last-child { margin-right: 0.5em; }
 .part .qnums span {
   position: relative; box-sizing: content-box;
   min-width: 0.5563em; padding: calc(0.4em - 4px) calc(0.5em - 4px);

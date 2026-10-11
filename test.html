@@ -37,10 +37,10 @@
       <span class="card-title">Reading and Use of English</span>
       <span class="card-meta">1 hour 30 minutes · 56 questions · 8 parts</span>
     </a>
-    <a class="menu-card disabled">
+    <a class="menu-card disabled" id="writingCard">
       <span class="card-label">Paper 2</span>
       <span class="card-title">Writing</span>
-      <span class="card-meta">Coming soon</span>
+      <span class="card-meta" id="writingMeta">Coming soon</span>
     </a>
     <a class="menu-card" id="listeningCard">
       <span class="card-label">Paper 3</span>
@@ -75,6 +75,17 @@
 
   document.getElementById('readingCard').href = `exam.html?book=${book}&test=${test}&paper=reading`;
   document.getElementById('listeningCard').href = `listening.html?book=${book}&test=${test}`;
+
+  // The Writing card opens once the test has its tasks (content/<book>/test<N>/wri.json)
+  fetch(`content/${encodeURIComponent(book)}/test${encodeURIComponent(test)}/wri.json`, { method: 'HEAD' })
+    .then(res => {
+      if (!res.ok) return;
+      const card = document.getElementById('writingCard');
+      card.classList.remove('disabled');
+      card.href = `writing.html?book=${encodeURIComponent(book)}&test=${encodeURIComponent(test)}`;
+      document.getElementById('writingMeta').textContent = '1 hour 30 minutes · 2 parts · 220–260 words each';
+    })
+    .catch(() => {});
 </script>
 
 </body>
